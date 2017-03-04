@@ -1,0 +1,40 @@
+name:                composite-base
+version:             0.1.0.0
+synopsis:            Shared utilities for composite-* packages.
+description:         Shared helpers for the various composite packages.
+homepage:            https://github.com/ConferHealth/composite#readme
+license:             BSD3
+author:              Confer Health, Inc
+maintainer:          oss@confer.care
+copyright:           2017 Confer Health, Inc.
+category:            Records
+
+dependencies:
+  - base >= 4.7 && < 5
+  - Frames
+  - basic-prelude
+  - lens
+  - text
+  - vinyl
+
+default-extensions:
+  - DataKinds
+  - FlexibleContexts
+  - FlexibleInstances
+  - GeneralizedNewtypeDeriving
+  - MultiParamTypeClasses
+  - NoImplicitPrelude
+  - OverloadedStrings
+  - PolyKinds
+  - ScopedTypeVariables
+  - StrictData
+  - TemplateHaskell
+  - TupleSections
+  - TypeFamilies
+  - TypeOperators
+  - ViewPatterns
+
+ghc-options: -Wall -Werror -O2
+
+library:
+  source-dirs: src

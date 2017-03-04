@@ -1,0 +1,80 @@
+-- This file has been generated from package.yaml by hpack version 0.15.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           myawesomeserver
+version:        0.0.1
+synopsis:       It's a server!
+description:    Example for usage of composite.
+category:       Records
+homepage:       https://github.com/ConferHealth/composite#readme
+author:         Confer Health, Inc.
+maintainer:     oss@confer.care
+copyright:      2017 Confer Health, Inc.
+license:        BSD3
+build-type:     Simple
+cabal-version:  >= 1.10
+
+library
+  hs-source-dirs:
+      src
+  default-extensions: Arrows ConstraintKinds DataKinds DeriveGeneric FlexibleContexts FlexibleInstances GADTs GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving TemplateHaskell TypeApplications TypeFamilies TypeOperators ViewPatterns
+  ghc-options: -Wall -Werror
+  build-depends:
+      base >= 4.7 && < 5
+    , Frames
+    , aeson
+    , bytestring
+    , classy-prelude
+    , composite-aeson
+    , composite-opaleye
+    , configurator
+    , fast-logger
+    , lens
+    , monad-logger
+    , opaleye
+    , postgresql-simple
+    , product-profunctors
+    , profunctors
+    , resource-pool
+    , servant
+    , servant-server
+    , vinyl
+    , warp
+  exposed-modules:
+      Api
+      App
+      Foundation
+      Logging
+      Types
+  default-language: Haskell2010
+
+executable myawesomeserver-exe
+  main-is: Main.hs
+  hs-source-dirs:
+      app
+  default-extensions: Arrows ConstraintKinds DataKinds DeriveGeneric FlexibleContexts FlexibleInstances GADTs GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving TemplateHaskell TypeApplications TypeFamilies TypeOperators ViewPatterns
+  ghc-options: -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >= 4.7 && < 5
+    , Frames
+    , aeson
+    , bytestring
+    , classy-prelude
+    , composite-aeson
+    , composite-opaleye
+    , configurator
+    , fast-logger
+    , lens
+    , monad-logger
+    , opaleye
+    , postgresql-simple
+    , product-profunctors
+    , profunctors
+    , resource-pool
+    , servant
+    , servant-server
+    , vinyl
+    , warp
+    , myawesomeserver
+  default-language: Haskell2010
