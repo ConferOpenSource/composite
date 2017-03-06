@@ -7,13 +7,13 @@ import Composite.Aeson
   , parseJsonWithFormat', toJsonWithFormat, jsonFormatWithIso
   )
 import Composite.Opaleye (defaultRecTable)
+import Composite.TH (withProxies)
 import Control.Lens (_Wrapped)
 import Control.Lens.TH (makeWrapped)
 import Data.Aeson (ToJSON(toJSON), FromJSON(parseJSON))
 import qualified Data.ByteString.Char8 as BSC8
 import Data.Profunctor (dimap)
 import Data.Profunctor.Product.Default (Default, def)
-import Data.Proxy (Proxy(Proxy))
 import Database.PostgreSQL.Simple (ResultError(ConversionFailed, Incompatible, UnexpectedNull))
 import Database.PostgreSQL.Simple.FromField (FromField, fromField, typename, returnError)
 import Frames ((:->), Record)
@@ -33,30 +33,14 @@ instance DefaultJsonFormat UserType where
 
 data PGUserType
 
-type FId       = "id"       :-> Int64
-type CId       = "id"       :-> Column PGInt8
-type FLogin    = "login"    :-> Text
-type CLogin    = "login"    :-> Column PGText
-type FUserType = "usertype" :-> UserType
-type CUserType = "usertype" :-> Column PGUserType
-
-fId :: Proxy FId
-fId = Proxy
-
-cId :: Proxy CId
-cId = Proxy
-
-fLogin :: Proxy FLogin
-fLogin = Proxy
-
-cLogin :: Proxy CLogin
-cLogin = Proxy
-
-fUserType :: Proxy FUserType
-fUserType = Proxy
-
-cUserType :: Proxy CUserType
-cUserType = Proxy
+withProxies [d|
+  type FId       = "id"       :-> Int64
+  type CId       = "id"       :-> Column PGInt8
+  type FLogin    = "login"    :-> Text
+  type CLogin    = "login"    :-> Column PGText
+  type FUserType = "usertype" :-> UserType
+  type CUserType = "usertype" :-> Column PGUserType
+  |]
 
 type ApiUser       = '[FLogin, FUserType]
 type DbUserColumns = '[CId, CLogin, CUserType]

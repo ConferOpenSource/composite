@@ -27,6 +27,7 @@ library
     , bytestring
     , classy-prelude
     , composite-aeson
+    , composite-base
     , composite-opaleye
     , configurator
     , fast-logger
@@ -62,6 +63,7 @@ executable myawesomeserver-exe
     , bytestring
     , classy-prelude
     , composite-aeson
+    , composite-base
     , composite-opaleye
     , configurator
     , fast-logger
