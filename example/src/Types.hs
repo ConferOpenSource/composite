@@ -7,20 +7,13 @@ import Composite.Aeson
   , parseJsonWithFormat', toJsonWithFormat, jsonFormatWithIso
   )
 import Composite.Opaleye (defaultRecTable)
+import Composite.Opaleye.TH (deriveOpaleyeEnum)
 import Composite.TH (withProxies)
 import Control.Lens (_Wrapped)
 import Control.Lens.TH (makeWrapped)
 import Data.Aeson (ToJSON(toJSON), FromJSON(parseJSON))
-import qualified Data.ByteString.Char8 as BSC8
-import Data.Profunctor (dimap)
-import Data.Profunctor.Product.Default (Default, def)
-import Database.PostgreSQL.Simple (ResultError(ConversionFailed, Incompatible, UnexpectedNull))
-import Database.PostgreSQL.Simple.FromField (FromField, fromField, typename, returnError)
 import Frames ((:->), Record)
-import Opaleye
-  ( Column, Constant, QueryRunnerColumnDefault, PGInt8, PGText, Table(Table), fieldQueryRunnerColumn, queryRunnerColumnDefault
-  , unsafeCoerceColumn
-  )
+import Opaleye (Column, PGInt8, PGText, Table(Table))
 
 data UserType
   = UserTypeOwner
@@ -31,7 +24,7 @@ data UserType
 instance DefaultJsonFormat UserType where
   defaultJsonFormat = enumJsonFormat "UserType"
 
-data PGUserType
+deriveOpaleyeEnum ''UserType "usertype" (stripPrefix "UserType")
 
 withProxies [d|
   type FId       = "id"       :-> Int64
@@ -59,30 +52,3 @@ instance ToJSON ApiUserJson where
   toJSON = toJsonWithFormat apiUserJsonFormat
 instance FromJSON ApiUserJson where
   parseJSON = parseJsonWithFormat' apiUserJsonFormat
-
-
-instance FromField UserType where
-  fromField f mbs = do
-    tname <- typename f
-    case mbs of
-      _ | tname /= "usertype" -> returnError Incompatible f ""
-      Just "Owner"    -> pure UserTypeOwner
-      Just "Manager"  -> pure UserTypeManager
-      Just "Regular"  -> pure UserTypeRegular
-      Just other      -> returnError ConversionFailed f ("Unexpected user type: " <> BSC8.unpack other)
-      Nothing         -> returnError UnexpectedNull f ""
-
-instance QueryRunnerColumnDefault PGUserType UserType where
-  queryRunnerColumnDefault = fieldQueryRunnerColumn
-
-constantColumnUsing :: Constant haskell (Column pgType)
-                    -> (haskell' -> haskell)
-                    -> Constant haskell' (Column pgType')
-constantColumnUsing oldConstant f = dimap f unsafeCoerceColumn oldConstant
-
-instance Default Constant UserType (Column PGUserType) where
-  def = constantColumnUsing (def :: Constant String (Column PGText)) $ \ case
-    UserTypeOwner   -> "Owner"
-    UserTypeManager -> "Manager"
-    UserTypeRegular -> "Regular"
-

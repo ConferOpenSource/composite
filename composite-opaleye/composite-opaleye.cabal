@@ -18,21 +18,26 @@ cabal-version:  >= 1.10
 library
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PolyKinds ScopedTypeVariables StrictData TypeFamilies TypeOperators ViewPatterns
+  default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -Werror -O2
   build-depends:
       base >= 4.7 && < 5
     , Frames
     , basic-prelude
+    , bytestring
     , composite-base
+    , lens
     , opaleye
+    , postgresql-simple
     , product-profunctors
     , profunctors
-    , lens
+    , template-haskell
     , text
     , vinyl
   exposed-modules:
       Composite.Opaleye
       Composite.Opaleye.ProductProfunctors
       Composite.Opaleye.RecordTable
+      Composite.Opaleye.TH
+      Composite.Opaleye.Util
   default-language: Haskell2010
