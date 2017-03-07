@@ -19,7 +19,7 @@ library
   hs-source-dirs:
       src
   default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
-  ghc-options: -Wall -Werror -O2
+  ghc-options: -Wall -O2
   build-depends:
       base >= 4.7 && < 5
     , Frames
