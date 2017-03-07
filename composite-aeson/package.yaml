@@ -43,7 +43,7 @@ default-extensions:
   - TypeOperators
   - ViewPatterns
 
-ghc-options: -Wall -Werror -O2
+ghc-options: -Wall -O2
 
 library:
   source-dirs: src
