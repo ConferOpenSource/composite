@@ -10,7 +10,7 @@ Example:
 
 ```haskell
 import qualified Data.Aeson as Aeson
-import Composite.Aeson (JsonFormatRec, defaultJsonFormatRec, recFormatJson)
+import Composite.Aeson (RecJsonFormat, defaultJsonFormatRec, recFormatJson)
 import Frames ((:->), Record, (&:), pattern Nil)
 
 type FId   = "id"   :-> Int
