@@ -41,8 +41,11 @@ dependencies:
   - classy-prelude
   - composite-aeson
   - composite-base
+  - composite-ekg
   - composite-opaleye
   - configurator
+  - ekg
+  - ekg-core
   - fast-logger
   - lens
   - monad-logger

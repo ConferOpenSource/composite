@@ -5,11 +5,12 @@ import Control.Arrow (returnA)
 import Control.Lens (_Unwrapping, each, toListOf, view)
 import Control.Monad.Logger (logInfo)
 import Data.Proxy (Proxy(Proxy))
-import Foundation (AppStackM, withDb)
+import Foundation (AppStackM, appMetrics, withDb, fUserRequests)
 import Frames (Record, rlens, rsubset)
 import Opaleye ((./=), constant, desc, orderBy, queryTable, restrict, runQuery)
 import Servant (ServerT, Get, JSON, (:>))
 import Types (ApiUserJson(ApiUserJson), DbUser, UserType(UserTypeRegular), cLogin, cUserType, userTable)
+import qualified System.Metrics.Counter as Counter
 
 type API = "users" :> Get '[JSON] [ApiUserJson]
 
@@ -19,6 +20,7 @@ api = Proxy
 service :: ServerT API AppStackM
 service = do
   $logInfo "received request for users"
+  liftIO . Counter.inc =<< asks (view (rlens fUserRequests) . appMetrics) -- Increment the user requests ekg counter
 
   users <- withDb $ \ conn ->
     runQuery conn . orderBy (desc $ view (rlens cLogin)) $ proc () -> do

@@ -1,0 +1,44 @@
+name:                composite-ekg
+version:             0.1.0.0
+synopsis:            EKG Metrics for Vinyl/Frames records
+description:         Integration between EKG and Vinyl/Frames records allowing records holding registered metrics to be easily constructed from a type declaration.
+homepage:            https://github.com/ConferHealth/composite#readme
+license:             BSD3
+author:              Confer Health, Inc
+maintainer:          oss@confer.care
+copyright:           2017 Confer Health, Inc.
+category:            Records
+
+dependencies:
+  - base >= 4.7 && < 5
+  - basic-prelude
+  - composite-base
+  - ekg
+  - ekg-core
+  - Frames
+  - lens
+  - text
+  - vinyl
+
+default-extensions:
+  - DataKinds
+  - FlexibleContexts
+  - FlexibleInstances
+  - GeneralizedNewtypeDeriving
+  - MultiParamTypeClasses
+  - NoImplicitPrelude
+  - OverloadedStrings
+  - PolyKinds
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - StrictData
+  - TemplateHaskell
+  - TupleSections
+  - TypeFamilies
+  - TypeOperators
+  - ViewPatterns
+
+ghc-options: -Wall -O2
+
+library:
+  source-dirs: src
