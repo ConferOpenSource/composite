@@ -7,7 +7,7 @@ import Control.Monad.Logger (askLoggerIO, logInfo)
 import Data.Pool (Pool)
 import qualified Data.Pool as Pool
 import qualified Database.PostgreSQL.Simple as PG
-import Foundation (AppData(AppData), AppStackM)
+import Foundation (AppData(AppData), AppStackM, configureMetrics)
 import Logging (LogFunction, withLogger, withLoggingFunc)
 import Network.Wai.Handler.Warp (run)
 import Servant (serve, Handler, (:~>)(NT), enter)
@@ -16,9 +16,10 @@ import Servant (serve, Handler, (:~>)(NT), enter)
 -- |Perform app initialization and then begin serving the API
 startApp :: IO ()
 startApp = do
-  withLogger $
+  withLogger $ do
+    metrics <- liftIO configureMetrics
     withPostgresqlPool "host=localhost port=5432 user=example dbname=example" 5 $ \ connPool -> do
-      let appData = AppData connPool
+      let appData = AppData connPool metrics
       logFn <- askLoggerIO
       $logInfo $ "Starting server on port 8080"
       liftIO . run 8080 . serve api $ enter (appStackToHandler appData logFn) service

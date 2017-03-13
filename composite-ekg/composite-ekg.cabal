@@ -1,0 +1,35 @@
+-- This file has been generated from package.yaml by hpack version 0.15.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           composite-ekg
+version:        0.1.0.0
+synopsis:       EKG Metrics for Vinyl/Frames records
+description:    Integration between EKG and Vinyl/Frames records allowing records holding registered metrics to be easily constructed from a type declaration.
+category:       Records
+homepage:       https://github.com/ConferHealth/composite#readme
+author:         Confer Health, Inc
+maintainer:     oss@confer.care
+copyright:      2017 Confer Health, Inc.
+license:        BSD3
+build-type:     Simple
+cabal-version:  >= 1.10
+
+library
+  hs-source-dirs:
+      src
+  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PolyKinds ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
+  ghc-options: -Wall -O2
+  build-depends:
+      base >= 4.7 && < 5
+    , basic-prelude
+    , composite-base
+    , ekg
+    , ekg-core
+    , Frames
+    , lens
+    , text
+    , vinyl
+  exposed-modules:
+      Composite.Ekg
+  default-language: Haskell2010
