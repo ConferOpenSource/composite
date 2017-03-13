@@ -1,8 +1,10 @@
-module Composite.Ekg where
+module Composite.Ekg (EkgMetric(ekgMetric)) where
 
 import BasicPrelude
 import Composite.Base (NamedField(fieldName))
 import Control.Lens (view, Wrapped(type Unwrapped), _Unwrapped)
+import Data.Char (isUpper, toLower)
+import qualified Data.Text as Text
 import Data.Proxy (Proxy(Proxy))
 import Data.Vinyl.Core (Rec((:&), RNil))
 import Data.Vinyl.Functor (Identity(Identity))
@@ -45,7 +47,7 @@ class EkgMetric a where
 instance forall a s rs. (EkgMetric a, EkgMetric (Record rs), NamedField (s :-> a)) => EkgMetric (Record ((s :-> a) ': rs)) where
   ekgMetric prefix store =
     (:&)
-      <$> (Identity . view _Unwrapped <$> ekgMetric (prefix <> "." <> fieldName (Proxy :: Proxy (s :-> a))) store)
+      <$> (Identity . view _Unwrapped <$> ekgMetric (prefix <> "." <> (upperScores . fieldName) (Proxy :: Proxy (s :-> a))) store)
       <*> ekgMetric prefix store
 
 instance EkgMetric (Record '[]) where
@@ -62,3 +64,9 @@ instance EkgMetric Label where
 
 instance EkgMetric Distribution where
   ekgMetric = createDistribution
+
+upperScores :: Text -> Text
+upperScores = Text.dropWhile (== '_') . Text.concatMap score
+  where score :: Char -> Text
+        score c | isUpper c = "_" <> Text.singleton (toLower c)
+        score c = Text.singleton c
