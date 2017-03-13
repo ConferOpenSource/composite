@@ -36,9 +36,9 @@ import System.Metrics.Distribution (Distribution)
 -- Compare to a more traditional:
 --
 -- > metrics <- EkgMetrics
--- >  <$> createGauge "myapp.activeUsers store
--- >  <*> createDistribution "myapp.endpointResponseTimes" store
--- >  <*> createCounter "myapp.ordersPlaced" store
+-- >  <$> createGauge "myapp.active_users store
+-- >  <*> createDistribution "myapp.endpoint_response_times" store
+-- >  <*> createCounter "myapp.orders_placed" store
 --
 -- The former is more concise and harder to make naming errors particularly in larger store sets
 class EkgMetric a where
