@@ -8,7 +8,7 @@ import Composite.Aeson
   )
 import Composite.Opaleye (defaultRecTable)
 import Composite.Opaleye.TH (deriveOpaleyeEnum)
-import Composite.TH (withProxies)
+import Composite.TH (withLensesAndProxies)
 import Control.Lens (_Wrapped)
 import Control.Lens.TH (makeWrapped)
 import Data.Aeson (ToJSON(toJSON), FromJSON(parseJSON))
@@ -26,7 +26,7 @@ instance DefaultJsonFormat UserType where
 
 deriveOpaleyeEnum ''UserType "usertype" (stripPrefix "UserType")
 
-withProxies [d|
+withLensesAndProxies [d|
   type FId       = "id"       :-> Int64
   type CId       = "id"       :-> Column PGInt8
   type FLogin    = "login"    :-> Text

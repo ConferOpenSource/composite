@@ -2,7 +2,7 @@ module Metrics where
 
 import ClassyPrelude
 import Composite.Ekg (ekgMetric)
-import Composite.TH (withProxies)
+import Composite.TH (withLensesAndProxies)
 import Frames (Record, (:->))
 import qualified System.Metrics as EKG
 import System.Metrics.Counter (Counter)
@@ -10,7 +10,7 @@ import System.Metrics.Gauge (Gauge)
 import System.Metrics.Distribution (Distribution)
 import qualified System.Remote.Monitoring as EKG
 
-withProxies [d|
+withLensesAndProxies [d|
   type FActiveUsers    = "activeUsers"           :-> Gauge
   type FResponseTimes  = "endpointResponseTimes" :-> Distribution
   type FUserRequests   = "userRequests"          :-> Counter
