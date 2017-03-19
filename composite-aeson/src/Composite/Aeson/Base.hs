@@ -1,7 +1,7 @@
 module Composite.Aeson.Base
   ( ToJson(..), FromJson(..), JsonProfunctor(..), _JsonProfunctor, JsonFormat(..)
   , toJsonWithFormat, fromJsonWithFormat, parseJsonWithFormat, parseJsonWithFormat'
-  , dimapJsonFormat, jsonFormatWithIso, wrappedFormat
+  , dimapJsonFormat, jsonFormatWithIso, wrappedJsonFormat
   ) where
 
 import BasicPrelude
@@ -89,5 +89,5 @@ jsonFormatWithIso :: AnIso' b a -> JsonFormat e a -> JsonFormat e b
 jsonFormatWithIso i = withIso i dimapJsonFormat
 
 -- |Given a format for the value type inside some wrapper type @a@ which instances 'Wrapped', produce a format which works on the wrapper type.
-wrappedFormat :: Wrapped a => JsonFormat e (Unwrapped a) -> JsonFormat e a
-wrappedFormat = jsonFormatWithIso _Wrapped'
+wrappedJsonFormat :: Wrapped a => JsonFormat e (Unwrapped a) -> JsonFormat e a
+wrappedJsonFormat = jsonFormatWithIso _Wrapped'

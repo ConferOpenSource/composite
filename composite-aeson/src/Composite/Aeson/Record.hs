@@ -2,21 +2,60 @@ module Composite.Aeson.Record where
 
 import BasicPrelude
 import Composite.Aeson.Base
-  ( ToJson(ToJson)
-  , FromJson(FromJson)
-  , JsonProfunctor(JsonProfunctor), _JsonProfunctor
+  ( JsonProfunctor(JsonProfunctor)
   , JsonFormat(JsonFormat)
-  , wrappedFormat
+  , wrappedJsonFormat
   )
 import Composite.Base (NamedField(fieldName))
-import Composite.Aeson.Default (DefaultJsonFormat(defaultJsonFormat))
-import Control.Lens (Wrapped(type Unwrapped, _Wrapped'), _1, _2, view)
+import Composite.Aeson.Formats.Default (DefaultJsonFormat(defaultJsonFormat))
+import Control.Lens (Wrapped(type Unwrapped, _Wrapped'), from, view)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
+import Data.Functor.Contravariant (Contravariant, contramap)
 import qualified Data.HashMap.Strict as HM
 import Data.Proxy (Proxy(Proxy))
 import Data.Vinyl (Rec((:&), RNil), rmap)
 import Data.Vinyl.Functor (Identity(Identity))
+
+-- |Function to encode a single field of a record, possibly choosing to elide the field with @Nothing@.
+newtype ToField a = ToField { unToField :: a -> Maybe Aeson.Value }
+
+instance Contravariant ToField where
+  contramap f (ToField g) = ToField (g . f)
+
+-- |Function to decode a single field of a record.
+newtype FromField e a = FromField { unFromField :: Text -> ABE.Parse e a }
+
+instance Functor (FromField e) where
+  fmap f (FromField g) = FromField (fmap f . g)
+
+-- |Descriptor of how to handle a single record field with functions to parse and emit the field which can handle missing fields on parse and elide fields on
+-- encode.
+data JsonField e a = JsonField (a -> Maybe Aeson.Value) (Text -> ABE.Parse e a)
+
+-- |Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @a@ which fails if the field is missing and never elides the field.
+field :: (Wrapped a', Unwrapped a' ~ a) => JsonFormat e a -> JsonField e a'
+field fmt = field' (wrappedJsonFormat fmt)
+
+-- |Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @a@ which fails if the field is missing and never elides the field.
+field' :: JsonFormat e a -> JsonField e a
+field' (JsonFormat (JsonProfunctor o i)) = JsonField (Just . o) (`ABE.key` i)
+
+-- |Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @Maybe a@ which substitutes @Nothing@ for either @null@ or missing field,
+-- and which elides the field on @Nothing@.
+optionalField :: forall e a a'. (Wrapped a', Unwrapped a' ~ Maybe a) => JsonFormat e a -> JsonField e a'
+optionalField (JsonFormat (JsonProfunctor o i)) =
+  JsonField
+    (map o . view _Wrapped')
+    (\ k -> view (from _Wrapped') . join <$> ABE.keyMay k (ABE.perhaps i))
+
+-- |Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @Maybe a@ which substitutes @Nothing@ for either @null@ or missing field,
+-- and which elides the field on @Nothing@.
+optionalField' :: JsonFormat e a -> JsonField e (Maybe a)
+optionalField' (JsonFormat (JsonProfunctor o i)) =
+  JsonField
+    (map o)
+    (\ k -> join <$> ABE.keyMay k (ABE.perhaps i))
 
 -- |Type of a Vinyl/Frames record which describes how to map fields of a record to JSON and back.
 --
@@ -32,8 +71,8 @@ import Data.Vinyl.Functor (Identity(Identity))
 --
 -- @
 --   userFormatRec :: 'JsonFormatRec' e User
---   userFormatRec = 'Composite.Aeson.Default.integralJsonFormat'
---                &: 'Composite.Aeson.Default.textJsonFormat'
+--   userFormatRec = 'field' 'Composite.Aeson.Default.integralJsonFormat'
+--                &: 'field' 'Composite.Aeson.Default.textJsonFormat'
 --                &: Nil
 -- @
 --
@@ -59,38 +98,38 @@ import Data.Vinyl.Functor (Identity(Identity))
 -- Would use the same JSON schema as the other examples, but the @id@ field would be encoded in JSON as 10 higher.
 --
 -- Once you've produced an appropriate 'JsonFormatRec' for your case, use 'recJsonFormat' to make a @'JsonFormat' e (Record '[…])@ of it.
-type JsonFormatRec e rs = Rec (JsonFormat e) rs
+type JsonFormatRec e rs = Rec (JsonField e) rs
 
 -- |Helper class which induces over the structure of a record, reflecting the name of each field and applying each 'ToJson' to its corresponding value to
 -- produce JSON.
 class RecToJsonObject rs where
-  -- |Given a record of 'ToJson' functions for each field in @rs@, convert an 'Identity' record to 'Aeson.Object'.
-  recToJsonObject :: Rec ToJson rs -> Rec Identity rs -> Aeson.Object
+  -- |Given a record of 'ToField' functions for each field in @rs@, convert an 'Identity' record to 'Aeson.Object'.
+  recToJsonObject :: Rec ToField rs -> Rec Identity rs -> Aeson.Object
 
 instance RecToJsonObject '[] where
   recToJsonObject _ = const mempty
 
 instance forall r rs. (NamedField r, RecToJsonObject rs) => RecToJsonObject (r ': rs) where
-  recToJsonObject (ToJson aToJson :& fs) (Identity a :& as) =
-    HM.insert (fieldName (Proxy :: Proxy r)) (aToJson a) $
+  recToJsonObject (ToField aToField :& fs) (Identity a :& as) =
+    maybe id (HM.insert (fieldName (Proxy :: Proxy r))) (aToField a) $
       recToJsonObject fs as
 
--- |Given a record of 'ToJson' functions for each field in @rs@, convert an 'Identity' record to JSON. Equivalent to @Aeson.Object . 'recToJsonObject' fmt@
-recToJson :: RecToJsonObject rs => Rec ToJson rs -> Rec Identity rs -> Aeson.Value
+-- |Given a record of 'ToField' functions for each field in @rs@, convert an 'Identity' record to JSON. Equivalent to @Aeson.Object . 'recToJsonObject' fmt@
+recToJson :: RecToJsonObject rs => Rec ToField rs -> Rec Identity rs -> Aeson.Value
 recToJson = map Aeson.Object . recToJsonObject
 
 -- |Class which induces over the structure of a record, parsing fields using a record of 'FromJson' and assembling an 'Identity' record.
 class RecFromJson rs where
   -- |Given a record of 'FromJson' parsers for each field in @rs@, produce an 'ABE.Parse' to make an 'Identity' record.
-  recFromJson :: Rec (FromJson e) rs -> ABE.Parse e (Rec Identity rs)
+  recFromJson :: Rec (FromField e) rs -> ABE.Parse e (Rec Identity rs)
 
 instance RecFromJson '[] where
   recFromJson _ = pure RNil
 
 instance forall r rs. (NamedField r, RecFromJson rs) => RecFromJson (r ': rs) where
-  recFromJson (FromJson aFromJson :& fs) =
+  recFromJson (FromField aFromField :& fs) =
     (:&)
-      <$> ABE.key (fieldName (Proxy :: Proxy r)) (Identity <$> aFromJson)
+      <$> (Identity <$> aFromField (fieldName (Proxy :: Proxy r)))
       <*> recFromJson fs
 
 -- |Take a 'JsonFormatRec' describing how to map a record with field @rs@ to and from JSON and produce a @'JsonFormat' e (Record rs)@.
@@ -99,8 +138,8 @@ instance forall r rs. (NamedField r, RecFromJson rs) => RecFromJson (r ': rs) wh
 recJsonFormat :: (RecToJsonObject rs, RecFromJson rs) => JsonFormatRec e rs -> JsonFormat e (Rec Identity rs)
 recJsonFormat formatRec =
   JsonFormat $ JsonProfunctor
-    (recToJson   . rmap (view (_Wrapped' . _JsonProfunctor . _1)) $ formatRec)
-    (recFromJson . rmap (view (_Wrapped' . _JsonProfunctor . _2)) $ formatRec)
+    (recToJson   . rmap (\ (JsonField o _) -> ToField o  ) $ formatRec)
+    (recFromJson . rmap (\ (JsonField _ i) -> FromField i) $ formatRec)
 
 -- |Class to make a 'JsonFormatRec' with 'defaultJsonFormat' for each field.
 class DefaultJsonFormatRec rs where
@@ -108,7 +147,7 @@ class DefaultJsonFormatRec rs where
   defaultJsonFormatRec :: JsonFormatRec e rs
 
 instance (NamedField r, DefaultJsonFormat (Unwrapped r), DefaultJsonFormatRec rs) => DefaultJsonFormatRec (r ': rs) where
-  defaultJsonFormatRec = wrappedFormat defaultJsonFormat :& defaultJsonFormatRec
+  defaultJsonFormatRec = field defaultJsonFormat :& defaultJsonFormatRec
 
 instance DefaultJsonFormatRec '[] where
   defaultJsonFormatRec = RNil

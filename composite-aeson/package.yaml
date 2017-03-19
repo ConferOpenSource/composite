@@ -11,6 +11,7 @@ category:            Records
 
 dependencies:
   - base >= 4.7 && < 5
+  - Frames
   - aeson
   - aeson-better-errors
   - basic-prelude
@@ -21,8 +22,12 @@ dependencies:
   - lens
   - profunctors
   - scientific
+  - tagged
+  - template-haskell
   - text
+  - time
   - unordered-containers
+  - vector
   - vinyl
 
 default-extensions:
@@ -30,10 +35,15 @@ default-extensions:
   - FlexibleContexts
   - FlexibleInstances
   - GeneralizedNewtypeDeriving
+  - LambdaCase
   - MultiParamTypeClasses
+  - MultiWayIf
   - NoImplicitPrelude
   - OverloadedStrings
+  - PatternSynonyms
   - PolyKinds
+  - QuasiQuotes
+  - RankNTypes
   - ScopedTypeVariables
   - StandaloneDeriving
   - StrictData
@@ -47,3 +57,15 @@ ghc-options: -Wall -O2
 
 library:
   source-dirs: src
+
+tests:
+  composite-aeson-test:
+    source-dirs: test
+    main: Main.hs
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
+    dependencies:
+      - QuickCheck
+      - aeson-qq
+      - composite-aeson
+      - hspec
+
