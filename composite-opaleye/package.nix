@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "composite-opaleye";
-  version = "0.1.0.0";
+  version = "0.1.1.0";
   src = ./.;
   libraryHaskellDepends = [
     base basic-prelude bytestring composite-base Frames lens opaleye

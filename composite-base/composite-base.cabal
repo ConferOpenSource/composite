@@ -1,9 +1,9 @@
--- This file has been generated from package.yaml by hpack version 0.15.0.
+-- This file has been generated from package.yaml by hpack version 0.17.0.
 --
 -- see: https://github.com/sol/hpack
 
 name:           composite-base
-version:        0.1.0.0
+version:        0.1.1.0
 synopsis:       Shared utilities for composite-* packages.
 description:    Shared helpers for the various composite packages.
 category:       Records

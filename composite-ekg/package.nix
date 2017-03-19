@@ -3,7 +3,7 @@
 }:
 mkDerivation {
   pname = "composite-ekg";
-  version = "0.1.0.0";
+  version = "0.1.1.0";
   src = ./.;
   libraryHaskellDepends = [
     base basic-prelude composite-base ekg ekg-core Frames lens text
