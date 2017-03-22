@@ -2,18 +2,16 @@ module RecordSpec where
 
 import BasicPrelude
 import Composite.Aeson.Base (JsonFormat, fromJsonWithFormat, toJsonWithFormat)
-import Composite.Aeson.Formats.Provided (tuple3JsonFormat, integralJsonFormat, stringJsonFormat, charJsonFormat)
+import Composite.Aeson.Formats.Provided (stringJsonFormat)
 import Composite.Aeson.Record (defaultJsonFormatRec, recJsonFormat, optionalField)
 import Composite.TH (withLensesAndProxies)
 import Control.Lens (set)
 import Data.Aeson.BetterErrors (parseValue)
 import Data.Aeson.QQ (aesonQQ)
-import Data.Vinyl.Functor (Identity(Identity))
 import Data.Vinyl.Lens (rlens)
 import Data.Void (Void)
 import Frames (Record, (:->), (&:), pattern Nil)
 import Test.Hspec (Spec, describe, it, shouldBe, shouldNotBe)
-import Test.QuickCheck (property)
 
 withLensesAndProxies [d|
   type FFoo = "foo" :-> Int
