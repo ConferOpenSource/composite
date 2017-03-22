@@ -51,6 +51,7 @@ library
       Composite.Aeson.Formats.InternalTH
       Composite.Aeson.Formats.Provided
       Composite.Aeson.Record
+      Composite.Aeson.TH
   default-language: Haskell2010
 
 test-suite composite-aeson-test
