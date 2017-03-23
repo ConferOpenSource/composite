@@ -7,7 +7,7 @@ import BasicPrelude
 import Composite.Aeson.Base (JsonFormat, dimapJsonFormat, parseJsonWithFormat', toJsonWithFormat)
 import Composite.Aeson.Record (defaultJsonFormatRec, recJsonFormat)
 import Control.Lens (_head, over)
-import Data.Aeson (FromJSON, ToJSON)
+import Data.Aeson (FromJSON(parseJSON), ToJSON(toJSON))
 import Data.Char (toLower)
 import Frames (Record)
 import Language.Haskell.TH
@@ -97,14 +97,14 @@ makeRecJsonWrapperExplicit wrapperNameStr fieldsTyName recFormatExp = do
         (cxt [])
         [t| FromJSON $(conT wrapperName) |]
         [ funD
-            (mkName "parseJSON")
+            'parseJSON
             [ clause [] (normalB [| parseJsonWithFormat' $(varE formatName) |]) [] ]
         ]
     , instanceD
         (cxt [])
         [t| ToJSON $(conT wrapperName) |]
         [ funD
-            (mkName "toJSON")
+            'toJSON
             [ clause [] (normalB [| toJsonWithFormat $(varE formatName) |]) [] ]
         ]
     ]

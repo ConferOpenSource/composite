@@ -7,7 +7,6 @@ import Composite.Aeson.TH (makeRecJsonWrapper)
 import Composite.Opaleye (defaultRecTable)
 import Composite.Opaleye.TH (deriveOpaleyeEnum)
 import Composite.TH (withLensesAndProxies)
-import Data.Aeson (ToJSON(toJSON), FromJSON(parseJSON))
 import Frames ((:->), Record)
 import Opaleye (Column, PGInt8, PGText, Table(Table))
 
