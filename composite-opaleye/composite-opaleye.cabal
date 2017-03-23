@@ -1,9 +1,9 @@
--- This file has been generated from package.yaml by hpack version 0.15.0.
+-- This file has been generated from package.yaml by hpack version 0.17.0.
 --
 -- see: https://github.com/sol/hpack
 
 name:           composite-opaleye
-version:        0.1.1.0
+version:        0.2.0.0
 synopsis:       Opaleye SQL for Frames records
 description:    Integration between Frames records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 category:       Records

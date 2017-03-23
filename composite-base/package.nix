@@ -3,7 +3,7 @@
 }:
 mkDerivation {
   pname = "composite-base";
-  version = "0.1.1.0";
+  version = "0.2.0.0";
   src = ./.;
   libraryHaskellDepends = [
     base basic-prelude Frames lens template-haskell text vinyl

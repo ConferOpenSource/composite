@@ -6,7 +6,7 @@
 }:
 mkDerivation {
   pname = "composite-aeson";
-  version = "0.1.1.0";
+  version = "0.2.0.0";
   src = ./.;
   libraryHaskellDepends = [
     aeson aeson-better-errors base basic-prelude composite-base
