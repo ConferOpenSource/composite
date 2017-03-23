@@ -6,7 +6,6 @@ module Composite.Record
   ) where
 
 import BasicPrelude
-import Control.Lens (_Wrapped, mapped)
 import Data.Vinyl (Rec((:&), RNil))
 import qualified Data.Vinyl as Vinyl
 import Data.Vinyl.Functor (Identity(Identity))
