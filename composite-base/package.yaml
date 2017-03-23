@@ -26,6 +26,7 @@ default-extensions:
   - MultiParamTypeClasses
   - NoImplicitPrelude
   - OverloadedStrings
+  - PatternSynonyms
   - PolyKinds
   - ScopedTypeVariables
   - StrictData
@@ -39,3 +40,14 @@ ghc-options: -Wall -O2
 
 library:
   source-dirs: src
+
+tests:
+  composite-base-test:
+    source-dirs: test
+    main: Main.hs
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
+    dependencies:
+      - QuickCheck
+      - composite-base
+      - hspec
+

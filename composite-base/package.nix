@@ -1,5 +1,5 @@
-{ mkDerivation, base, basic-prelude, Frames, lens, stdenv
-, template-haskell, text, vinyl
+{ mkDerivation, base, basic-prelude, Frames, hspec, lens
+, QuickCheck, stdenv, template-haskell, text, vinyl
 }:
 mkDerivation {
   pname = "composite-base";
@@ -7,6 +7,10 @@ mkDerivation {
   src = ./.;
   libraryHaskellDepends = [
     base basic-prelude Frames lens template-haskell text vinyl
+  ];
+  testHaskellDepends = [
+    base basic-prelude Frames hspec lens QuickCheck template-haskell
+    text vinyl
   ];
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "Shared utilities for composite-* packages";
