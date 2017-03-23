@@ -2,7 +2,7 @@ module Composite.Ekg (EkgMetric(ekgMetric)) where
 
 import BasicPrelude
 import Composite.Base (NamedField(fieldName))
-import Control.Lens (view, Wrapped(type Unwrapped), _Unwrapped)
+import Control.Lens (view, _Unwrapped)
 import Data.Char (isUpper, toLower)
 import qualified Data.Text as Text
 import Data.Proxy (Proxy(Proxy))

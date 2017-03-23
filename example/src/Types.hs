@@ -1,16 +1,12 @@
 module Types where
 
 import ClassyPrelude hiding (Handler, Identity(Identity))
-import Composite.Aeson
-  ( DefaultJsonFormat(defaultJsonFormat), defaultJsonFormatRec
-  , JsonFormat, recJsonFormat, enumJsonFormat
-  , parseJsonWithFormat', toJsonWithFormat, jsonFormatWithIso
-  )
+import Control.Lens.TH (makeWrapped)
+import Composite.Aeson (DefaultJsonFormat(defaultJsonFormat), enumJsonFormat)
+import Composite.Aeson.TH (makeRecJsonWrapper)
 import Composite.Opaleye (defaultRecTable)
 import Composite.Opaleye.TH (deriveOpaleyeEnum)
 import Composite.TH (withLensesAndProxies)
-import Control.Lens (_Wrapped)
-import Control.Lens.TH (makeWrapped)
 import Data.Aeson (ToJSON(toJSON), FromJSON(parseJSON))
 import Frames ((:->), Record)
 import Opaleye (Column, PGInt8, PGText, Table(Table))
@@ -42,13 +38,5 @@ type DbUser        = '[FId, FLogin, FUserType]
 userTable :: Table (Record DbUserColumns) (Record DbUserColumns)
 userTable = Table "users" defaultRecTable
 
-newtype ApiUserJson = ApiUserJson { unApiUserJson :: Record ApiUser }
+makeRecJsonWrapper "ApiUserJson" ''ApiUser
 makeWrapped ''ApiUserJson
-
-apiUserJsonFormat :: JsonFormat e ApiUserJson
-apiUserJsonFormat = jsonFormatWithIso _Wrapped (recJsonFormat defaultJsonFormatRec)
-
-instance ToJSON ApiUserJson where
-  toJSON = toJsonWithFormat apiUserJsonFormat
-instance FromJSON ApiUserJson where
-  parseJSON = parseJsonWithFormat' apiUserJsonFormat
