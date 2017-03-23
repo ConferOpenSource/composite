@@ -6,6 +6,7 @@ module Composite.Record
   ) where
 
 import BasicPrelude
+import Control.Lens (_Wrapped, mapped)
 import Data.Vinyl (Rec((:&), RNil))
 import qualified Data.Vinyl as Vinyl
 import Data.Vinyl.Functor (Identity(Identity))
@@ -104,6 +105,8 @@ rlens = Frames.rlens
 --   set  (rlens' fBar_) Nothing              rec == Just 123 :^: Nothing       :^: Nil
 --   over (rlens' fBar_) (fmap (map toUpper)) rec == Just 123 :^: Just "HELLO!" :^: Nil
 -- @
-rlens' :: (RElem r rs (RIndex r rs), Functor g) => proxy r -> (f r -> g (f r)) -> Rec f rs -> g (Rec f rs)
-rlens' = Vinyl.rlens
+rlens' :: (Functor f, Functor g, RElem (s :-> a) rs (RIndex (s :-> a) rs), Functor g) => proxy (s :-> a) -> (f a -> g (f a)) -> Rec f rs -> g (Rec f rs)
+rlens' proxy f =
+  Vinyl.rlens proxy $ \ (map getCol -> fa) ->
+    map Col <$> f fa
 
