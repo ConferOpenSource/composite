@@ -4,10 +4,8 @@ module Composite.Aeson.Formats.Default
 
 import BasicPrelude
 import Composite.Aeson.Base (JsonFormat, wrappedJsonFormat)
-import Composite.Aeson.Formats.Generic (aesonJsonFormat)
 import Composite.Aeson.Formats.InternalTH (makeTupleDefaults)
 import Composite.Aeson.Formats.Provided -- sorry
-import Data.Aeson (FromJSON, FromJSONKey, ToJSON, ToJSONKey)
 import qualified Data.Aeson as Aeson
 import Data.Functor.Compose (Compose)
 import Data.Functor.Const (Const)
@@ -66,11 +64,10 @@ instance DefaultJsonFormat (f (g a)) => DefaultJsonFormat (Compose f g a) where 
 
 instance DefaultJsonFormat (f a) => DefaultJsonFormat (Monoid.Alt f a) where defaultJsonFormat = wrappedJsonFormat defaultJsonFormat
 
-instance (FromJSONKey k, ToJSONKey k, Ord k, FromJSON a, ToJSON a) => DefaultJsonFormat (Map k a) where
-  defaultJsonFormat = aesonJsonFormat -- because of the insanity that is FromJSONKey / ToJSONKey
-
-instance (FromJSONKey k, ToJSONKey k, Eq k, Hashable k, FromJSON a, ToJSON a) => DefaultJsonFormat (HashMap k a) where
-  defaultJsonFormat = aesonJsonFormat -- because of the insanity that is FromJSONKey / ToJSONKey
+instance DefaultJsonFormat a => DefaultJsonFormat (Map Text a) where
+  defaultJsonFormat = strictMapJsonFormat id pure defaultJsonFormat
+instance DefaultJsonFormat a => DefaultJsonFormat (HashMap Text a) where
+  defaultJsonFormat = strictHashMapJsonFormat id pure defaultJsonFormat
 
 $makeTupleDefaults
 
