@@ -7,9 +7,11 @@ module Control.Monad.Composite.Context
   , MonadContext(askContext, localContext), asksContext, askField
   ) where
 
-import BasicPrelude
+import BasicPrelude hiding (empty)
 import Composite.Record (Record)
-import Control.Lens (Lens', view)
+import Control.Applicative (Alternative(empty))
+import Control.Lens (Getter, view)
+import Control.Monad.Base (MonadBase(liftBase))
 import Control.Monad.Cont.Class (MonadCont(callCC))
 import Control.Monad.Error.Class (MonadError(throwError, catchError))
 import Control.Monad.Fail (MonadFail)
@@ -18,6 +20,8 @@ import Control.Monad.Fix (MonadFix(mfix))
 import Control.Monad.Reader.Class (MonadReader(local, ask, reader))
 import Control.Monad.RWS.Class (MonadRWS)
 import Control.Monad.State.Class (MonadState(get, put, state))
+import Control.Monad.Trans.Class (MonadTrans(lift))
+import Control.Monad.Trans.Control (MonadTransControl(type StT, liftWith, restoreT), MonadBaseControl(type StM, liftBaseWith, restoreM))
 import Control.Monad.Writer.Class (MonadWriter(writer, tell, listen, pass))
 
 -- |Class of monad (stacks) which have context reading functionality baked in. Similar to 'Control.Monad.Reader.MonadReader' but can coexist with a
@@ -34,97 +38,95 @@ asksContext :: MonadContext c m => (Record c -> a) -> m a
 asksContext f = f <$> askContext
 
 -- |Project some value out of the context using a lens (typically a field lens).
-askField :: MonadContext c m => Lens' (Record c) a -> m a
-askField = asksContext . view
+askField :: MonadContext c m => Getter (Record c) a -> m a
+askField l = asksContext $ view l
 
 -- |Monad transformer which adds an implicit environment which is a record. Isomorphic to @ReaderT (Record c) m@.
 newtype ContextT (c :: [*]) (m :: (* -> *)) a = ContextT { runContextT :: Record c -> m a }
 
 -- |Permute the current context with a function and then run some action with that modified context.
-withContext :: (c' -> c) -> ContextT c a -> ContextT c' a
-withContext f action = ContextT $ \ c' -> runContextLoggingT action (f c')
+withContext :: (Record c' -> Record c) -> ContextT c m a -> ContextT c' m a
+withContext f action = ContextT $ \ c' -> runContextT action (f c')
 
 -- |Transform the monad underlying a 'ContextT' using a natural transform.
 mapContextT :: (m a -> n b) -> ContextT c m a -> ContextT c n b
 mapContextT f m = ContextT $ f . runContextT m
 
-instance Monad m => MonadCtxLogger c (ContextLoggingT c m) where
-  context = ContextLoggingT pure
+instance Monad m => MonadContext c (ContextT c m) where
+  askContext = ContextT pure
+  localContext f action = ContextT $ runContextT action . f
 
-instance MonadCtxLogger c m => MonadCtxLogger c (ReaderT r m) where
-  context = ReaderT $ const context
+instance Functor m => Functor (ContextT c m) where
+  fmap f clt = ContextT $ fmap f . runContextT clt
 
-instance Functor m => Functor (ContextLoggingT c m) where
-  fmap f clt = ContextLoggingT $ fmap f . runContextLoggingT clt
+instance Applicative m => Applicative (ContextT c m) where
+  pure = ContextT . const . pure
+  cltab <*> clta = ContextT $ \ r -> runContextT cltab r <*> runContextT clta r
 
-instance Applicative m => Applicative (ContextLoggingT c m) where
-  pure = ContextLoggingT . const . pure
-  cltab <*> clta = ContextLoggingT $ \ r -> runContextLoggingT cltab r <*> runContextLoggingT clta r
+instance Alternative m => Alternative (ContextT c m) where
+  empty = ContextT . const $ empty
+  m <|> n = ContextT $ \ r -> runContextT m r <|> runContextT n r
 
-instance Alternative m => Alternative (ContextLoggingT c m) where
-  empty = ContextLoggingT . const $ empty
-  m <|> n = ContextLoggingT $ \ r -> runContextLoggingT m r <|> runContextLoggingT n r
+instance Monad m => Monad (ContextT c m) where
+  clt >>= k = ContextT $ \ ctx -> do
+    a <- runContextT clt ctx
+    runContextT (k a) ctx
 
-instance Monad m => Monad (ContextLoggingT c m) where
-  clt >>= k = ContextLoggingT $ \ ctx -> do
-    a <- runContextLoggingT clt ctx
-    runContextLoggingT (k a) ctx
+  fail = ContextT . const . fail
 
-  fail = ContextLoggingT . const . fail
-
-instance MonadIO m => MonadIO (ContextLoggingT c m) where
+instance MonadIO m => MonadIO (ContextT c m) where
   liftIO = lift . liftIO
 
-instance MonadTrans (ContextLoggingT c) where
-  lift = ContextLoggingT . const
+instance MonadTrans (ContextT c) where
+  lift = ContextT . const
 
-instance MonadTransControl (ContextLoggingT c) where
-  type StT (ContextLoggingT c) a = a
-  liftWith f = ContextLoggingT $ \ r -> f $ \ t -> runContextLoggingT t r
-  restoreT = ContextLoggingT . const
+instance MonadTransControl (ContextT c) where
+  type StT (ContextT c) a = a
+  liftWith f = ContextT $ \ r -> f $ \ t -> runContextT t r
+  restoreT = ContextT . const
 
-instance MonadBase b m => MonadBase b (ContextLoggingT c m) where
-  liftBase = ContextLoggingT . const . liftBase
+instance MonadBase b m => MonadBase b (ContextT c m) where
+  liftBase = ContextT . const . liftBase
 
-instance MonadBaseControl b m => MonadBaseControl b (ContextLoggingT c m) where
-  type StM (ContextLoggingT c m) a = StM m a
-  restoreM = ContextLoggingT . const . restoreM
+instance MonadBaseControl b m => MonadBaseControl b (ContextT c m) where
+  type StM (ContextT c m) a = StM m a
+  restoreM = ContextT . const . restoreM
   liftBaseWith f =
-    ContextLoggingT $ \ c ->
+    ContextT $ \ c ->
       liftBaseWith $ \ runInBase ->
-        f (runInBase . ($ c) . runContextLoggingT)
+        f (runInBase . ($ c) . runContextT)
 
-instance MonadReader r m => MonadReader r (ContextLoggingT c m) where
+instance MonadReader r m => MonadReader r (ContextT c m) where
   ask    = lift ask
-  local  = mapContextLoggingT . local
+  local  = mapContextT . local
   reader = lift . reader
 
-instance MonadWriter w m => MonadWriter w (ContextLoggingT c m) where
+instance MonadWriter w m => MonadWriter w (ContextT c m) where
   writer = lift . writer
   tell   = lift . tell
-  listen = mapContextLoggingT listen
-  pass   = mapContextLoggingT pass
+  listen = mapContextT listen
+  pass   = mapContextT pass
 
-instance MonadState s m => MonadState s (ContextLoggingT c m) where
+instance MonadState s m => MonadState s (ContextT c m) where
   get   = lift get
   put   = lift . put
   state = lift . state
 
-instance MonadRWS r w s m => MonadRWS r w s (ContextLoggingT c m)
+instance MonadRWS r w s m => MonadRWS r w s (ContextT c m)
 
-instance MonadFix m => MonadFix (ContextLoggingT c m) where
-  mfix f = ContextLoggingT $ \ r -> mfix $ \ a -> runContextLoggingT (f a) r
+instance MonadFix m => MonadFix (ContextT c m) where
+  mfix f = ContextT $ \ r -> mfix $ \ a -> runContextT (f a) r
 
-instance MonadFail m => MonadFail (ContextLoggingT c m) where
+instance MonadFail m => MonadFail (ContextT c m) where
   fail = lift . MonadFail.fail
 
-instance MonadError e m => MonadError e (ContextLoggingT c m) where
+instance MonadError e m => MonadError e (ContextT c m) where
   throwError = lift . throwError
-  catchError m h = ContextLoggingT $ \ r -> catchError (runContextLoggingT m r) (\ e -> runContextLoggingT (h e) r)
+  catchError m h = ContextT $ \ r -> catchError (runContextT m r) (\ e -> runContextT (h e) r)
 
-instance MonadPlus m => MonadPlus (ContextLoggingT c m) where
+instance MonadPlus m => MonadPlus (ContextT c m) where
   mzero = lift mzero
-  m `mplus` n = ContextLoggingT $ \ r -> runContextLoggingT m r `mplus` runContextLoggingT n r
+  m `mplus` n = ContextT $ \ r -> runContextT m r `mplus` runContextT n r
 
-instance MonadCont m => MonadCont (ContextLoggingT c m) where
-  callCC f = ContextLoggingT $ \ r -> callCC $ \ c -> runContextLoggingT (f (ContextLoggingT . const . c)) r
+instance MonadCont m => MonadCont (ContextT c m) where
+  callCC f = ContextT $ \ r -> callCC $ \ c -> runContextT (f (ContextT . const . c)) r
