@@ -33,6 +33,7 @@ library
       Composite.Base
       Composite.Record
       Composite.TH
+      Control.Monad.Composite.Context
   default-language: Haskell2010
 
 test-suite composite-base-test
