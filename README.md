@@ -11,7 +11,7 @@ Example:
 ```haskell
 import qualified Data.Aeson as Aeson
 import Composite.Aeson (RecJsonFormat, defaultJsonFormatRec, recFormatJson)
-import Frames ((:->), Record, (&:), pattern Nil)
+import Composite.Record (Record, (:->), pattern (:*:), pattern Nil)
 
 type FId   = "id"   :-> Int
 type FName = "name" :-> Text
@@ -21,7 +21,7 @@ userFormat :: RecJsonFormat e User
 userFormat = recFormatJson defaultJsonFormatRec
 
 alice :: Record '[User]
-alice = 1 &: "Alice" &: Nil
+alice = 1 :*: "Alice" :*: Nil
 
 aliceJson :: Aeson.Value
 aliceJson = toJsonWithFormat userFormat alice
@@ -38,32 +38,34 @@ Definitions shared by the other composite libraries or generally useful when usi
 Example:
 
 ```haskell
+import Composite.Opaleye (defaultRecTable)
+import Composite.Record (Record, (:->))
+import Composite.TH (withLensesAndProxies)
 import Control.Lens (view)
 import Data.Proxy (Proxy(Proxy))
 import Frames ((:->), Record, rlens)
 import Opaleye (Column, PGInt8, PGText, Query, Table, (./=), asc, constant, orderBy, queryTable, restrict)
 
-type FId   = "id"   :-> Int64
-type CId   = "id"   :-> Column PGInt8
-type FName = "name" :-> Text
-type CName = "name" :-> Column PGText
+-- For each field type defined with, withLensesAndProxies will expand to the type, a record lens for the type,
+-- and a proxy for the type, so for example FId is the type, fId is a lens which accesses the "id" field of any
+-- record which contains that field, and fId_ is a proxy for the field type in case it's needed.
+withLensesAndProxies [d|
+  type FId   = "id"   :-> Int64
+  type CId   = "id"   :-> Column PGInt8
+  type FName = "name" :-> Text
+  type CName = "name" :-> Column PGText
+  |]
 
 type User     = '[FId, FName]
 type UserCols = '[CId, CName]
-
-cId :: Proxy CId
-cId = Proxy
-
-cName :: Proxy CName
-cName = Proxy
 
 userTable :: Table (Record UserCols) (Record UserCols)
 userTable = Table "users" defaultRecTable
 
 userQuery :: Query (Record User)
 userQuery =
-  orderBy (asc $ view (rlens cName)) $ proc () -> do
-    user@(view (rlens cId) -> recId) <- queryTable userTable -< ()
+  orderBy (asc $ view cName) $ proc () -> do
+    user@(view cId -> recId) <- queryTable userTable -< ()
     restrict -< recId ./= constant 1
     returnA -< user
 ```
