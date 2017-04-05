@@ -1,7 +1,7 @@
 { mkDerivation, aeson, aeson-better-errors, aeson-qq, base
-, basic-prelude, composite-base, containers, contravariant
-, generic-deriving, hspec, lens, profunctors, QuickCheck
-, scientific, stdenv, tagged, template-haskell, text, time
+, composite-base, containers, contravariant, generic-deriving
+, hashable, hspec, lens, profunctors, QuickCheck, scientific
+, stdenv, tagged, template-haskell, text, time
 , unordered-containers, vector, vinyl
 }:
 mkDerivation {
@@ -9,15 +9,14 @@ mkDerivation {
   version = "0.2.0.0";
   src = ./.;
   libraryHaskellDepends = [
-    aeson aeson-better-errors base basic-prelude composite-base
-    containers contravariant generic-deriving lens profunctors
-    scientific tagged template-haskell text time unordered-containers
-    vector vinyl
+    aeson aeson-better-errors base composite-base containers
+    contravariant generic-deriving hashable lens profunctors scientific
+    tagged template-haskell text time unordered-containers vector vinyl
   ];
   testHaskellDepends = [
-    aeson aeson-better-errors aeson-qq base basic-prelude
-    composite-base containers contravariant generic-deriving hspec lens
-    profunctors QuickCheck scientific tagged template-haskell text time
+    aeson aeson-better-errors aeson-qq base composite-base containers
+    contravariant generic-deriving hashable hspec lens profunctors
+    QuickCheck scientific tagged template-haskell text time
     unordered-containers vector vinyl
   ];
   homepage = "https://github.com/ConferHealth/composite#readme";

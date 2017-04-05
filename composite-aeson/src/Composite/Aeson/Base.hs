@@ -4,7 +4,6 @@ module Composite.Aeson.Base
   , dimapJsonFormat, jsonFormatWithIso, wrappedJsonFormat
   ) where
 
-import BasicPrelude
 import Control.Lens (AnIso', Iso, Wrapped(type Unwrapped), _Wrapped', _Wrapped, iso, over, withIso)
 import Control.Lens.TH (makeWrapped)
 import qualified Data.Aeson as Aeson
@@ -12,6 +11,7 @@ import qualified Data.Aeson.Types as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
 import Data.Functor.Contravariant (Contravariant, contramap)
 import Data.Profunctor (Profunctor(dimap))
+import Data.Text (Text)
 import Data.Void (Void)
 
 -- |Type of functions which take a value @a@ and convert it to an 'Aeson.Value'.

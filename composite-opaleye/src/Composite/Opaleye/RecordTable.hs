@@ -1,6 +1,5 @@
 module Composite.Opaleye.RecordTable where
 
-import BasicPrelude
 import Composite.Record ((:->)(Val), Rec((:&), RNil))
 import Data.Functor.Identity (Identity(Identity))
 import Data.Profunctor (dimap)

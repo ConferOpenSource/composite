@@ -2,9 +2,9 @@ module Composite.Aeson.DateTimeFormatUtils
   ( fixupTzIn, fixupTzOut, fixupMs
   ) where
 
-import BasicPrelude
 import Data.Char (isDigit)
 import Data.Function (fix)
+import Data.List (stripPrefix)
 
 -- |Given a string, remove a trailing @Z@ (which is ISO8601 acceptable) and replace it with @+00:00@ (which is @ParseTime@ acceptable)
 fixupTzIn :: String -> String

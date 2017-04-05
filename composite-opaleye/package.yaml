@@ -11,7 +11,6 @@ category:            Records
 
 dependencies:
   - base >= 4.7 && < 5
-  - basic-prelude
   - bytestring
   - composite-base
   - lens
@@ -29,7 +28,6 @@ default-extensions:
   - FlexibleInstances
   - LambdaCase
   - MultiParamTypeClasses
-  - NoImplicitPrelude
   - OverloadedStrings
   - PolyKinds
   - ScopedTypeVariables

@@ -1,9 +1,9 @@
 module Composite.TH where
 
-import BasicPrelude
 import Composite.Record (Record, rlens)
 import Control.Lens (_1, _head, each, over, toListOf)
 import Data.Char (toLower)
+import Data.Monoid ((<>))
 import Data.Proxy (Proxy(Proxy))
 import Data.Vinyl.Lens (RElem)
 import Data.Vinyl.TypeLevel (RIndex)

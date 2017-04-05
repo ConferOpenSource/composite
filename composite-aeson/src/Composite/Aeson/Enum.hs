@@ -1,12 +1,12 @@
 module Composite.Aeson.Enum where
 
-import BasicPrelude
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor))
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
 import qualified Data.HashMap.Strict as HM
+import Data.List (intercalate, stripPrefix)
 import qualified Data.Map.Strict as M
-import Data.Text (pack, unpack)
+import Data.Text (Text, pack, unpack)
 import GHC.Generics (Generic(type Rep))
 import Generics.Deriving.ConNames (ConNames, conNames)
 import Generics.Deriving.Enum (Enum', genumDefault)

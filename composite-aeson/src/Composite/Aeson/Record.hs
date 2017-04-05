@@ -1,6 +1,5 @@
 module Composite.Aeson.Record where
 
-import BasicPrelude
 import Composite.Aeson.Base
   ( JsonProfunctor(JsonProfunctor)
   , JsonFormat(JsonFormat)
@@ -9,13 +8,14 @@ import Composite.Aeson.Base
 import Composite.Aeson.Formats.Default (DefaultJsonFormat(defaultJsonFormat))
 import Composite.Record ((:->))
 import Control.Lens (Wrapped(type Unwrapped, _Wrapped'), from, view)
+import Control.Monad (join)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
 import Data.Functor.Contravariant (Contravariant, contramap)
 import Data.Functor.Identity (Identity(Identity))
 import qualified Data.HashMap.Strict as HM
 import Data.Proxy (Proxy(Proxy))
-import Data.Text (pack)
+import Data.Text (Text, pack)
 import Data.Vinyl (Rec((:&), RNil), rmap)
 import GHC.TypeLits (KnownSymbol, symbolVal)
 
@@ -48,7 +48,7 @@ field' (JsonFormat (JsonProfunctor o i)) = JsonField (Just . o) (`ABE.key` i)
 optionalField :: forall e a a'. (Wrapped a', Unwrapped a' ~ Maybe a) => JsonFormat e a -> JsonField e a'
 optionalField (JsonFormat (JsonProfunctor o i)) =
   JsonField
-    (map o . view _Wrapped')
+    (fmap o . view _Wrapped')
     (\ k -> view (from _Wrapped') . join <$> ABE.keyMay k (ABE.perhaps i))
 
 -- |Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @Maybe a@ which substitutes @Nothing@ for either @null@ or missing field,
@@ -56,7 +56,7 @@ optionalField (JsonFormat (JsonProfunctor o i)) =
 optionalField' :: JsonFormat e a -> JsonField e (Maybe a)
 optionalField' (JsonFormat (JsonProfunctor o i)) =
   JsonField
-    (map o)
+    (fmap o)
     (\ k -> join <$> ABE.keyMay k (ABE.perhaps i))
 
 -- |Type of a Vinyl/Frames record which describes how to map fields of a record to JSON and back.
@@ -118,7 +118,7 @@ instance forall s a rs. (KnownSymbol s, RecToJsonObject rs) => RecToJsonObject (
 
 -- |Given a record of 'ToField' functions for each field in @rs@, convert an 'Identity' record to JSON. Equivalent to @Aeson.Object . 'recToJsonObject' fmt@
 recToJson :: RecToJsonObject rs => Rec ToField rs -> Rec Identity rs -> Aeson.Value
-recToJson = map Aeson.Object . recToJsonObject
+recToJson = fmap Aeson.Object . recToJsonObject
 
 -- |Class which induces over the structure of a record, parsing fields using a record of 'FromJson' and assembling an 'Identity' record.
 class RecFromJson rs where

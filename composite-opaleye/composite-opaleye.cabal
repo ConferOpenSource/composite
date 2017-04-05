@@ -18,11 +18,10 @@ cabal-version:  >= 1.10
 library
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
+  default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses OverloadedStrings PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >= 4.7 && < 5
-    , basic-prelude
     , bytestring
     , composite-base
     , lens

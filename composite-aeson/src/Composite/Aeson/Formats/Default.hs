@@ -2,7 +2,6 @@ module Composite.Aeson.Formats.Default
   ( DefaultJsonFormat(..)
   ) where
 
-import BasicPrelude
 import Composite.Aeson.Base (JsonFormat, wrappedJsonFormat)
 import Composite.Aeson.Formats.InternalTH (makeTupleDefaults)
 import Composite.Aeson.Formats.Provided -- sorry
@@ -10,15 +9,21 @@ import qualified Data.Aeson as Aeson
 import Data.Functor.Compose (Compose)
 import Data.Functor.Const (Const)
 import Data.Functor.Identity (Identity)
-import Data.Int (Int8, Int16)
+import Data.HashMap.Strict (HashMap)
+import Data.Int (Int8, Int16, Int32, Int64)
+import Data.IntSet (IntSet)
 import Data.List.NonEmpty (NonEmpty)
+import Data.Map (Map)
 import qualified Data.Monoid as Monoid
 import Data.Scientific (Scientific)
 import qualified Data.Semigroup as Semigroup
+import Data.Sequence (Seq)
 import Data.Tagged (Tagged)
+import Data.Text (Text)
+import qualified Data.Text.Lazy as TL
 import Data.Vector (Vector)
 import Data.Version (Version)
-import Data.Word (Word8, Word16)
+import Data.Word (Word8, Word16, Word32, Word64)
 import Numeric.Natural (Natural)
 
 -- |Class for associating a default JSON format with a type.
@@ -88,7 +93,7 @@ instance DefaultJsonFormat Word8        where defaultJsonFormat = integralJsonFo
 instance DefaultJsonFormat Word16       where defaultJsonFormat = integralJsonFormat
 instance DefaultJsonFormat Word32       where defaultJsonFormat = integralJsonFormat
 instance DefaultJsonFormat Word64       where defaultJsonFormat = integralJsonFormat
-instance DefaultJsonFormat LText        where defaultJsonFormat = lazyTextJsonFormat
+instance DefaultJsonFormat TL.Text      where defaultJsonFormat = lazyTextJsonFormat
 instance DefaultJsonFormat Natural      where defaultJsonFormat = naturalJsonFormat
 instance DefaultJsonFormat Ordering     where defaultJsonFormat = orderingJsonFormat
 instance DefaultJsonFormat Float        where defaultJsonFormat = realFloatJsonFormat

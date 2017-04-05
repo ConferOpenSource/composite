@@ -3,13 +3,13 @@ module Composite.Aeson.TH
   , makeRecJsonWrapperExplicit
   ) where
 
-import BasicPrelude
 import Composite.Aeson.Base (JsonFormat, dimapJsonFormat, parseJsonWithFormat', toJsonWithFormat)
 import Composite.Aeson.Record (defaultJsonFormatRec, recJsonFormat)
 import Composite.Record (Record)
 import Control.Lens (_head, over)
 import Data.Aeson (FromJSON(parseJSON), ToJSON(toJSON))
 import Data.Char (toLower)
+import Data.Monoid ((<>))
 import Language.Haskell.TH
   ( Q, clause, cxt
   , normalB

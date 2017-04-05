@@ -1,4 +1,3 @@
-import BasicPrelude
 import RecordSpec (recordSuite)
 import Test.Hspec (hspec)
 

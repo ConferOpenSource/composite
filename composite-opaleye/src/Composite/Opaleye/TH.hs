@@ -1,9 +1,10 @@
 module Composite.Opaleye.TH where
 
-import BasicPrelude hiding (lift)
 import Composite.Opaleye.Util (constantColumnUsing)
 import Control.Lens ((<&>))
 import qualified Data.ByteString.Char8 as BSC8
+import Data.Maybe (fromMaybe)
+import Data.Monoid ((<>))
 import Data.Profunctor.Product.Default (Default, def)
 import Data.Traversable (for)
 import Database.PostgreSQL.Simple (ResultError(ConversionFailed, Incompatible, UnexpectedNull))

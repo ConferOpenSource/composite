@@ -1,12 +1,12 @@
 module Composite.Ekg (EkgMetric(ekgMetric)) where
 
-import BasicPrelude
 import Composite.Record ((:->)(Val), Rec((:&), RNil), Record)
 import Data.Char (isUpper, toLower)
 import Data.Functor.Identity (Identity(Identity))
+import Data.Monoid ((<>))
 import qualified Data.Text as Text
 import Data.Proxy (Proxy(Proxy))
-import Data.Text (pack)
+import Data.Text (Text, pack)
 import GHC.TypeLits (KnownSymbol, symbolVal)
 import System.Metrics (Store, createCounter, createGauge, createLabel, createDistribution)
 import System.Metrics.Counter (Counter)

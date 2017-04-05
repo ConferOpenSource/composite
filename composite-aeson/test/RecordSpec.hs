@@ -1,6 +1,5 @@
 module RecordSpec where
 
-import BasicPrelude
 import Composite (Rec(RNil), Record, (:->), pattern (:*:))
 import Composite.Aeson.Base (JsonFormat, fromJsonWithFormat, toJsonWithFormat)
 import Composite.Aeson.Formats.Provided (stringJsonFormat)

@@ -1,24 +1,28 @@
 -- |Module which provides 'JsonFormat's for a variety of types from @base@ and other common packages.
 module Composite.Aeson.Formats.Provided where
 
-import BasicPrelude
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor), _JsonProfunctor, dimapJsonFormat, toJsonWithFormat)
 import Composite.Aeson.Formats.Generic (SumStyle, abeJsonFormat, aesonJsonFormat, jsonArrayFormat, jsonObjectFormat, jsonSumFormat)
 import Composite.Aeson.Formats.InternalTH (makeTupleFormats)
+import Control.Arrow (first)
 import Control.Lens (_2, _Wrapped, over, view)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
 import Data.Fixed (HasResolution, Fixed)
 import Data.Foldable (toList)
+import Data.Hashable (Hashable)
 import qualified Data.HashMap.Lazy as LazyHashMap
 import qualified Data.HashMap.Strict as StrictHashMap
+import Data.IntSet (IntSet)
 import Data.List.NonEmpty (NonEmpty((:|)))
 import qualified Data.List.NonEmpty as NEL
 import qualified Data.Map.Lazy as LazyMap
 import qualified Data.Map.Strict as StrictMap
 import Data.Scientific (Scientific)
 import qualified Data.Scientific as Scientific
+import Data.Sequence (Seq)
 import qualified Data.Sequence as Sequence
+import Data.Text (Text)
 import qualified Data.Text.Lazy as LT
 import qualified Data.Vector as V
 import Data.Version (Version)
@@ -62,14 +66,14 @@ fixedJsonFormat = aesonJsonFormat
 -- |'JsonFormat' for 'StrictHashMap.HashMap' where the key type can be converted to and from a 'Text', mapping to a JSON object.
 strictHashMapJsonFormat :: (Eq k, Hashable k) => (k -> Text) -> (Text -> ABE.Parse e k) -> JsonFormat e a -> JsonFormat e (StrictHashMap.HashMap k a)
 strictHashMapJsonFormat kToText kFromText =
-  jsonObjectFormat (map (first kToText) . StrictHashMap.toList)
-                   (map StrictHashMap.fromList . traverse (\ (k, a) -> (, a) <$> kFromText k))
+  jsonObjectFormat (fmap (first kToText) . StrictHashMap.toList)
+                   (fmap StrictHashMap.fromList . traverse (\ (k, a) -> (, a) <$> kFromText k))
 
 -- |'JsonFormat' for 'LazyHashMap.HashMap' where the key type can be converted to and from a 'Text', mapping to a JSON object.
 lazyHashMapJsonFormat :: (Eq k, Hashable k) => (k -> Text) -> (Text -> ABE.Parse e k) -> JsonFormat e a -> JsonFormat e (LazyHashMap.HashMap k a)
 lazyHashMapJsonFormat kToText kFromText =
-  jsonObjectFormat (map (first kToText) . LazyHashMap.toList)
-                   (map LazyHashMap.fromList . traverse (\ (k, a) -> (, a) <$> kFromText k))
+  jsonObjectFormat (fmap (first kToText) . LazyHashMap.toList)
+                   (fmap LazyHashMap.fromList . traverse (\ (k, a) -> (, a) <$> kFromText k))
 
 -- |'JsonFormat' for 'IntSet' which maps to an array of numbers.
 intSetJsonFormat :: JsonFormat e IntSet
@@ -90,14 +94,14 @@ listJsonFormat = jsonArrayFormat id pure
 -- |'JsonFormat' for 'StrictMap.Map' where the key type can be converted to and from a 'Text', mapping to a JSON object.
 strictMapJsonFormat :: Ord k => (k -> Text) -> (Text -> ABE.Parse e k) -> JsonFormat e a -> JsonFormat e (StrictMap.Map k a)
 strictMapJsonFormat kToText kFromText =
-  jsonObjectFormat (map (first kToText) . StrictMap.toAscList)
-                   (map StrictMap.fromList . traverse (\ (k, a) -> (, a) <$> kFromText k))
+  jsonObjectFormat (fmap (first kToText) . StrictMap.toAscList)
+                   (fmap StrictMap.fromList . traverse (\ (k, a) -> (, a) <$> kFromText k))
 
 -- |'JsonFormat' for 'LazyMap.Map' where the key type can be converted to and from a 'Text', mapping to a JSON object.
 lazyMapJsonFormat :: Ord k => (k -> Text) -> (Text -> ABE.Parse e k) -> JsonFormat e a -> JsonFormat e (LazyMap.Map k a)
 lazyMapJsonFormat kToText kFromText =
-  jsonObjectFormat (map (first kToText) . LazyMap.toAscList)
-                   (map LazyMap.fromList . traverse (\ (k, a) -> (, a) <$> kFromText k))
+  jsonObjectFormat (fmap (first kToText) . LazyMap.toAscList)
+                   (fmap LazyMap.fromList . traverse (\ (k, a) -> (, a) <$> kFromText k))
 
 -- |'JsonFormat' for 'Maybe' which maps @Nothing@ to @null@.
 maybeJsonFormat :: JsonFormat e a -> JsonFormat e (Maybe a)
@@ -167,7 +171,7 @@ vectorJsonFormat :: JsonFormat e a -> JsonFormat e (V.Vector a)
 vectorJsonFormat (JsonFormat (JsonProfunctor oA iA)) =
   JsonFormat (JsonProfunctor o i)
   where
-    o = Aeson.Array . map oA
+    o = Aeson.Array . fmap oA
     i = V.fromList <$> ABE.eachInArray iA
 
 -- |'JsonFormat' for 'Version' which maps to a string.

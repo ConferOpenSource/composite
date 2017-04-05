@@ -1,7 +1,6 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 module Composite.Opaleye.ProductProfunctors where
 
-import BasicPrelude
 import Composite.Record ((:->)(Val), Rec((:&), RNil))
 import Data.Functor.Identity (Identity(Identity))
 import Data.Profunctor (dimap)

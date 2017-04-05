@@ -13,11 +13,11 @@ dependencies:
   - base >= 4.7 && < 5
   - aeson
   - aeson-better-errors
-  - basic-prelude
   - composite-base
   - containers
   - contravariant
   - generic-deriving
+  - hashable
   - lens
   - profunctors
   - scientific
@@ -37,7 +37,6 @@ default-extensions:
   - LambdaCase
   - MultiParamTypeClasses
   - MultiWayIf
-  - NoImplicitPrelude
   - OverloadedStrings
   - PatternSynonyms
   - PolyKinds

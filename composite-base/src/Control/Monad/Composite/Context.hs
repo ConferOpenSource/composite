@@ -7,16 +7,17 @@ module Control.Monad.Composite.Context
   , MonadContext(askContext, localContext), asksContext, askField
   ) where
 
-import BasicPrelude hiding (empty)
 import Composite.Record (Record)
-import Control.Applicative (Alternative(empty))
+import Control.Applicative (Alternative(empty, (<|>)))
 import Control.Lens (Getter, view)
+import Control.Monad (MonadPlus(mzero, mplus))
 import Control.Monad.Base (MonadBase(liftBase))
 import Control.Monad.Cont.Class (MonadCont(callCC))
 import Control.Monad.Error.Class (MonadError(throwError, catchError))
 import Control.Monad.Fail (MonadFail)
 import qualified Control.Monad.Fail as MonadFail
 import Control.Monad.Fix (MonadFix(mfix))
+import Control.Monad.IO.Class (MonadIO(liftIO))
 import Control.Monad.Reader.Class (MonadReader(local, ask, reader))
 import Control.Monad.RWS.Class (MonadRWS)
 import Control.Monad.State.Class (MonadState(get, put, state))

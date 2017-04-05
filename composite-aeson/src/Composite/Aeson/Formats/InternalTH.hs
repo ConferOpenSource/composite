@@ -2,10 +2,11 @@ module Composite.Aeson.Formats.InternalTH
   ( makeTupleDefaults, makeTupleFormats
   ) where
 
-import BasicPrelude hiding (lift)
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor))
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
+import Data.List (foldl')
+import Data.Monoid ((<>))
 import qualified Data.Vector as V
 import Language.Haskell.TH
   ( Name, mkName, newName, tupleDataName

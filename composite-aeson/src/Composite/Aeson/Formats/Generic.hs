@@ -3,8 +3,8 @@ module Composite.Aeson.Formats.Generic
   , SumStyle(..), jsonSumFormat
   ) where
 
-import BasicPrelude
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor), FromJson(FromJson))
+import Control.Arrow (second)
 import Control.Lens (_Wrapped, over, unsnoc)
 import Data.Aeson (FromJSON, ToJSON, (.=), toJSON)
 import qualified Data.Aeson as Aeson
@@ -12,7 +12,8 @@ import qualified Data.Aeson.BetterErrors as ABE
 import qualified Data.HashMap.Strict as StrictHashMap
 import Data.List.NonEmpty (NonEmpty((:|)))
 import qualified Data.List.NonEmpty as NEL
-import Data.Text (unpack)
+import Data.Monoid ((<>))
+import Data.Text (Text, intercalate, unpack)
 import qualified Data.Vector as Vector
 
 -- |Produce an explicit 'JsonFormat' by using the implicit Aeson 'ToJSON' instance and an explicit @aeson-better-errors@ 'ABE.Parse'.

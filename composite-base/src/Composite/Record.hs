@@ -5,15 +5,16 @@ module Composite.Record
   , RElem, rlens, rlens'
   ) where
 
-import BasicPrelude
 import Control.Lens.TH (makeWrapped)
 import Data.Functor.Identity (Identity(Identity))
 import Data.Proxy (Proxy(Proxy))
 import Data.Semigroup (Semigroup)
-import Data.Text (pack)
+import Data.String (IsString)
+import Data.Text (Text, pack)
 import Data.Vinyl (Rec((:&), RNil))
 import qualified Data.Vinyl as Vinyl
 import qualified Data.Vinyl.TypeLevel as Vinyl
+import Foreign.Storable (Storable)
 import GHC.TypeLits (KnownSymbol, Symbol, symbolVal)
 
 type Record = Rec Identity
@@ -97,8 +98,8 @@ infixr 5 :*:
 --
 -- Mnemonic: @^@ for products (record) of products (functor).
 pattern (:^:) :: Functor f => () => f a -> Rec f rs -> Rec f (s :-> a ': rs)
-pattern (:^:) fa rs <- (map getVal -> fa) :& rs where
-  (:^:) fa rs = map Val fa :& rs
+pattern (:^:) fa rs <- (fmap getVal -> fa) :& rs where
+  (:^:) fa rs = fmap Val fa :& rs
 infixr 5 :^:
 
 -- |Lens to a particular field of a record using the 'Identity' functor.
@@ -151,6 +152,6 @@ rlens proxy f =
 -- @
 rlens' :: (Functor f, Functor g, RElem (s :-> a) rs, Functor g) => proxy (s :-> a) -> (f a -> g (f a)) -> Rec f rs -> g (Rec f rs)
 rlens' proxy f =
-  Vinyl.rlens proxy $ \ (map getVal -> fa) ->
-    map Val <$> f fa
+  Vinyl.rlens proxy $ \ (fmap getVal -> fa) ->
+    fmap Val <$> f fa
 {-# INLINE rlens' #-}

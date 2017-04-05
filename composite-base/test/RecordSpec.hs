@@ -1,6 +1,5 @@
 module RecordSpec where
 
-import BasicPrelude
 import Composite.Record
 import Composite.TH (withLensesAndProxies)
 import Control.Lens (view, set, _Just)

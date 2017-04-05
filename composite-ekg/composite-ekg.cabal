@@ -18,11 +18,10 @@ cabal-version:  >= 1.10
 library
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PolyKinds ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
+  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving MultiParamTypeClasses OverloadedStrings PolyKinds ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >= 4.7 && < 5
-    , basic-prelude
     , composite-base
     , ekg
     , ekg-core

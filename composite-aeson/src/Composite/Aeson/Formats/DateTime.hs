@@ -4,10 +4,12 @@ module Composite.Aeson.Formats.DateTime
   , iso8601DateJsonFormat, iso8601DateTimeJsonFormat, iso8601TimeJsonFormat
   ) where
 
-import BasicPrelude
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor))
 import Composite.Aeson.DateTimeFormatUtils (fixupTzIn, fixupTzOut, fixupMs)
 import Composite.Aeson.Formats.Provided (stringJsonFormat)
+import Data.Either (partitionEithers)
+import Data.Monoid ((<>))
+import Data.List (intercalate)
 import Data.List.NonEmpty (NonEmpty((:|)))
 import qualified Data.List.NonEmpty as NEL
 import Data.Time.Calendar (Day)
