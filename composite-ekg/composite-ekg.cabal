@@ -26,7 +26,6 @@ library
     , composite-base
     , ekg
     , ekg-core
-    , Frames
     , lens
     , text
     , vinyl

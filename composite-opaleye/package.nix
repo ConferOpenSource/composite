@@ -1,5 +1,5 @@
 { mkDerivation, base, basic-prelude, bytestring, composite-base
-, Frames, lens, opaleye, postgresql-simple, product-profunctors
+, lens, opaleye, postgresql-simple, product-profunctors
 , profunctors, stdenv, template-haskell, text, vinyl
 }:
 mkDerivation {
@@ -7,7 +7,7 @@ mkDerivation {
   version = "0.2.0.0";
   src = ./.;
   libraryHaskellDepends = [
-    base basic-prelude bytestring composite-base Frames lens opaleye
+    base basic-prelude bytestring composite-base lens opaleye
     postgresql-simple product-profunctors profunctors template-haskell
     text vinyl
   ];

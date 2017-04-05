@@ -1,12 +1,12 @@
 module Composite.TH where
 
 import BasicPrelude
+import Composite.Record (Record, rlens)
 import Control.Lens (_1, _head, each, over, toListOf)
 import Data.Char (toLower)
 import Data.Proxy (Proxy(Proxy))
 import Data.Vinyl.Lens (RElem)
 import Data.Vinyl.TypeLevel (RIndex)
-import Frames (Record, rlens)
 import Language.Haskell.TH (Q, Body(NormalB), Dec(SigD, ValD), Exp(VarE), Name, Pat(VarP), Type(AppT, ConT), TyVarBndr, mkName, nameBase)
 import Language.Haskell.TH.Lens (_TySynD)
 

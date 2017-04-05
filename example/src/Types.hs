@@ -1,13 +1,13 @@
 module Types where
 
-import ClassyPrelude hiding (Handler, Identity(Identity))
+import ClassyPrelude hiding (Handler)
 import Control.Lens.TH (makeWrapped)
+import Composite ((:->), Record)
 import Composite.Aeson (DefaultJsonFormat(defaultJsonFormat), enumJsonFormat)
 import Composite.Aeson.TH (makeRecJsonWrapper)
 import Composite.Opaleye (defaultRecTable)
 import Composite.Opaleye.TH (deriveOpaleyeEnum)
 import Composite.TH (withLensesAndProxies)
-import Frames ((:->), Record)
 import Opaleye (Column, PGInt8, PGText, Table(Table))
 
 data UserType

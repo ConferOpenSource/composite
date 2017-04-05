@@ -22,7 +22,6 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >= 4.7 && < 5
-    , Frames
     , aeson
     , aeson-better-errors
     , basic-prelude
@@ -63,7 +62,6 @@ test-suite composite-aeson-test
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       base >= 4.7 && < 5
-    , Frames
     , aeson
     , aeson-better-errors
     , basic-prelude

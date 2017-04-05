@@ -35,7 +35,6 @@ default-extensions:
 
 dependencies:
   - base >= 4.7 && < 5
-  - Frames
   - aeson
   - bytestring
   - classy-prelude

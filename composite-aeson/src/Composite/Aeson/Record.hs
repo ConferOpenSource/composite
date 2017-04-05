@@ -6,16 +6,18 @@ import Composite.Aeson.Base
   , JsonFormat(JsonFormat)
   , wrappedJsonFormat
   )
-import Composite.Base (NamedField(fieldName))
 import Composite.Aeson.Formats.Default (DefaultJsonFormat(defaultJsonFormat))
+import Composite.Record ((:->))
 import Control.Lens (Wrapped(type Unwrapped, _Wrapped'), from, view)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
 import Data.Functor.Contravariant (Contravariant, contramap)
+import Data.Functor.Identity (Identity(Identity))
 import qualified Data.HashMap.Strict as HM
 import Data.Proxy (Proxy(Proxy))
+import Data.Text (pack)
 import Data.Vinyl (Rec((:&), RNil), rmap)
-import Data.Vinyl.Functor (Identity(Identity))
+import GHC.TypeLits (KnownSymbol, symbolVal)
 
 -- |Function to encode a single field of a record, possibly choosing to elide the field with @Nothing@.
 newtype ToField a = ToField { unToField :: a -> Maybe Aeson.Value }
@@ -72,8 +74,8 @@ optionalField' (JsonFormat (JsonProfunctor o i)) =
 -- @
 --   userFormatRec :: 'JsonFormatRec' e User
 --   userFormatRec = 'field' 'Composite.Aeson.Default.integralJsonFormat'
---                &: 'field' 'Composite.Aeson.Default.textJsonFormat'
---                &: Nil
+--               :^: 'field' 'Composite.Aeson.Default.textJsonFormat'
+--               :^: RNil
 -- @
 --
 -- Or, using the default mappings for each field type:
@@ -109,9 +111,9 @@ class RecToJsonObject rs where
 instance RecToJsonObject '[] where
   recToJsonObject _ = const mempty
 
-instance forall r rs. (NamedField r, RecToJsonObject rs) => RecToJsonObject (r ': rs) where
+instance forall s a rs. (KnownSymbol s, RecToJsonObject rs) => RecToJsonObject (s :-> a ': rs) where
   recToJsonObject (ToField aToField :& fs) (Identity a :& as) =
-    maybe id (HM.insert (fieldName (Proxy :: Proxy r))) (aToField a) $
+    maybe id (HM.insert (pack . symbolVal $ (Proxy :: Proxy s))) (aToField a) $
       recToJsonObject fs as
 
 -- |Given a record of 'ToField' functions for each field in @rs@, convert an 'Identity' record to JSON. Equivalent to @Aeson.Object . 'recToJsonObject' fmt@
@@ -126,10 +128,10 @@ class RecFromJson rs where
 instance RecFromJson '[] where
   recFromJson _ = pure RNil
 
-instance forall r rs. (NamedField r, RecFromJson rs) => RecFromJson (r ': rs) where
+instance forall s a rs. (KnownSymbol s, RecFromJson rs) => RecFromJson (s :-> a ': rs) where
   recFromJson (FromField aFromField :& fs) =
     (:&)
-      <$> (Identity <$> aFromField (fieldName (Proxy :: Proxy r)))
+      <$> (Identity <$> aFromField (pack . symbolVal $ (Proxy :: Proxy s)))
       <*> recFromJson fs
 
 -- |Take a 'JsonFormatRec' describing how to map a record with field @rs@ to and from JSON and produce a @'JsonFormat' e (Record rs)@.
@@ -146,7 +148,7 @@ class DefaultJsonFormatRec rs where
   -- |Produce a 'JsonFormatRec' for a record with fields @rs@ by using the default 'JsonFormat' for each field in @rs@, as provided by 'DefaultJsonFormat'.
   defaultJsonFormatRec :: JsonFormatRec e rs
 
-instance (NamedField r, DefaultJsonFormat (Unwrapped r), DefaultJsonFormatRec rs) => DefaultJsonFormatRec (r ': rs) where
+instance (KnownSymbol s, DefaultJsonFormat a, DefaultJsonFormatRec rs) => DefaultJsonFormatRec (s :-> a ': rs) where
   defaultJsonFormatRec = field defaultJsonFormat :& defaultJsonFormatRec
 
 instance DefaultJsonFormatRec '[] where

@@ -1,15 +1,13 @@
 module Composite.Opaleye.RecordTable where
 
 import BasicPrelude
-import Composite.Base (NamedField(fieldName))
-import Control.Lens (Wrapped(type Unwrapped, _Wrapped'), from, view)
+import Composite.Record ((:->)(Val), Rec((:&), RNil))
+import Data.Functor.Identity (Identity(Identity))
 import Data.Profunctor (dimap)
 import Data.Profunctor.Product ((***!))
 import qualified Data.Profunctor.Product as PP
 import Data.Proxy (Proxy(Proxy))
-import Data.Text (unpack)
-import Data.Vinyl.Core (Rec((:&), RNil))
-import Data.Vinyl.Functor (Identity(Identity))
+import GHC.TypeLits (KnownSymbol, symbolVal)
 import Opaleye (Column, TableProperties, required, optional)
 
 -- |Helper typeclass which picks which of 'required' or 'optional' to use for a pair of write column type and read column type.
@@ -50,18 +48,18 @@ instance DefaultRecTable '[] '[] where
   defaultRecTable = dimap (const ()) (const RNil) PP.empty
 
 instance
-    forall r reads w writes.
-    ( NamedField w, NamedField r
-    , DefaultRecTableField (Unwrapped w) (Unwrapped r)
+    forall s r reads w writes.
+    ( KnownSymbol s
+    , DefaultRecTableField w r
     , DefaultRecTable writes reads
-    ) => DefaultRecTable (w ': writes) (r ': reads) where
+    ) => DefaultRecTable (s :-> w ': writes) (s :-> r ': reads) where
   defaultRecTable =
-    dimap (\ (Identity (view _Wrapped' -> w) :& writeRs) -> (w, writeRs))
-          (\ (r, readRs) -> (Identity (view (from _Wrapped') r) :& readRs))
+    dimap (\ (Identity (Val w) :& writeRs) -> (w, writeRs))
+          (\ (r, readRs) -> (Identity (Val r) :& readRs))
           (step  ***! recur)
     where
-      step :: TableProperties (Unwrapped w) (Unwrapped r)
-      step = defaultRecTableField . unpack $ fieldName (Proxy :: Proxy r)
+      step :: TableProperties w r
+      step = defaultRecTableField $ symbolVal (Proxy :: Proxy s)
       recur :: TableProperties (Rec Identity writes) (Rec Identity reads)
       recur = defaultRecTable
 

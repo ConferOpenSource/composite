@@ -1,12 +1,13 @@
 module Api (API, api, service) where
 
 import ClassyPrelude
+import Composite.Record (Record)
 import Control.Arrow (returnA)
 import Control.Lens (_Unwrapping, each, toListOf, view)
 import Control.Monad.Logger (logInfo)
 import Data.Proxy (Proxy(Proxy))
+import Data.Vinyl.Lens (rsubset)
 import Foundation (AppStackM, appMetrics, withDb, fUserRequests)
-import Frames (Record, rsubset)
 import Opaleye ((./=), constant, desc, orderBy, queryTable, restrict, runQuery)
 import Servant (ServerT, Get, JSON, (:>))
 import Types (ApiUserJson(ApiUserJson), DbUser, UserType(UserTypeRegular), cLogin, cUserType, userTable)

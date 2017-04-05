@@ -6,10 +6,10 @@ module Composite.Aeson.TH
 import BasicPrelude
 import Composite.Aeson.Base (JsonFormat, dimapJsonFormat, parseJsonWithFormat', toJsonWithFormat)
 import Composite.Aeson.Record (defaultJsonFormatRec, recJsonFormat)
+import Composite.Record (Record)
 import Control.Lens (_head, over)
 import Data.Aeson (FromJSON(parseJSON), ToJSON(toJSON))
 import Data.Char (toLower)
-import Frames (Record)
 import Language.Haskell.TH
   ( Q, clause, cxt
   , normalB

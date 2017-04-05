@@ -5,10 +5,10 @@ module Foundation
   ) where
 
 import ClassyPrelude hiding (Handler)
+import Composite.Record (Record)
 import Control.Monad.Logger (LoggingT)
 import Data.Pool (Pool, withResource)
 import Database.PostgreSQL.Simple (Connection)
-import Frames (Record)
 import Metrics (configureMetrics, EkgMetrics, fActiveUsers, fResponseTimes, fUserRequests)
 import Servant (Handler)
 

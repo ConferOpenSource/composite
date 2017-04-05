@@ -2,14 +2,12 @@
 module Composite.Opaleye.ProductProfunctors where
 
 import BasicPrelude
+import Composite.Record ((:->)(Val), Rec((:&), RNil))
+import Data.Functor.Identity (Identity(Identity))
 import Data.Profunctor (dimap)
 import Data.Profunctor.Product (ProductProfunctor, (***!))
 import qualified Data.Profunctor.Product as PP
 import Data.Profunctor.Product.Default (Default(def))
-import Data.Vinyl.Core (Rec((:&), RNil))
-import Data.Vinyl.Functor (Identity(Identity))
--- FIXME would nice to be generic to all vinyl records but then the types get really really hairy trying to assert Unwrapped r ~ p a b, project out a, and so on
-import Frames ((:->)(Col))
 
 -- |Type class implementing traversal of a record, yanking individual product profunctors @Record [p a b]@
 -- (though with distinct @a@ and @b@ at each position) up to @p (Record as) (Record bs)@.
@@ -36,9 +34,9 @@ instance (ProductProfunctor p, PRec p rs) => PRec p (s :-> p a b ': rs) where
   type PRecContra p (s :-> p a b ': rs) = (s :-> a ': PRecContra p rs)
   type PRecCo     p (s :-> p a b ': rs) = (s :-> b ': PRecCo     p rs)
 
-  pRec (Identity (Col p) :& rs) =
-    dimap (\ (Identity (Col a) :& aRs) -> (a, aRs))
-          (\ (b, bRs) -> (Identity (Col b) :& bRs))
+  pRec (Identity (Val p) :& rs) =
+    dimap (\ (Identity (Val a) :& aRs) -> (a, aRs))
+          (\ (b, bRs) -> (Identity (Val b) :& bRs))
           (p ***! pRec rs)
 
 instance ProductProfunctor p => Default p (Rec Identity '[]) (Rec Identity '[]) where
@@ -47,8 +45,8 @@ instance ProductProfunctor p => Default p (Rec Identity '[]) (Rec Identity '[]) 
 instance forall p s a b rsContra rsCo. (ProductProfunctor p, Default p a b, Default p (Rec Identity rsContra) (Rec Identity rsCo))
       => Default p (Rec Identity (s :-> a ': rsContra)) (Rec Identity (s :-> b ': rsCo)) where
   def =
-    dimap (\ (Identity (Col a) :& aRs) -> (a, aRs))
-          (\ (b, bRs) -> (Identity (Col b) :& bRs))
+    dimap (\ (Identity (Val a) :& aRs) -> (a, aRs))
+          (\ (b, bRs) -> (Identity (Val b) :& bRs))
           (step ***! recur)
     where
       step :: p a b

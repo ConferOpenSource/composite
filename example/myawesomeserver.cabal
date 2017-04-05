@@ -22,7 +22,6 @@ library
   ghc-options: -Wall -Werror
   build-depends:
       base >= 4.7 && < 5
-    , Frames
     , aeson
     , bytestring
     , classy-prelude
@@ -62,7 +61,6 @@ executable myawesomeserver-exe
   ghc-options: -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >= 4.7 && < 5
-    , Frames
     , aeson
     , bytestring
     , classy-prelude

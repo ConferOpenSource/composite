@@ -2,8 +2,8 @@ module Metrics where
 
 import ClassyPrelude
 import Composite.Ekg (ekgMetric)
+import Composite.Record ((:->), Record)
 import Composite.TH (withLensesAndProxies)
-import Frames (Record, (:->))
 import qualified System.Metrics as EKG
 import System.Metrics.Counter (Counter)
 import System.Metrics.Gauge (Gauge)

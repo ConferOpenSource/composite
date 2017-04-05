@@ -1,14 +1,13 @@
 module Composite.Ekg (EkgMetric(ekgMetric)) where
 
 import BasicPrelude
-import Composite.Base (NamedField(fieldName))
-import Control.Lens (view, _Unwrapped)
+import Composite.Record ((:->)(Val), Rec((:&), RNil), Record)
 import Data.Char (isUpper, toLower)
+import Data.Functor.Identity (Identity(Identity))
 import qualified Data.Text as Text
 import Data.Proxy (Proxy(Proxy))
-import Data.Vinyl.Core (Rec((:&), RNil))
-import Data.Vinyl.Functor (Identity(Identity))
-import Frames (Record, (:->))
+import Data.Text (pack)
+import GHC.TypeLits (KnownSymbol, symbolVal)
 import System.Metrics (Store, createCounter, createGauge, createLabel, createDistribution)
 import System.Metrics.Counter (Counter)
 import System.Metrics.Gauge (Gauge)
@@ -44,10 +43,10 @@ import System.Metrics.Distribution (Distribution)
 class EkgMetric a where
   ekgMetric :: Text -> Store -> IO a
 
-instance forall a s rs. (EkgMetric a, EkgMetric (Record rs), NamedField (s :-> a)) => EkgMetric (Record ((s :-> a) ': rs)) where
+instance forall a s rs. (EkgMetric a, EkgMetric (Record rs), KnownSymbol s) => EkgMetric (Record ((s :-> a) ': rs)) where
   ekgMetric prefix store =
     (:&)
-      <$> (Identity . view _Unwrapped <$> ekgMetric (prefix <> "." <> (upperScores . fieldName) (Proxy :: Proxy (s :-> a))) store)
+      <$> (Identity . Val <$> ekgMetric (prefix <> "." <> (upperScores . pack . symbolVal) (Proxy :: Proxy s)) store)
       <*> ekgMetric prefix store
 
 instance EkgMetric (Record '[]) where
