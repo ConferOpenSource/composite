@@ -1,5 +1,8 @@
 
-.PHONY: update-build update-nixpkgs composite-aeson/composite-aeson.cabal composite-base/composite-base.cabal composite-ekg/composite-ekg.cabal composite-opaleye/composite-opaleye.cabal
+.PHONY: build update-build update-nixpkgs composite-aeson/composite-aeson.cabal composite-base/composite-base.cabal composite-ekg/composite-ekg.cabal composite-opaleye/composite-opaleye.cabal
+
+build: update-build
+	stack test --ghc-options="-Wall -Werror"
 
 update-build: composite-aeson/package.nix composite-base/package.nix composite-ekg/package.nix composite-opaleye/package.nix
 

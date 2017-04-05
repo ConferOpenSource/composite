@@ -15,19 +15,25 @@ dependencies:
   - basic-prelude
   - template-haskell
   - lens
+  - monad-control
+  - mtl
   - text
+  - transformers
+  - transformers-base
   - vinyl
 
 default-extensions:
   - DataKinds
   - FlexibleContexts
   - FlexibleInstances
+  - FunctionalDependencies
   - GeneralizedNewtypeDeriving
   - MultiParamTypeClasses
   - NoImplicitPrelude
   - OverloadedStrings
   - PatternSynonyms
   - PolyKinds
+  - RankNTypes
   - ScopedTypeVariables
   - StrictData
   - TemplateHaskell
