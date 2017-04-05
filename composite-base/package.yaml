@@ -1,5 +1,5 @@
 name:                composite-base
-version:             0.2.0.0
+version:             0.3.0.0
 synopsis:            Shared utilities for composite-* packages.
 description:         Shared helpers for the various composite packages.
 homepage:            https://github.com/ConferHealth/composite#readme
