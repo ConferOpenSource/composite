@@ -4,13 +4,14 @@ synopsis:            Shared utilities for composite-* packages.
 description:         Shared helpers for the various composite packages.
 homepage:            https://github.com/ConferHealth/composite#readme
 license:             BSD3
-author:              Confer Health, Inc
+author:              Confer Health, Inc.
 maintainer:          oss@confer.care
 copyright:           2017 Confer Health, Inc.
 category:            Records
 
 dependencies:
   - base >= 4.7 && < 5
+  - exceptions
   - template-haskell
   - lens
   - monad-control
@@ -55,4 +56,3 @@ tests:
       - QuickCheck
       - composite-base
       - hspec
-

@@ -8,7 +8,7 @@ synopsis:       Shared utilities for composite-* packages.
 description:    Shared helpers for the various composite packages.
 category:       Records
 homepage:       https://github.com/ConferHealth/composite#readme
-author:         Confer Health, Inc
+author:         Confer Health, Inc.
 maintainer:     oss@confer.care
 copyright:      2017 Confer Health, Inc.
 license:        BSD3
@@ -22,6 +22,7 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >= 4.7 && < 5
+    , exceptions
     , template-haskell
     , lens
     , monad-control
@@ -46,6 +47,7 @@ test-suite composite-base-test
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       base >= 4.7 && < 5
+    , exceptions
     , template-haskell
     , lens
     , monad-control
