@@ -12,6 +12,7 @@ import Control.Applicative (Alternative(empty, (<|>)))
 import Control.Lens (Getter, view)
 import Control.Monad (MonadPlus(mzero, mplus))
 import Control.Monad.Base (MonadBase(liftBase))
+import Control.Monad.Catch (MonadThrow(throwM), MonadCatch(catch), MonadMask(mask, uninterruptibleMask))
 import Control.Monad.Cont.Class (MonadCont(callCC))
 import Control.Monad.Error.Class (MonadError(throwError, catchError))
 import Control.Monad.Fail (MonadFail)
@@ -131,3 +132,18 @@ instance MonadPlus m => MonadPlus (ContextT c m) where
 
 instance MonadCont m => MonadCont (ContextT c m) where
   callCC f = ContextT $ \ r -> callCC $ \ c -> runContextT (f (ContextT . const . c)) r
+
+instance MonadThrow m => MonadThrow (ContextT c m) where
+  throwM e = ContextT $ \ r -> throwM e
+
+instance MonadCatch m => MonadCatch (ContextT c m) where
+  catch m h = ContextT $ \ r -> catch (runContextT m r) (\ e -> runContextT (h e) r)
+
+instance MonadMask m => MonadMask (ContextT c m) where
+  mask a = ContextT $ \e -> mask $ \u -> runContextT (a $ q u) e
+    where q :: (m a -> m a) -> ContextT c' m a -> ContextT c' m a
+          q u (ContextT b) = ContextT (u . b)
+  uninterruptibleMask a =
+    ContextT $ \e -> uninterruptibleMask $ \u -> runContextT (a $ q u) e
+      where q :: (m a -> m a) -> ContextT c' m a -> ContextT c' m a
+            q u (ContextT b) = ContextT (u . b)
