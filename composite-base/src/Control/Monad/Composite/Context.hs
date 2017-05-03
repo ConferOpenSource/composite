@@ -134,7 +134,7 @@ instance MonadCont m => MonadCont (ContextT c m) where
   callCC f = ContextT $ \ r -> callCC $ \ c -> runContextT (f (ContextT . const . c)) r
 
 instance MonadThrow m => MonadThrow (ContextT c m) where
-  throwM e = ContextT $ \ r -> throwM e
+  throwM e = ContextT $ \ _ -> throwM e
 
 instance MonadCatch m => MonadCatch (ContextT c m) where
   catch m h = ContextT $ \ r -> catch (runContextT m r) (\ e -> runContextT (h e) r)
