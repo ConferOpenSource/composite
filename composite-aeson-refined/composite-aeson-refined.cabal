@@ -1,0 +1,29 @@
+-- This file has been generated from package.yaml by hpack version 0.17.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           composite-aeson-refined
+version:        0.4.0.0
+synopsis:       composite-aeson support for Refined from the refined package
+description:    JsonFormat and DefaultJsonFormat for Refined
+category:       Records
+homepage:       https://github.com/ConferHealth/composite#readme
+author:         Confer Health, Inc
+maintainer:     oss@confer.care
+copyright:      2017 Confer Health, Inc.
+license:        BSD3
+build-type:     Simple
+cabal-version:  >= 1.10
+
+library
+  hs-source-dirs:
+      src
+  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
+  ghc-options: -Wall -O2
+  build-depends:
+      base >= 4.7 && < 5
+    , composite-aeson
+    , refined
+  exposed-modules:
+      Composite.Aeson.Refined
+  default-language: Haskell2010

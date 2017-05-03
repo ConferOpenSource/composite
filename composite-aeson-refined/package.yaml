@@ -1,46 +1,53 @@
-name:                composite-base
+name:                composite-aeson-refined
 version:             0.4.0.0
-synopsis:            Shared utilities for composite-* packages.
-description:         Shared helpers for the various composite packages.
+synopsis:            composite-aeson support for Refined from the refined package
+description:         JsonFormat and DefaultJsonFormat for Refined
 homepage:            https://github.com/ConferHealth/composite#readme
 license:             BSD3
-author:              Confer Health, Inc.
+author:              Confer Health, Inc
 maintainer:          oss@confer.care
 copyright:           2017 Confer Health, Inc.
 category:            Records
 
 dependencies:
   - base >= 4.7 && < 5
-  - exceptions
-  - template-haskell
-  - lens
-  - monad-control
-  - mtl
-  - profunctors
-  - text
-  - transformers
-  - transformers-base
-  - vinyl
+  - composite-aeson
+  - refined
+  # - aeson
+  # - aeson-better-errors
+  # - composite-base
+  # - containers
+  # - contravariant
+  # - generic-deriving
+  # - hashable
+  # - lens
+  # - profunctors
+  # - tagged
+  # - template-haskell
+  # - text
+  # - time
+  # - unordered-containers
+  # - vector
+  # - vinyl
 
 default-extensions:
-  - ConstraintKinds
   - DataKinds
   - FlexibleContexts
   - FlexibleInstances
-  - FunctionalDependencies
-  - GADTs
   - GeneralizedNewtypeDeriving
+  - LambdaCase
   - MultiParamTypeClasses
+  - MultiWayIf
   - OverloadedStrings
   - PatternSynonyms
   - PolyKinds
+  - QuasiQuotes
   - RankNTypes
   - ScopedTypeVariables
   - StandaloneDeriving
   - StrictData
   - TemplateHaskell
   - TupleSections
-  - TypeApplications
   - TypeFamilies
   - TypeOperators
   - ViewPatterns
@@ -49,13 +56,3 @@ ghc-options: -Wall -O2
 
 library:
   source-dirs: src
-
-tests:
-  composite-base-test:
-    source-dirs: test
-    main: Main.hs
-    ghc-options: -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
-    dependencies:
-      - QuickCheck
-      - composite-base
-      - hspec
