@@ -6,6 +6,7 @@ import Composite.Aeson.Base (JsonFormat, wrappedJsonFormat)
 import Composite.Aeson.Formats.InternalTH (makeTupleDefaults)
 import Composite.Aeson.Formats.Provided -- sorry
 import qualified Data.Aeson as Aeson
+import Data.Fixed (Fixed, HasResolution)
 import Data.Functor.Compose (Compose)
 import Data.Functor.Const (Const)
 import Data.Functor.Identity (Identity)
@@ -73,6 +74,8 @@ instance DefaultJsonFormat a => DefaultJsonFormat (Map Text a) where
   defaultJsonFormat = strictMapJsonFormat id pure defaultJsonFormat
 instance DefaultJsonFormat a => DefaultJsonFormat (HashMap Text a) where
   defaultJsonFormat = strictHashMapJsonFormat id pure defaultJsonFormat
+
+instance HasResolution a => DefaultJsonFormat (Fixed a) where defaultJsonFormat = fixedJsonFormat
 
 $makeTupleDefaults
 

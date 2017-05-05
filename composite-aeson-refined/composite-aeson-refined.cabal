@@ -3,7 +3,7 @@
 -- see: https://github.com/sol/hpack
 
 name:           composite-aeson-refined
-version:        0.4.0.0
+version:        0.4.1.0
 synopsis:       composite-aeson support for Refined from the refined package
 description:    JsonFormat and DefaultJsonFormat for Refined
 category:       Records

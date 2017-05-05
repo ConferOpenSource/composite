@@ -3,7 +3,7 @@
 -- see: https://github.com/sol/hpack
 
 name:           composite-base
-version:        0.4.0.0
+version:        0.4.1.0
 synopsis:       Shared utilities for composite-* packages.
 description:    Shared helpers for the various composite packages.
 category:       Records
@@ -18,7 +18,7 @@ cabal-version:  >= 1.10
 library
   hs-source-dirs:
       src
-  default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses OverloadedStrings PatternSynonyms PolyKinds RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
+  default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >= 4.7 && < 5
@@ -45,7 +45,7 @@ test-suite composite-base-test
   main-is: Main.hs
   hs-source-dirs:
       test
-  default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses OverloadedStrings PatternSynonyms PolyKinds RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
+  default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       base >= 4.7 && < 5
@@ -64,4 +64,5 @@ test-suite composite-base-test
     , hspec
   other-modules:
       RecordSpec
+      THSpec
   default-language: Haskell2010
