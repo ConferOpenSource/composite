@@ -1,4 +1,4 @@
-module ThSpec where
+module THSpec where
 
 import Composite.CoRecord (Field, field)
 import Composite.Record ((:->)(Val), Rec(RNil), Record, pattern (:*:), rlens)
