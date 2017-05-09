@@ -1,5 +1,5 @@
 import RecordSpec (recordSuite)
-import ThSpec (thSuite)
+import THSpec (thSuite)
 import Test.Hspec (hspec)
 
 main :: IO ()
