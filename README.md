@@ -11,7 +11,7 @@ Example:
 ```haskell
 import qualified Data.Aeson as Aeson
 import Composite.Aeson (RecJsonFormat, defaultJsonFormatRec, recFormatJson)
-import Composite.Record (Record, (:->), pattern (:*:), pattern Nil)
+import Composite.Record (Record, (:->), pattern (:*:), pattern RNil)
 
 type FId   = "id"   :-> Int
 type FName = "name" :-> Text
@@ -21,7 +21,7 @@ userFormat :: RecJsonFormat e User
 userFormat = recFormatJson defaultJsonFormatRec
 
 alice :: Record '[User]
-alice = 1 :*: "Alice" :*: Nil
+alice = 1 :*: "Alice" :*: RNil
 
 aliceJson :: Aeson.Value
 aliceJson = toJsonWithFormat userFormat alice
