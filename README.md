@@ -17,7 +17,7 @@ type FId   = "id"   :-> Int
 type FName = "name" :-> Text
 type User = '[FId, FName]
 
-userFormat :: RecJsonFormat e User
+userFormat :: JsonFormat e User
 userFormat = recFormatJson defaultJsonFormatRec
 
 alice :: Record '[User]
