@@ -9,18 +9,20 @@ Composite is a group of libraries focusing on practical uses of composite record
 Example:
 
 ```haskell
+{-# LANGUAGE DataKinds, OverloadedStrings, PatternSynonyms, TypeOperators #-}
 import qualified Data.Aeson as Aeson
-import Composite.Aeson (RecJsonFormat, defaultJsonFormatRec, recFormatJson)
-import Composite.Record (Record, (:->), pattern (:*:), pattern RNil)
+import Composite.Aeson (JsonFormat, defaultJsonFormatRec, recJsonFormat, toJsonWithFormat)
+import Composite.Record (Record, Rec(RNil), (:->), pattern (:*:))
+import Data.Text (Text)
 
 type FId   = "id"   :-> Int
 type FName = "name" :-> Text
 type User = '[FId, FName]
 
-userFormat :: JsonFormat e User
-userFormat = recFormatJson defaultJsonFormatRec
+userFormat :: JsonFormat e (Record User)
+userFormat = recJsonFormat defaultJsonFormatRec
 
-alice :: Record '[User]
+alice :: Record User
 alice = 1 :*: "Alice" :*: RNil
 
 aliceJson :: Aeson.Value
@@ -38,13 +40,16 @@ Definitions shared by the other composite libraries or generally useful when usi
 Example:
 
 ```haskell
+{-# LANGUAGE Arrows, DataKinds, FlexibleContexts, OverloadedStrings, PatternSynonyms, TemplateHaskell, TypeOperators #-}
+import Control.Arrow (returnA)
 import Composite.Opaleye (defaultRecTable)
 import Composite.Record (Record, (:->))
 import Composite.TH (withLensesAndProxies)
 import Control.Lens (view)
+import Data.Int (Int64)
 import Data.Proxy (Proxy(Proxy))
-import Frames ((:->), Record, rlens)
-import Opaleye (Column, PGInt8, PGText, Query, Table, (./=), asc, constant, orderBy, queryTable, restrict)
+import Data.Text (Text)
+import Opaleye (Column, PGInt8, PGText, Query, Table(Table), (./=), asc, constant, orderBy, queryTable, restrict)
 
 -- For each field type defined with, withLensesAndProxies will expand to the type, a record lens for the type,
 -- and a proxy for the type, so for example FId is the type, fId is a lens which accesses the "id" field of any
@@ -62,11 +67,12 @@ type UserCols = '[CId, CName]
 userTable :: Table (Record UserCols) (Record UserCols)
 userTable = Table "users" defaultRecTable
 
-userQuery :: Query (Record User)
+userQuery :: Query (Record UserCols)
 userQuery =
   orderBy (asc $ view cName) $ proc () -> do
-    user@(view cId -> recId) <- queryTable userTable -< ()
-    restrict -< recId ./= constant 1
+    user <- queryTable userTable -< ()
+    let recId = view cId user
+    restrict -< recId ./= constant (1 :: Int64)
     returnA -< user
 ```
 
