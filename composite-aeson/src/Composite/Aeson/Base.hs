@@ -84,6 +84,26 @@ makeWrapped ''JsonFormat
 dimapJsonFormat :: (b -> a) -> (a -> b) -> JsonFormat e a -> JsonFormat e b
 dimapJsonFormat f g = over _Wrapped (dimap f g)
 
+-- |Given a @'JsonFormat' e a@ and a pair of functions @b -> a@ and @a -> Either e b@, produce a @'JsonFormat' e b@.
+--
+-- This is for the common case of a @newtype@ wrapper which asserts some kind of validation has been done, e.g.:
+--
+-- @
+--   newtype MyType = MyType { unMyType :: Int }
+--
+--   mkMyType :: Int -> Either Text MyType
+--   mkMyType i | i <= 0    = Left "must be positive!"
+--              | otherwise = Right (MyType i)
+--
+--   myTypeJsonFormat :: JsonFormat e MyType
+--   myTypeJsonFormat = wrapJsonFormat intJsonFormat mkMyType unMyType
+-- @
+wrapJsonFormat :: JsonFormat e a -> (a -> Either e b) -> (b -> a) -> JsonFormat e b
+wrapJsonFormat (JsonFormat (JsonProfunctor oa ia)) ab ba = JsonFormat (JsonProfunctor ob ib)
+  where
+    ob = oa . ba
+    ib = either ABE.throwCustomError pure . ab =<< ia
+
 -- |Wrap a 'JsonFormat' for type @a@ in an isomorphism to produce a new @JsonFormat@ for @b@.
 jsonFormatWithIso :: AnIso' b a -> JsonFormat e a -> JsonFormat e b
 jsonFormatWithIso i = withIso i dimapJsonFormat
