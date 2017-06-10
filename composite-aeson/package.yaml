@@ -19,6 +19,8 @@ dependencies:
   - generic-deriving
   - hashable
   - lens
+  - mmorph
+  - mtl
   - profunctors
   - scientific
   - tagged

@@ -30,6 +30,8 @@ library
     , generic-deriving
     , hashable
     , lens
+    , mmorph
+    , mtl
     , profunctors
     , scientific
     , tagged
@@ -71,6 +73,8 @@ test-suite composite-aeson-test
     , generic-deriving
     , hashable
     , lens
+    , mmorph
+    , mtl
     , profunctors
     , scientific
     , tagged
