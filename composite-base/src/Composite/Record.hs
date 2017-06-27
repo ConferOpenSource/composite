@@ -8,6 +8,7 @@ module Composite.Record
   , zipRecsWith, reifyDicts, recordToNonEmpty
   , ReifyNames(reifyNames)
   , RecWithContext(rmapWithContext)
+  , RDelete, RDeletable, rdelete
   ) where
 
 import Control.Lens.TH (makeWrapped)
@@ -18,17 +19,25 @@ import Data.Proxy (Proxy(Proxy))
 import Data.Semigroup (Semigroup)
 import Data.String (IsString)
 import Data.Text (Text, pack)
-import Data.Vinyl (Rec((:&), RNil), RecApplicative, recordToList, rpure)
+import Data.Vinyl (Rec((:&), RNil), RecApplicative, rcast, recordToList, rpure)
 import qualified Data.Vinyl as Vinyl
 import Data.Vinyl.Functor (Compose(Compose), Const(Const), (:.))
-import Data.Vinyl.Lens (type (∈))
+import Data.Vinyl.Lens (type (∈), type (⊆))
 import qualified Data.Vinyl.TypeLevel as Vinyl
 import Foreign.Storable (Storable)
 import GHC.TypeLits (KnownSymbol, Symbol, symbolVal)
 
+-- FIXME this file is a big bin of random stuff, and should be at least organized if not split up.
+
+-- |The type of regular plain records where each field has a value, equal to @'Rec' 'Identity'@.
 type Record = Rec Identity
+
+-- |Constraint expressing that @r@ is in @rs@ and providing the index of @r@ in @rs@. Equal to @'Vinyl.RElem' rs ('Vinyl.RIndex' r rs)@.
 type RElem r rs = Vinyl.RElem r rs (Vinyl.RIndex r rs)
 
+-- |Some value of type @a@ tagged with a symbol indicating its field name or label. Used as the usual type of elements in a 'Rec' or 'Record'.
+--
+-- Recommended pronunciation: record val.
 newtype (:->) (s :: Symbol) a = Val { getVal :: a }
 
 makeWrapped ''(:->)
@@ -234,3 +243,14 @@ instance RecWithContext ss '[] where
 instance forall r (ss :: [*]) (ts :: [*]). (r ∈ ss, RecWithContext ss ts) => RecWithContext ss (r ': ts) where
   rmapWithContext proxy n (r :& rs) = n r :& rmapWithContext proxy n rs
 
+-- |Type function which removes the first element @r@ from a list @rs@, and doesn't expand if @r@ is not present in @rs@.
+type family RDelete (r :: u) (rs :: [u]) where
+  RDelete r (r ': rs) = rs
+  RDelete r (s ': rs) = s ': RDelete r rs
+
+-- |Constraint which reflects that an element @r@ can be removed from @rs@ using 'rdelete'.
+type RDeletable r rs = (r ∈ rs, RDelete r rs ⊆ rs)
+
+-- |Remove an element @r@ from a @'Rec' f rs@. Note this is just a type constrained 'rcast'.
+rdelete :: RDeletable r rs => proxy r -> Rec f rs -> Rec f (RDelete r rs)
+rdelete _ = rcast
