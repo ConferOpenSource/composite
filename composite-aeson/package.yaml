@@ -11,6 +11,7 @@ category:            Records
 
 dependencies:
   - base >= 4.7 && < 5
+  - mtl
   - aeson
   - aeson-better-errors
   - composite-base

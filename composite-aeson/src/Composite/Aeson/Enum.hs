@@ -1,5 +1,6 @@
 module Composite.Aeson.Enum where
 
+import Control.Monad.Error.Class (throwError)
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor))
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
@@ -48,6 +49,7 @@ enumMapJsonFormat lookupText lookupValue expectedText = JsonFormat $ JsonProfunc
     fromJson = do
       t <- ABE.asText
       case lookupText t of
-        Nothing -> fail $ "expected " ++ expectedText ++ ", not " ++ unpack t
+        Nothing -> throwError $ ABE.BadSchema [] $ ABE.FromAeson $
+                     "expected " ++ expectedText ++ ", not " ++ unpack t
         Just v  -> pure v
   
