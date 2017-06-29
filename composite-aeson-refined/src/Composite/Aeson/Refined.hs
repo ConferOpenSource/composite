@@ -2,6 +2,8 @@
 module Composite.Aeson.Refined (refinedJsonFormat) where
 
 import Composite.Aeson (DefaultJsonFormat, defaultJsonFormat, JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor))
+import Control.Monad.Error.Class (throwError)
+import qualified Data.Aeson.BetterErrors as ABE
 import Refined (Predicate, Refined, refine, unrefine)
 
 -- |Given a @'JsonFormat' e a@, produce a @JsonFormat e ('Refined' p a)@ where @p@ is some 'Predicate' from the refined library for @a@.
@@ -12,7 +14,8 @@ refinedJsonFormat :: Predicate p a => JsonFormat e a -> JsonFormat e (Refined p 
 refinedJsonFormat (JsonFormat (JsonProfunctor oa ia)) = JsonFormat $ JsonProfunctor o i
   where
     o = oa . unrefine
-    i = either fail pure . refine =<< ia
+    i = either toss pure . refine =<< ia
+    toss = throwError . ABE.BadSchema [] . ABE.FromAeson
 
 instance (DefaultJsonFormat a, Predicate p a) => DefaultJsonFormat (Refined p a) where
   defaultJsonFormat = refinedJsonFormat defaultJsonFormat

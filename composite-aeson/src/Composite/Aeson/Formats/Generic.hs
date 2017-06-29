@@ -6,6 +6,7 @@ module Composite.Aeson.Formats.Generic
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor), FromJson(FromJson))
 import Control.Arrow (second)
 import Control.Lens (_Wrapped, over, unsnoc)
+import Control.Monad.Error.Class (throwError)
 import Data.Aeson (FromJSON, ToJSON, (.=), toJSON)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
@@ -185,7 +186,8 @@ jsonTypeValueSumFormat typeField valueField oA iAs =
       t <- ABE.key typeField ABE.asText
       case lookup t (NEL.toList iAs) of
         Just (FromJson iA) -> ABE.key valueField iA
-        Nothing -> fail $ "expected " <> unpack typeField <> " to be one of " <> expected
+        Nothing -> toss $ "expected " <> unpack typeField <> " to be one of " <> expected
+    toss = throwError . ABE.BadSchema [] . ABE.FromAeson
 
 -- |'JsonFormat' which maps sum types to JSON in the 'SumStyleMergeType' style.
 jsonMergeTypeSumFormat :: Text -> (a -> (Text, Aeson.Value)) -> NonEmpty (Text, FromJson e a) -> JsonFormat e a
@@ -206,4 +208,5 @@ jsonMergeTypeSumFormat typeField oA iAs =
       t <- ABE.key typeField ABE.asText
       case lookup t (NEL.toList iAs) of
         Just (FromJson iA) -> iA
-        Nothing -> fail $ "expected " <> unpack typeField <> " to be one of " <> expected
+        Nothing -> toss $ "expected " <> unpack typeField <> " to be one of " <> expected
+    toss = throwError . ABE.BadSchema [] . ABE.FromAeson

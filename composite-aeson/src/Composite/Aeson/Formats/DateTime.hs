@@ -7,6 +7,8 @@ module Composite.Aeson.Formats.DateTime
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor))
 import Composite.Aeson.DateTimeFormatUtils (fixupTzIn, fixupTzOut, fixupMs)
 import Composite.Aeson.Formats.Provided (stringJsonFormat)
+import Control.Monad.Error.Class (throwError)
+import qualified Data.Aeson.BetterErrors as ABE
 import Data.Either (partitionEithers)
 import Data.Monoid ((<>))
 import Data.List (intercalate)
@@ -46,11 +48,12 @@ dateTimeJsonFormat locale formats@(outFormat :| otherInFormats) = JsonFormat (Js
         (_, a : _) ->
           pure a
         (es, _) | null otherInFormats ->
-          fail $ "expected date/time string formatted as " <> dateTimeFormatExample outFormat <> ", but: " <> intercalate ", " es
+          toss $ "expected date/time string formatted as " <> dateTimeFormatExample outFormat <> ", but: " <> intercalate ", " es
         (es, _) ->
-          fail $ "expected date/time string formatted as one of "
+          toss $ "expected date/time string formatted as one of "
               <> intercalate ", " (map dateTimeFormatExample formatsList)
               <> ", but: " <> intercalate ", " es
+    toss = throwError . ABE.BadSchema [] . ABE.FromAeson
 
 -- |ISO8601 extended date format (@yyyy-mm-dd@).
 iso8601DateJsonFormat :: JsonFormat e Day

@@ -10,8 +10,10 @@ copyright:           2017 Confer Health, Inc.
 category:            Records
 
 dependencies:
+  - aeson-better-errors
   - base >= 4.7 && < 5
   - composite-aeson
+  - mtl
   - refined
 
 default-extensions:

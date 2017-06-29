@@ -21,8 +21,10 @@ library
   default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
-      base >= 4.7 && < 5
+      aeson-better-errors
+    , base >= 4.7 && < 5
     , composite-aeson
+    , mtl
     , refined
   exposed-modules:
       Composite.Aeson.Refined
