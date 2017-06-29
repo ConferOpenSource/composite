@@ -1,5 +1,5 @@
 name:                composite-aeson
-version:             0.4.1.0
+version:             0.4.2.0
 synopsis:            JSON for Vinyl/Frames records
 description:         Integration between Aeson and Vinyl/Frames records allowing records to be easily converted to JSON using automatic derivation, explicit formats, or a mix of both.
 homepage:            https://github.com/ConferHealth/composite#readme

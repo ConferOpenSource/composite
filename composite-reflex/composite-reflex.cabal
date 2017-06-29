@@ -3,7 +3,7 @@
 -- see: https://github.com/sol/hpack
 
 name:           composite-reflex
-version:        0.4.1.0
+version:        0.4.2.0
 synopsis:       Utilities for using composite records and corecords with Reflex
 description:    Utilities for using composite records and corecords with Reflex
 category:       Records
