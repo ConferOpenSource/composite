@@ -1,10 +1,13 @@
-import RecordSpec (recordSuite)
-import TupleSpec (tupleSuite)
-import EnumSpec (enumSuite)
 import Test.Hspec (hspec)
+
+import EnumSpec (enumSuite)
+import RecordSpec (recordSuite)
+import THSpec (thSuite)
+import TupleSpec (tupleSuite)
 
 main :: IO ()
 main = hspec $ do
-  recordSuite
-  tupleSuite
   enumSuite
+  recordSuite
+  thSuite
+  tupleSuite

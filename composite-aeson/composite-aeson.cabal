@@ -92,6 +92,8 @@ test-suite composite-aeson-test
     , hspec
   other-modules:
       EnumSpec
+      FieldSpec
       RecordSpec
+      THSpec
       TupleSpec
   default-language: Haskell2010

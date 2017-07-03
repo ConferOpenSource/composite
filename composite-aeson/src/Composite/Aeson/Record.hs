@@ -1,4 +1,10 @@
-module Composite.Aeson.Record where
+module Composite.Aeson.Record
+  ( ToField(..), FromField(..), JsonField(..), field, field', optionalField, optionalField'
+  , JsonFormatRecord, DefaultJsonFormatRecord, defaultJsonFormatRecord
+  , RecordToJsonObject, recordToJsonObject, recordToJson
+  , RecordFromJson, recordFromJson
+  , recordJsonFormat
+  ) where
 
 import Composite.Aeson.Base
   ( JsonProfunctor(JsonProfunctor)
@@ -69,10 +75,10 @@ optionalField' (JsonFormat (JsonProfunctor o i)) =
 -- > type FName = "name" :-> Text
 -- > type User = '[FId, FName]
 --
--- A 'JsonFormatRec' for @User@ might be:
+-- A 'JsonFormatRecord' for @User@ might be:
 --
 -- @
---   userFormatRec :: 'JsonFormatRec' e User
+--   userFormatRec :: 'JsonFormatRecord' e User
 --   userFormatRec = 'field' 'Composite.Aeson.Default.integralJsonFormat'
 --               :^: 'field' 'Composite.Aeson.Default.textJsonFormat'
 --               :^: RNil
@@ -81,75 +87,75 @@ optionalField' (JsonFormat (JsonProfunctor o i)) =
 -- Or, using the default mappings for each field type:
 --
 -- @
---   userFormatRec :: 'JsonFormatRec' e User
---   userFormatRec = 'defaultJsonFormatRec'
+--   userFormatRec :: 'JsonFormatRecord' e User
+--   userFormatRec = 'defaultJsonFormatRecord'
 -- @
 --
 -- Such a record is a first-class value like any other record, so can be composed into larger records, modified, etc. This is particularly useful in
--- combination with 'defaultJsonFormatRec', where you can automatically derive a format record for all fields you want defaults for and then extend or
+-- combination with 'defaultJsonFormatRecord', where you can automatically derive a format record for all fields you want defaults for and then extend or
 -- override formats for particular fields, e.g.
 --
 -- @
 --   fId :: Proxy FId
 --   fId = Proxy
 --
---   userFormatRec :: 'JsonFormatRec' e User
---   userFormatRec = 'Control.Lens.over' ('Frames.rlens' fId) ('Composite.Aeson.Base.dimapJsonFormat (+10) (subtract 10)) 'defaultJsonFormatRec'
+--   userFormatRec :: 'JsonFormatRecord' e User
+--   userFormatRec = 'Control.Lens.over' ('Frames.rlens' fId) ('Composite.Aeson.Base.dimapJsonFormat (+10) (subtract 10)) 'defaultJsonFormatRecord'
 -- @
 --
 -- Would use the same JSON schema as the other examples, but the @id@ field would be encoded in JSON as 10 higher.
 --
--- Once you've produced an appropriate 'JsonFormatRec' for your case, use 'recJsonFormat' to make a @'JsonFormat' e (Record '[…])@ of it.
-type JsonFormatRec e rs = Rec (JsonField e) rs
+-- Once you've produced an appropriate 'JsonFormatRecord' for your case, use 'recordJsonFormat' to make a @'JsonFormat' e (Record '[…])@ of it.
+type JsonFormatRecord e rs = Rec (JsonField e) rs
 
 -- |Helper class which induces over the structure of a record, reflecting the name of each field and applying each 'ToJson' to its corresponding value to
 -- produce JSON.
-class RecToJsonObject rs where
+class RecordToJsonObject rs where
   -- |Given a record of 'ToField' functions for each field in @rs@, convert an 'Identity' record to 'Aeson.Object'.
-  recToJsonObject :: Rec ToField rs -> Rec Identity rs -> Aeson.Object
+  recordToJsonObject :: Rec ToField rs -> Rec Identity rs -> Aeson.Object
 
-instance RecToJsonObject '[] where
-  recToJsonObject _ = const mempty
+instance RecordToJsonObject '[] where
+  recordToJsonObject _ = const mempty
 
-instance forall s a rs. (KnownSymbol s, RecToJsonObject rs) => RecToJsonObject (s :-> a ': rs) where
-  recToJsonObject (ToField aToField :& fs) (Identity a :& as) =
+instance forall s a rs. (KnownSymbol s, RecordToJsonObject rs) => RecordToJsonObject (s :-> a ': rs) where
+  recordToJsonObject (ToField aToField :& fs) (Identity a :& as) =
     maybe id (HM.insert (pack . symbolVal $ (Proxy :: Proxy s))) (aToField a) $
-      recToJsonObject fs as
+      recordToJsonObject fs as
 
--- |Given a record of 'ToField' functions for each field in @rs@, convert an 'Identity' record to JSON. Equivalent to @Aeson.Object . 'recToJsonObject' fmt@
-recToJson :: RecToJsonObject rs => Rec ToField rs -> Rec Identity rs -> Aeson.Value
-recToJson = fmap Aeson.Object . recToJsonObject
+-- |Given a record of 'ToField' functions for each field in @rs@, convert an 'Identity' record to JSON. Equivalent to @Aeson.Object . 'recordToJsonObject' fmt@
+recordToJson :: RecordToJsonObject rs => Rec ToField rs -> Rec Identity rs -> Aeson.Value
+recordToJson = fmap Aeson.Object . recordToJsonObject
 
 -- |Class which induces over the structure of a record, parsing fields using a record of 'FromJson' and assembling an 'Identity' record.
-class RecFromJson rs where
+class RecordFromJson rs where
   -- |Given a record of 'FromJson' parsers for each field in @rs@, produce an 'ABE.Parse' to make an 'Identity' record.
-  recFromJson :: Rec (FromField e) rs -> ABE.Parse e (Rec Identity rs)
+  recordFromJson :: Rec (FromField e) rs -> ABE.Parse e (Rec Identity rs)
 
-instance RecFromJson '[] where
-  recFromJson _ = pure RNil
+instance RecordFromJson '[] where
+  recordFromJson _ = pure RNil
 
-instance forall s a rs. (KnownSymbol s, RecFromJson rs) => RecFromJson (s :-> a ': rs) where
-  recFromJson (FromField aFromField :& fs) =
+instance forall s a rs. (KnownSymbol s, RecordFromJson rs) => RecordFromJson (s :-> a ': rs) where
+  recordFromJson (FromField aFromField :& fs) =
     (:&)
       <$> (Identity <$> aFromField (pack . symbolVal $ (Proxy :: Proxy s)))
-      <*> recFromJson fs
+      <*> recordFromJson fs
 
--- |Take a 'JsonFormatRec' describing how to map a record with field @rs@ to and from JSON and produce a @'JsonFormat' e (Record rs)@.
+-- |Take a 'JsonFormatRecord' describing how to map a record with field @rs@ to and from JSON and produce a @'JsonFormat' e (Record rs)@.
 --
--- See 'JsonFormatRec' for more.
-recJsonFormat :: (RecToJsonObject rs, RecFromJson rs) => JsonFormatRec e rs -> JsonFormat e (Rec Identity rs)
-recJsonFormat formatRec =
+-- See 'JsonFormatRecord' for more.
+recordJsonFormat :: (RecordToJsonObject rs, RecordFromJson rs) => JsonFormatRecord e rs -> JsonFormat e (Rec Identity rs)
+recordJsonFormat formatRec =
   JsonFormat $ JsonProfunctor
-    (recToJson   . rmap (\ (JsonField o _) -> ToField o  ) $ formatRec)
-    (recFromJson . rmap (\ (JsonField _ i) -> FromField i) $ formatRec)
+    (recordToJson   . rmap (\ (JsonField o _) -> ToField o  ) $ formatRec)
+    (recordFromJson . rmap (\ (JsonField _ i) -> FromField i) $ formatRec)
 
--- |Class to make a 'JsonFormatRec' with 'defaultJsonFormat' for each field.
-class DefaultJsonFormatRec rs where
-  -- |Produce a 'JsonFormatRec' for a record with fields @rs@ by using the default 'JsonFormat' for each field in @rs@, as provided by 'DefaultJsonFormat'.
-  defaultJsonFormatRec :: JsonFormatRec e rs
+-- |Class to make a 'JsonFormatRecord' with 'defaultJsonFormat' for each field.
+class DefaultJsonFormatRecord rs where
+  -- |Produce a 'JsonFormatRecord' for a record with fields @rs@ by using the default 'JsonFormat' for each field in @rs@, as provided by 'DefaultJsonFormat'.
+  defaultJsonFormatRecord :: JsonFormatRecord e rs
 
-instance (KnownSymbol s, DefaultJsonFormat a, DefaultJsonFormatRec rs) => DefaultJsonFormatRec (s :-> a ': rs) where
-  defaultJsonFormatRec = field defaultJsonFormat :& defaultJsonFormatRec
+instance (KnownSymbol s, DefaultJsonFormat a, DefaultJsonFormatRecord rs) => DefaultJsonFormatRecord (s :-> a ': rs) where
+  defaultJsonFormatRecord = field defaultJsonFormat :& defaultJsonFormatRecord
 
-instance DefaultJsonFormatRec '[] where
-  defaultJsonFormatRec = RNil
+instance DefaultJsonFormatRecord '[] where
+  defaultJsonFormatRecord = RNil

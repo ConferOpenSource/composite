@@ -16,6 +16,7 @@ import qualified Data.List.NonEmpty as NEL
 import Data.Monoid ((<>))
 import Data.Text (Text, intercalate, unpack)
 import qualified Data.Vector as Vector
+import Language.Haskell.TH.Syntax (Lift, lift, liftString)
 
 -- |Produce an explicit 'JsonFormat' by using the implicit Aeson 'ToJSON' instance and an explicit @aeson-better-errors@ 'ABE.Parse'.
 abeJsonFormat :: ToJSON a => ABE.Parse e a -> JsonFormat e a
@@ -140,6 +141,13 @@ data SumStyle
   -- ^Map to a two-field object with fixed field names, the first being the type field and the second beind the value field.
   | SumStyleMergeType Text
   -- ^Given that each sum branch maps to a JSON object, add/parse an additional field to that object with the given name.
+  deriving (Eq, Show)
+
+instance Lift SumStyle where
+  lift = \ case
+    SumStyleFieldName     -> [| SumStyleFieldName |]
+    SumStyleTypeValue a b -> [| SumStyleTypeValue $(liftString $ unpack a) $(liftString $ unpack b) |]
+    SumStyleMergeType a   -> [| SumStyleMergeType $(liftString $ unpack a) |]
 
 -- |Helper used by the various sum format functions which takes a list of input format pairs and makes an oxford comma list of them.
 expectedFieldsForInputs :: NonEmpty (Text, x) -> String

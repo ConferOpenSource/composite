@@ -140,7 +140,7 @@ realFloatToJson d
 -- |'JsonFormat' for 'Scientific', mapping to a JSON number.
 --
 -- __Warning:__ some JSON parsing libraries do not accept the scientific number notation even though it's part of the JSON standard, and this format
--- uses 'Data.ByteString.Builder.Scientific.scientificBuilder' transitively which encodes very small (< 0.1) and large (> 9,999,999.0) fractional numbers
+-- uses 'Data.ByteString.Builder.Scientific.scientificBuilder' transitively which encodes very small (\< 0.1) and large (> 9,999,999.0) fractional numbers
 -- using scientific notation.
 scientificJsonFormat :: JsonFormat e Scientific
 scientificJsonFormat = abeJsonFormat ABE.asScientific

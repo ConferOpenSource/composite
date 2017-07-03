@@ -3,7 +3,7 @@ module RecordSpec where
 import Composite (Rec(RNil), Record, (:->), pattern (:*:))
 import Composite.Aeson.Base (JsonFormat, fromJsonWithFormat, toJsonWithFormat)
 import Composite.Aeson.Formats.Provided (stringJsonFormat)
-import Composite.Aeson.Record (defaultJsonFormatRec, recJsonFormat, optionalField)
+import Composite.Aeson.Record (defaultJsonFormatRecord, recordJsonFormat, optionalField)
 import Composite.TH (withLensesAndProxies)
 import Control.Lens (set)
 import Data.Aeson.BetterErrors (parseValue)
@@ -22,8 +22,8 @@ recordSuite :: Spec
 recordSuite =
   describe "Record support" $ do
     let defaultFmt, optionalFmt :: JsonFormat Void (Record TestRec)
-        defaultFmt = recJsonFormat defaultJsonFormatRec
-        optionalFmt = recJsonFormat $ set (rlens fBar_) (optionalField stringJsonFormat) defaultJsonFormatRec
+        defaultFmt = recordJsonFormat defaultJsonFormatRecord
+        optionalFmt = recordJsonFormat $ set (rlens fBar_) (optionalField stringJsonFormat) defaultJsonFormatRecord
 
     it "by default requires all fields" $ do
       parseValue (fromJsonWithFormat defaultFmt) [aesonQQ| {foo: 123, bar: "abc"} |] `shouldBe`    Right (123 :*: Just "abc" :*: RNil)

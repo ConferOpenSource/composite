@@ -11,7 +11,7 @@ Example:
 ```haskell
 {-# LANGUAGE DataKinds, OverloadedStrings, PatternSynonyms, TypeOperators #-}
 import qualified Data.Aeson as Aeson
-import Composite.Aeson (JsonFormat, defaultJsonFormatRec, recJsonFormat, toJsonWithFormat)
+import Composite.Aeson (JsonFormat, defaultJsonFormatRecord, recordJsonFormat, toJsonWithFormat)
 import Composite.Record (Record, Rec(RNil), (:->), pattern (:*:))
 import Data.Text (Text)
 
@@ -20,7 +20,7 @@ type FName = "name" :-> Text
 type User = '[FId, FName]
 
 userFormat :: JsonFormat e (Record User)
-userFormat = recJsonFormat defaultJsonFormatRec
+userFormat = recordJsonFormat defaultJsonFormatRecord
 
 alice :: Record User
 alice = 1 :*: "Alice" :*: RNil

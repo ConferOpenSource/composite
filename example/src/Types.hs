@@ -4,7 +4,7 @@ import ClassyPrelude hiding (Handler)
 import Control.Lens.TH (makeWrapped)
 import Composite ((:->), Record)
 import Composite.Aeson (DefaultJsonFormat(defaultJsonFormat), enumJsonFormat)
-import Composite.Aeson.TH (makeRecJsonWrapper)
+import Composite.Aeson.TH (makeRecordJsonWrapper)
 import Composite.Opaleye (defaultRecTable)
 import Composite.Opaleye.TH (deriveOpaleyeEnum)
 import Composite.TH (withLensesAndProxies)
@@ -37,5 +37,5 @@ type DbUser        = '[FId, FLogin, FUserType]
 userTable :: Table (Record DbUserColumns) (Record DbUserColumns)
 userTable = Table "users" defaultRecTable
 
-makeRecJsonWrapper "ApiUserJson" ''ApiUser
+makeRecordJsonWrapper "ApiUserJson" ''ApiUser
 makeWrapped ''ApiUserJson
