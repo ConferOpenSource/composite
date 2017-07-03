@@ -29,6 +29,7 @@ default-extensions:
   - LambdaCase
   - MultiParamTypeClasses
   - OverloadedStrings
+  - PatternSynonyms
   - PolyKinds
   - ScopedTypeVariables
   - StrictData
@@ -41,3 +42,13 @@ ghc-options: -Wall -O2
 
 library:
   source-dirs: src
+
+tests:
+  composite-opaleye-test:
+    source-dirs: test
+    main: Main.hs
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
+    dependencies:
+      - QuickCheck
+      - composite-opaleye
+      - hspec
