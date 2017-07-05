@@ -13,18 +13,30 @@ import Control.Lens (Getter, view)
 import Control.Monad (MonadPlus(mzero, mplus))
 import Control.Monad.Base (MonadBase(liftBase))
 import Control.Monad.Catch (MonadThrow(throwM), MonadCatch(catch), MonadMask(mask, uninterruptibleMask))
+import Control.Monad.Cont (ContT(ContT), runContT)
 import Control.Monad.Cont.Class (MonadCont(callCC))
 import Control.Monad.Error.Class (MonadError(throwError, catchError))
+import Control.Monad.Except (ExceptT(ExceptT), runExceptT)
 import Control.Monad.Fail (MonadFail)
 import qualified Control.Monad.Fail as MonadFail
 import Control.Monad.Fix (MonadFix(mfix))
 import Control.Monad.IO.Class (MonadIO(liftIO))
+import Control.Monad.Reader (ReaderT(ReaderT), runReaderT)
 import Control.Monad.Reader.Class (MonadReader(local, ask, reader))
+import qualified Control.Monad.RWS.Lazy as Lazy
+import qualified Control.Monad.RWS.Strict as Strict
 import Control.Monad.RWS.Class (MonadRWS)
+import qualified Control.Monad.State.Lazy as Lazy
+import qualified Control.Monad.State.Strict as Strict
 import Control.Monad.State.Class (MonadState(get, put, state))
 import Control.Monad.Trans.Class (MonadTrans(lift))
 import Control.Monad.Trans.Control (MonadTransControl(type StT, liftWith, restoreT), MonadBaseControl(type StM, liftBaseWith, restoreM))
+import Control.Monad.Trans.Identity (IdentityT(IdentityT), runIdentityT)
+import Control.Monad.Trans.Maybe (MaybeT(MaybeT), runMaybeT)
+import qualified Control.Monad.Writer.Lazy as Lazy
+import qualified Control.Monad.Writer.Strict as Strict
 import Control.Monad.Writer.Class (MonadWriter(writer, tell, listen, pass))
+import Data.Monoid (Monoid)
 
 -- |Class of monad (stacks) which have context reading functionality baked in. Similar to 'Control.Monad.Reader.MonadReader' but can coexist with a
 -- another monad that provides 'Control.Monad.Reader.MonadReader' and requires the context to be a record.
@@ -34,6 +46,54 @@ class Monad m => MonadContext (c :: [*]) m | m -> c where
 
   -- |Run some action which has the same type of context with the context modified.
   localContext :: (Record c -> Record c) -> m a -> m a
+
+instance MonadContext c ((->) (Record c)) where
+  askContext = id
+  localContext f = (. f)
+
+instance MonadContext c m => MonadContext c (ReaderT r m) where
+  askContext = lift askContext
+  localContext f m = ReaderT $ \ r -> localContext f (runReaderT m r)
+
+instance MonadContext c m => MonadContext c (MaybeT m) where
+  askContext = lift askContext
+  localContext f m = MaybeT $ localContext f (runMaybeT m)
+
+instance (MonadContext c m, Monoid w) => MonadContext c (Strict.WriterT w m) where
+  askContext = lift askContext
+  localContext f m = Strict.WriterT $ localContext f (Strict.runWriterT m)
+
+instance (MonadContext c m, Monoid w) => MonadContext c (Lazy.WriterT w m) where
+  askContext = lift askContext
+  localContext f m = Lazy.WriterT $ localContext f (Lazy.runWriterT m)
+
+instance MonadContext c m => MonadContext c (Strict.StateT s m) where
+  askContext = lift askContext
+  localContext f m = Strict.StateT $ \ s -> localContext f (Strict.runStateT m s)
+
+instance MonadContext c m => MonadContext c (Lazy.StateT s m) where
+  askContext = lift askContext
+  localContext f m = Lazy.StateT $ \ s -> localContext f (Lazy.runStateT m s)
+
+instance MonadContext c m => MonadContext c (IdentityT m) where
+  askContext = lift askContext
+  localContext f m = IdentityT $ localContext f (runIdentityT m)
+
+instance MonadContext c m => MonadContext c (ExceptT e m) where
+  askContext = lift askContext
+  localContext f m = ExceptT $ localContext f (runExceptT m)
+
+instance MonadContext c m => MonadContext c (ContT r m) where
+  askContext = lift askContext
+  localContext f m = ContT $ \ k -> localContext f (runContT m k)
+
+instance (MonadContext c m, Monoid w) => MonadContext c (Strict.RWST r w s m) where
+  askContext = lift askContext
+  localContext f m = Strict.RWST $ \ r s -> localContext f (Strict.runRWST m r s)
+
+instance (MonadContext c m, Monoid w) => MonadContext c (Lazy.RWST r w s m) where
+  askContext = lift askContext
+  localContext f m = Lazy.RWST $ \ r s -> localContext f (Lazy.runRWST m r s)
 
 -- |Project some value out of the context using a function.
 asksContext :: MonadContext c m => (Record c -> a) -> m a
