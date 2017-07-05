@@ -8,11 +8,12 @@ import Composite.Record (AllHave, HasInstances, reifyDicts, zipRecsWith)
 import Control.Lens (Prism', prism')
 import Data.Functor.Identity (Identity(Identity), runIdentity)
 import Data.Kind (Constraint)
+import Data.Maybe (fromMaybe)
 import Data.Profunctor (dimap)
 import Data.Proxy (Proxy(Proxy))
-import Data.Vinyl (Dict(Dict), Rec((:&), RNil), RecApplicative, RElem, recordToList, reifyConstraint, rmap, rpure)
+import Data.Vinyl.Core (Dict(Dict), Rec((:&), RNil), RecApplicative, recordToList, reifyConstraint, rmap, rpure)
 import Data.Vinyl.Functor (Compose(Compose, getCompose), Const(Const), (:.))
-import Data.Vinyl.Lens (type (∈), rget, rput)
+import Data.Vinyl.Lens (RElem, type (∈), type (⊆), rget, rput, rreplace)
 import Data.Vinyl.TypeLevel (RecAll, RIndex)
 
 -- FIXME? replace with int-index/union or at least lift ideas from there. This encoding is awkward to work with and not compositional.
@@ -214,3 +215,15 @@ foldField hs = foldCoRec (rmap (Case' . (. runIdentity) . unCase) hs)
 matchField :: RecApplicative (r ': rs) => Field (r ': rs) -> Cases (r ': rs) b -> b
 matchField = flip foldField
 {-# INLINE matchField #-}
+
+-- |Widen a @'CoRec' f rs@ to a @'CoRec' f ss@ given that @rs ⊆ ss@.
+widenCoRec :: (FoldRec ss ss, RecApplicative rs, RecApplicative ss, rs ⊆ ss) => CoRec f rs -> CoRec f ss
+widenCoRec r =
+  fromMaybe (error "widenCoRec should be provably total, isn't") $
+    firstCoRec (rreplace (coRecToRec r) (rpure $ Compose Nothing))
+
+-- |Widen a @'Field' rs@ to a @'Field' ss@ given that @rs ⊆ ss@.
+widenField :: (FoldRec ss ss, RecApplicative rs, RecApplicative ss, rs ⊆ ss) => Field rs -> Field ss
+widenField r =
+  fromMaybe (error "widenField should be provably total, isn't") $
+    firstField (rreplace (fieldToRec r) (rpure Nothing))
