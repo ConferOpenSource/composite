@@ -3,7 +3,7 @@
 
 -- |Module with a `ReaderT` style monad specialized to holding a record.
 module Control.Monad.Composite.Context
-  ( ContextT(ContextT, runContextT), withContext, mapContextT
+  ( ContextT(ContextT, runContextT), runInContext, withContext, mapContextT
   , MonadContext(askContext, localContext), asksContext, askField
   ) where
 
@@ -105,6 +105,10 @@ askField l = asksContext $ view l
 
 -- |Monad transformer which adds an implicit environment which is a record. Isomorphic to @ReaderT (Record c) m@.
 newtype ContextT (c :: [*]) (m :: (* -> *)) a = ContextT { runContextT :: Record c -> m a }
+
+-- |Run some action in a given context, equivalent to 'runContextT' but with the arguments flipped.
+runInContext :: Record c -> ContextT c m a -> m a
+runInContext = flip runContextT
 
 -- |Permute the current context with a function and then run some action with that modified context.
 withContext :: (Record c' -> Record c) -> ContextT c m a -> ContextT c' m a
