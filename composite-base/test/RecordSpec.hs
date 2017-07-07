@@ -25,11 +25,6 @@ recordSuite = do
           Just foo :^: Nothing :^: RNil = rec
       foo `shouldBe` 123
 
-    it "Supports pattern matching an Identity .: (:->)" $ do
-      let val = Val (123 :: Int)
-          Val i = val
-      i `shouldBe` 123
-
     it "Supports lensing in a Rec Identity" $ do
       let rec = 123 :*: "foo" :*: RNil :: Record TestRec
       view (rlens fFoo_) rec `shouldBe` 123

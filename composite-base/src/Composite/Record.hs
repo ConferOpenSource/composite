@@ -2,7 +2,7 @@
 module Composite.Record
   ( Rec((:&), RNil), Record
   , pattern (:*:), pattern (:^:)
-  , (:->)(Val, getVal), valName, valWithName
+  , (:->)(Val, getVal), val, valName, valWithName
   , RElem, rlens, rlens'
   , AllHave, HasInstances, ValuesAllHave
   , zipRecsWith, reifyDicts, recordToNonEmpty
@@ -80,6 +80,35 @@ instance Monad ((:->) s) where
 
 instance forall (s :: Symbol) a. (KnownSymbol s, Show a) => Show (s :-> a) where
   showsPrec p (Val a) = ((symbolVal (Proxy :: Proxy s) ++ " :-> ") ++) . showsPrec p a
+
+-- |Convenience function to make an @'Identity' (s ':->' a)@ with a particular symbol, used for named field construction.
+--
+-- For example:
+--
+-- @
+--   type FFoo = "foo" :-> Int
+--   type FBar = "bar" :-> String
+--   type FBaz = "baz" :-> Double
+--   type MyRecord = [FFoo, FBar, FBaz]
+--
+--   myRecord1 :: Record MyRecord
+--   myRecord1
+--     =  val @"foo" 123
+--     :& val @"bar" "foobar"
+--     :& val @"baz" 3.21
+--     :& RNil
+--
+--   myRecord2 :: Record MyRecord
+--   myRecord2 = rcast
+--     $  val @"baz" 3.21
+--     :& val @"foo" 123
+--     :& val @"bar" "foobar"
+--     :& RNil
+-- @
+--
+-- In this example, both @myRecord1@ and @myRecord2@ have the same value, since 'Data.Vinyl.Lens.rcast' can reorder records.
+val :: forall (s :: Symbol) a. a -> Identity (s :-> a)
+val = Identity . Val @s
 
 -- |Reflect the type level name of a named value @s :-> a@ to a @Text@. For example, given @"foo" :-> Int@, yields @"foo" :: Text@
 valName :: forall s a. KnownSymbol s => s :-> a -> Text
