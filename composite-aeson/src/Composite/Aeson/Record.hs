@@ -80,8 +80,8 @@ optionalField' (JsonFormat (JsonProfunctor o i)) =
 -- @
 --   userFormatRec :: 'JsonFormatRecord' e User
 --   userFormatRec = 'field' 'Composite.Aeson.Default.integralJsonFormat'
---               :^: 'field' 'Composite.Aeson.Default.textJsonFormat'
---               :^: RNil
+--                :& 'field' 'Composite.Aeson.Default.textJsonFormat'
+--                :& RNil
 -- @
 --
 -- Or, using the default mappings for each field type:
