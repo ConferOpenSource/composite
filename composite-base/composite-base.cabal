@@ -23,11 +23,12 @@ library
   build-depends:
       base >= 4.7 && < 5
     , exceptions
-    , template-haskell
+    , http-api-data
     , lens
     , monad-control
     , mtl
     , profunctors
+    , template-haskell
     , text
     , transformers
     , transformers-base
@@ -50,11 +51,12 @@ test-suite composite-base-test
   build-depends:
       base >= 4.7 && < 5
     , exceptions
-    , template-haskell
+    , http-api-data
     , lens
     , monad-control
     , mtl
     , profunctors
+    , template-haskell
     , text
     , transformers
     , transformers-base

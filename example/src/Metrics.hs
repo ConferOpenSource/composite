@@ -11,11 +11,17 @@ import System.Metrics.Distribution (Distribution)
 import qualified System.Remote.Monitoring as EKG
 
 withLensesAndProxies [d|
-  type FActiveUsers    = "activeUsers"           :-> Gauge
-  type FResponseTimes  = "endpointResponseTimes" :-> Distribution
-  type FUserRequests   = "userRequests"          :-> Counter
+  type FActiveUsers           = "activeUsers"           :-> Gauge
+  type FResponseTimes         = "endpointResponseTimes" :-> Distribution
+  type FUserCreateRequests    = "userCreates"           :-> Counter
+  type FUserRetrieveRequests  = "userRetrieves"         :-> Counter
+  type FUserUpdateRequests    = "userUpdates"           :-> Counter
+  type FUserDeleteRequests    = "userDeletes"           :-> Counter
+  type FUserEnumerateRequests = "userEnumerates"        :-> Counter
   |]
-type EkgMetrics = '[FActiveUsers, FResponseTimes, FUserRequests]
+type EkgMetrics = '[ FActiveUsers, FResponseTimes
+                   , FUserCreateRequests, FUserRetrieveRequests, FUserUpdateRequests
+                   , FUserDeleteRequests, FUserEnumerateRequests ]
 
 -- |Create a new ekg store and metrics record, register the relevant metrics, and start the ekg server
 configureMetrics :: IO (Record EkgMetrics)

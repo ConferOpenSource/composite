@@ -12,11 +12,12 @@ category:            Records
 dependencies:
   - base >= 4.7 && < 5
   - exceptions
-  - template-haskell
+  - http-api-data
   - lens
   - monad-control
   - mtl
   - profunctors
+  - template-haskell
   - text
   - transformers
   - transformers-base

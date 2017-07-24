@@ -9,7 +9,10 @@ import Composite.Record (Record)
 import Control.Monad.Logger (LoggingT)
 import Data.Pool (Pool, withResource)
 import Database.PostgreSQL.Simple (Connection)
-import Metrics (configureMetrics, EkgMetrics, fActiveUsers, fResponseTimes, fUserRequests)
+import Metrics
+  ( configureMetrics, EkgMetrics, fActiveUsers, fResponseTimes
+  , fUserCreateRequests, fUserRetrieveRequests, fUserUpdateRequests
+  , fUserDeleteRequests, fUserEnumerateRequests )
 import Servant (Handler)
 
 

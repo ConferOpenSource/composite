@@ -36,10 +36,10 @@ instance DefaultRecTableField (Column a) (Column a) where
 --
 -- Is equivalent to:
 --
--- > pReq (optional "id" &: required "name" &: Nil)
+-- > pRec (optional "id" &: required "name" &: Nil)
 --
 --
--- Alternately, use 'Composite.Opaleye.ProductProfunctors.pReq' and the usual Opaleye 'required' and 'optional'.
+-- Alternately, use 'Composite.Opaleye.ProductProfunctors.pRec' and the usual Opaleye 'required' and 'optional'.
 class DefaultRecTable write read where
   defaultRecTable :: TableProperties (Rec Identity write) (Rec Identity read)
 
