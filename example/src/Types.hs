@@ -1,6 +1,7 @@
 module Types where
 
-import ClassyPrelude hiding (Handler, optional)
+import ApiOrphans ()
+import ClassyPrelude
 import Control.Lens.TH (makeWrapped)
 import Composite ((:->), Record)
 import Composite.Aeson (DefaultJsonFormat(defaultJsonFormat), enumJsonFormat)

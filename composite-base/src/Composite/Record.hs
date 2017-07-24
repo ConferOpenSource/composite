@@ -26,7 +26,6 @@ import Data.Vinyl.Lens (type (∈), type (⊆))
 import qualified Data.Vinyl.TypeLevel as Vinyl
 import Foreign.Storable (Storable)
 import GHC.TypeLits (KnownSymbol, Symbol, symbolVal)
-import Web.HttpApiData (ToHttpApiData, FromHttpApiData)
 
 -- FIXME this file is a big bin of random stuff, and should be at least organized if not split up.
 
@@ -43,23 +42,21 @@ newtype (:->) (s :: Symbol) a = Val { getVal :: a }
 
 makeWrapped ''(:->)
 
-deriving instance Bounded         a => Bounded    (s :-> a)
-deriving instance Enum            a => Enum       (s :-> a)
-deriving instance Eq              a => Eq         (s :-> a)
-deriving instance Floating        a => Floating   (s :-> a)
-deriving instance Fractional      a => Fractional (s :-> a)
-deriving instance FromHttpApiData a => FromHttpApiData (s :-> a)
-deriving instance Integral        a => Integral   (s :-> a)
-deriving instance IsString        a => IsString   (s :-> a)
-deriving instance Monoid          a => Monoid     (s :-> a)
-deriving instance Num             a => Num        (s :-> a)
-deriving instance Ord             a => Ord        (s :-> a)
-deriving instance Real            a => Real       (s :-> a)
-deriving instance RealFloat       a => RealFloat  (s :-> a)
-deriving instance RealFrac        a => RealFrac   (s :-> a)
-deriving instance Semigroup       a => Semigroup  (s :-> a)
-deriving instance Storable        a => Storable   (s :-> a)
-deriving instance ToHttpApiData   a => ToHttpApiData (s :-> a)
+deriving instance Bounded    a => Bounded    (s :-> a)
+deriving instance Enum       a => Enum       (s :-> a)
+deriving instance Eq         a => Eq         (s :-> a)
+deriving instance Floating   a => Floating   (s :-> a)
+deriving instance Fractional a => Fractional (s :-> a)
+deriving instance Integral   a => Integral   (s :-> a)
+deriving instance IsString   a => IsString   (s :-> a)
+deriving instance Monoid     a => Monoid     (s :-> a)
+deriving instance Num        a => Num        (s :-> a)
+deriving instance Ord        a => Ord        (s :-> a)
+deriving instance Real       a => Real       (s :-> a)
+deriving instance RealFloat  a => RealFloat  (s :-> a)
+deriving instance RealFrac   a => RealFrac   (s :-> a)
+deriving instance Semigroup  a => Semigroup  (s :-> a)
+deriving instance Storable   a => Storable   (s :-> a)
 
 instance Functor ((:->) s) where
   fmap f = Val . f . getVal

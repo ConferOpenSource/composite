@@ -48,6 +48,7 @@ library
     , warp
   exposed-modules:
       Api
+      ApiOrphans
       App
       Foundation
       Logging

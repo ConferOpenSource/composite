@@ -12,7 +12,6 @@ category:            Records
 dependencies:
   - base >= 4.7 && < 5
   - exceptions
-  - http-api-data
   - lens
   - monad-control
   - mtl

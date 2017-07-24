@@ -23,7 +23,6 @@ library
   build-depends:
       base >= 4.7 && < 5
     , exceptions
-    , http-api-data
     , lens
     , monad-control
     , mtl
@@ -51,7 +50,6 @@ test-suite composite-base-test
   build-depends:
       base >= 4.7 && < 5
     , exceptions
-    , http-api-data
     , lens
     , monad-control
     , mtl
