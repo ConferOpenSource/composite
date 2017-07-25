@@ -18,7 +18,7 @@ import Opaleye
 import Servant (Capture, Delete, Get, JSON, Post, Put, QueryParam, ReqBody, (:>), (:<|>))
 import Servant.Server (err404)
 import Types
-  ( ApiUser, ApiUserJson(ApiUserJson), DbUser, FId, FLogin, FUserType, WriteColumns
+  ( ApiUser, ApiUserJson(ApiUserJson), DbUser, FId, FIdMay, FLogin, FUserType, DbUserInsCols
   , cId, cLogin, cUserType, userTable )
 import qualified System.Metrics.Counter as Counter
 
@@ -34,12 +34,12 @@ api = Proxy
 
 -- |Convert an id-less User to something that may have a key if it's provided on input; needed
 -- because @Opaleye.Table.TableProperties@ uses writer columns for inserts and deletes
-toWrite :: Maybe FId -> Record ApiUser -> Record WriteColumns
+toWrite :: Maybe FId -> Record ApiUser -> Record DbUserInsCols
 toWrite userKeyMay user =
-  let convert = constant :: Record ("id" :-> Maybe Int64 ': ApiUser) -> Record WriteColumns
-  in case userKeyMay of
-    Just (Val userKey) -> convert $ Just userKey :*: user
-    Nothing -> convert $ Nothing :*: user
+  let convert = constant :: Record (FIdMay ': ApiUser) -> Record DbUserInsCols
+  in convert $ case userKeyMay of
+    Just (Val userKey) -> Just userKey :*: user
+    Nothing -> Nothing :*: user
 
 -- |Create a user from some fields
 createUser :: ApiUserJson -> AppStackM ()

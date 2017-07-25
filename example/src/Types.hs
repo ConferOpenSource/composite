@@ -32,6 +32,7 @@ instance FromHttpApiData UserType where
 withLensesAndProxies [d|
   type FId       = "id"       :-> Int64
   type CId       = "id"       :-> Column PGInt8
+  type FIdMay    = "id"       :-> Maybe Int64
   type CIdMay    = "id"       :-> Maybe (Column PGInt8)
   type FLogin    = "login"    :-> Text
   type CLogin    = "login"    :-> Column PGText
@@ -42,10 +43,10 @@ withLensesAndProxies [d|
 
 type ApiUser       = '[FLogin, FUserType]
 type DbUser        = '[FId, FLogin, FUserType]
-type WriteColumns  = '[CIdMay, CLogin, CUserType]
-type ReadColumns   = '[CId, CLogin, CUserType]
+type DbUserInsCols = '[CIdMay, CLogin, CUserType]
+type DbUserCols    = '[CId, CLogin, CUserType]
 
-userTable :: Table (Record WriteColumns) (Record ReadColumns)
+userTable :: Table (Record DbUserInsCols) (Record DbUserCols)
 userTable = Table "users" defaultRecTable
 
 makeRecordJsonWrapper "ApiUserJson" ''ApiUser
