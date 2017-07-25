@@ -46,8 +46,10 @@ dependencies:
   - ekg
   - ekg-core
   - fast-logger
+  - http-api-data
   - lens
   - monad-logger
+  - mtl
   - opaleye
   - postgresql-simple
   - product-profunctors
