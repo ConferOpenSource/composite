@@ -22,6 +22,8 @@ instance DefaultJsonFormat UserType where
   defaultJsonFormat = enumJsonFormat "UserType"
 
 deriveOpaleyeEnum ''UserType "usertype" (stripPrefix "UserType")
+
+-- Dumb instances here - they don't map to opaleye enums or json formats
 instance ToHttpApiData UserType where
   toUrlPiece = tshow
 instance FromHttpApiData UserType where

@@ -32,6 +32,8 @@ type API = "users" :> ( ReqBody '[JSON] ApiUserJson :> Post '[JSON] ()
 api :: Proxy API
 api = Proxy
 
+-- |Convert an id-less User to something that may have a key if it's provided on input; needed
+-- because @Opaleye.Table.TableProperties@ uses writer columns for inserts and deletes
 toWrite :: Maybe FId -> Record ApiUser -> Record WriteColumns
 toWrite userKeyMay user =
   let convert = constant :: Record ("id" :-> Maybe Int64 ': ApiUser) -> Record WriteColumns
@@ -39,6 +41,7 @@ toWrite userKeyMay user =
     Just (Val userKey) -> convert $ Just userKey :*: user
     Nothing -> convert $ Nothing :*: user
 
+-- |Create a user from some fields
 createUser :: ApiUserJson -> AppStackM ()
 createUser (ApiUserJson user) = do
   $logInfo "received create request"
@@ -47,6 +50,7 @@ createUser (ApiUserJson user) = do
 
   void $ withDb $ \ conn -> runInsertMany conn userTable [toWrite Nothing user]
 
+-- |Retrieve a user by key
 retrieveUser :: FId -> AppStackM ApiUserJson
 retrieveUser (Val userKey) = do
   $logInfo "received retrieve request"
@@ -64,6 +68,7 @@ retrieveUser (Val userKey) = do
     Just user -> pure $ view (rsubset . _Unwrapping ApiUserJson) user
     Nothing -> throwError err404
 
+-- |Replace a user by key
 updateUser :: FId -> ApiUserJson -> AppStackM ()
 updateUser uId@(Val userKey) (ApiUserJson user) = do
   $logInfo "received update request"
@@ -73,6 +78,7 @@ updateUser uId@(Val userKey) (ApiUserJson user) = do
   void $ withDb $ \ conn -> runUpdate conn userTable (const $ toWrite (Just uId) user) $
     \ u -> view cId u .== constant userKey
 
+-- |Delete a user by key
 deleteUser :: FId -> AppStackM ()
 deleteUser (Val userKey) = do
   $logInfo "received delete request"
@@ -82,6 +88,7 @@ deleteUser (Val userKey) = do
   void $ withDb $ \ conn -> runDelete conn userTable $
     \ u -> view cId u .== constant userKey
 
+-- |List users - omitting query parameters results in unbounded query
 enumerateUsers :: Maybe FLogin -> Maybe FUserType -> AppStackM [ApiUserJson]
 enumerateUsers login userType = do
   $logInfo "received enumerate request"
