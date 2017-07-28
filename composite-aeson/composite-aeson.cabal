@@ -1,9 +1,9 @@
--- This file has been generated from package.yaml by hpack version 0.17.0.
+-- This file has been generated from package.yaml by hpack version 0.18.1.
 --
 -- see: https://github.com/sol/hpack
 
 name:           composite-aeson
-version:        0.4.2.0
+version:        0.5.0.0
 synopsis:       JSON for Vinyl/Frames records
 description:    Integration between Aeson and Vinyl/Frames records allowing records to be easily converted to JSON using automatic derivation, explicit formats, or a mix of both.
 category:       Records
@@ -55,6 +55,8 @@ library
       Composite.Aeson.Formats.Provided
       Composite.Aeson.Record
       Composite.Aeson.TH
+  other-modules:
+      Paths_composite_aeson
   default-language: Haskell2010
 
 test-suite composite-aeson-test

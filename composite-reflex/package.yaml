@@ -1,5 +1,5 @@
 name:                composite-reflex
-version:             0.4.2.0
+version:             0.5.0.0
 synopsis:            Utilities for using composite records and corecords with Reflex
 description:         Utilities for using composite records and corecords with Reflex
 homepage:            https://github.com/ConferHealth/composite#readme

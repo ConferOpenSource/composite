@@ -1,9 +1,9 @@
--- This file has been generated from package.yaml by hpack version 0.17.0.
+-- This file has been generated from package.yaml by hpack version 0.18.1.
 --
 -- see: https://github.com/sol/hpack
 
 name:           composite-reflex
-version:        0.4.2.0
+version:        0.5.0.0
 synopsis:       Utilities for using composite records and corecords with Reflex
 description:    Utilities for using composite records and corecords with Reflex
 category:       Records
@@ -37,4 +37,6 @@ library
       Composite.Reflex
       Composite.Reflex.AuthWrapper
       Composite.Reflex.Routing
+  other-modules:
+      Paths_composite_reflex
   default-language: Haskell2010
