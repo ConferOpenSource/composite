@@ -81,11 +81,15 @@ userQuery =
 A small servant based server which uses `composite-opaleye` to pull records from the database, reshape
 the record to an API type, and send the records out to the client as JSON via `composite-aeson`.
 
+## Maturity
+
+As of writing, we use these libraries in all our Haskell projects internally and have had no major issues. There are spots using either composite or vinyl where the compiler error messages could use improvement. There are certain use cases that can cause the simplifier to crash, though we have not observed any runtime errors as yet. They have not been proven out for performance at larger scale. We'd appreciate any fixes, improvements, or experience reports.
+
 ## Contributing
 
-Contributions and feedback welcome! File and issue or make a PR.
+Contributions and feedback welcome! File an issue or make a PR.
 
 ## Chat
 
-Asa (@asa) and Ross (@dridus) hang out on [fpchat](https://fpchat.com).
+Asa (@asa) and Ross (@dridus) lurk on [fpchat](https://fpchat.com). You can also reach us at `oss@confer.health`.
 

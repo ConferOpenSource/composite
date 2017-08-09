@@ -9,7 +9,7 @@ description:    Integration between Frames records and Opaleye SQL, allowing rec
 category:       Records
 homepage:       https://github.com/ConferHealth/composite#readme
 author:         Confer Health, Inc.
-maintainer:     oss@confer.care
+maintainer:     oss@confer.health
 copyright:      2017 Confer Health, Inc.
 license:        BSD3
 build-type:     Simple
