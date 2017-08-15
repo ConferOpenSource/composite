@@ -9,10 +9,5 @@ packages:
 extra-deps:
   - servant-0.10
   - servant-server-0.10
-# nix:
-#   enable: true
-#   packages:
-#     - postgresql
-#     - zlib
 flags: {}
 extra-package-dbs: []
