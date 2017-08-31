@@ -62,7 +62,6 @@ dependencies:
 
 ghc-options:
   - -Wall
-  - -Werror
 
 executables:
   myawesomeserver-exe:
