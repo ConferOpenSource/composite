@@ -1,5 +1,5 @@
 name:                composite-opaleye
-version:             0.5.0.0
+version:             0.5.1.0
 synopsis:            Opaleye SQL for Frames records
 description:         Integration between Frames records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 homepage:            https://github.com/ConferHealth/composite#readme

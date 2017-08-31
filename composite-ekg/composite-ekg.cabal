@@ -3,7 +3,7 @@
 -- see: https://github.com/sol/hpack
 
 name:           composite-ekg
-version:        0.5.0.0
+version:        0.5.1.0
 synopsis:       EKG Metrics for Vinyl/Frames records
 description:    Integration between EKG and Vinyl/Frames records allowing records holding registered metrics to be easily constructed from a type declaration.
 category:       Records
