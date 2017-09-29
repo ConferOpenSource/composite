@@ -1,5 +1,5 @@
 name:                composite-ekg
-version:             0.5.2.0
+version:             0.5.3.0
 synopsis:            EKG Metrics for Vinyl/Frames records
 description:         Integration between EKG and Vinyl/Frames records allowing records holding registered metrics to be easily constructed from a type declaration.
 homepage:            https://github.com/ConferHealth/composite#readme

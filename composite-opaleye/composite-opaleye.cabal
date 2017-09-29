@@ -3,7 +3,7 @@
 -- see: https://github.com/sol/hpack
 
 name:           composite-opaleye
-version:        0.5.2.0
+version:        0.5.3.0
 synopsis:       Opaleye SQL for Frames records
 description:    Integration between Frames records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 category:       Records
