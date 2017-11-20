@@ -1,4 +1,4 @@
--- This file has been generated from package.yaml by hpack version 0.18.1.
+-- This file has been generated from package.yaml by hpack version 0.19.3.
 --
 -- see: https://github.com/sol/hpack
 
@@ -21,7 +21,7 @@ library
   default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
-      base >= 4.7 && < 5
+      base >=4.7 && <5
     , exceptions
     , lens
     , monad-control
@@ -50,8 +50,11 @@ test-suite composite-base-test
   default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
-      base >= 4.7 && < 5
+      QuickCheck
+    , base >=4.7 && <5
+    , composite-base
     , exceptions
+    , hspec
     , lens
     , monad-control
     , mtl
@@ -61,10 +64,8 @@ test-suite composite-base-test
     , transformers
     , transformers-base
     , vinyl
-    , QuickCheck
-    , composite-base
-    , hspec
   other-modules:
       RecordSpec
       THSpec
+      Paths_composite_base
   default-language: Haskell2010

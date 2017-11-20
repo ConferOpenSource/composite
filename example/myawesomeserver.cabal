@@ -1,4 +1,4 @@
--- This file has been generated from package.yaml by hpack version 0.18.1.
+-- This file has been generated from package.yaml by hpack version 0.19.3.
 --
 -- see: https://github.com/sol/hpack
 
@@ -21,8 +21,8 @@ library
   default-extensions: Arrows ConstraintKinds DataKinds DeriveGeneric FlexibleContexts FlexibleInstances GADTs GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving TemplateHaskell TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall
   build-depends:
-      base >= 4.7 && < 5
-    , aeson
+      aeson
+    , base >=4.7 && <5
     , bytestring
     , classy-prelude
     , composite-aeson
@@ -65,8 +65,8 @@ executable myawesomeserver-exe
   default-extensions: Arrows ConstraintKinds DataKinds DeriveGeneric FlexibleContexts FlexibleInstances GADTs GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving TemplateHaskell TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >= 4.7 && < 5
-    , aeson
+      aeson
+    , base >=4.7 && <5
     , bytestring
     , classy-prelude
     , composite-aeson
@@ -81,6 +81,7 @@ executable myawesomeserver-exe
     , lens
     , monad-logger
     , mtl
+    , myawesomeserver
     , opaleye
     , postgresql-simple
     , product-profunctors
@@ -90,5 +91,6 @@ executable myawesomeserver-exe
     , servant-server
     , vinyl
     , warp
-    , myawesomeserver
+  other-modules:
+      Paths_myawesomeserver
   default-language: Haskell2010

@@ -1,4 +1,4 @@
--- This file has been generated from package.yaml by hpack version 0.18.1.
+-- This file has been generated from package.yaml by hpack version 0.19.3.
 --
 -- see: https://github.com/sol/hpack
 
@@ -21,7 +21,7 @@ library
   default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving MultiParamTypeClasses OverloadedStrings PolyKinds ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
-      base >= 4.7 && < 5
+      base >=4.7 && <5
     , composite-base
     , ekg
     , ekg-core
