@@ -51,7 +51,7 @@ field' (JsonFormat (JsonProfunctor o i)) = JsonField (Just . o) (`ABE.key` i)
 
 -- |Given a 'JsonFormat' for some type @a@, produce a 'JsonField' for fields of type @Maybe a@ which substitutes @Nothing@ for either @null@ or missing field,
 -- and which elides the field on @Nothing@.
-optionalField :: forall e a a'. (Wrapped a', Unwrapped a' ~ Maybe a) => JsonFormat e a -> JsonField e a'
+optionalField :: (Wrapped a', Unwrapped a' ~ Maybe a) => JsonFormat e a -> JsonField e a'
 optionalField (JsonFormat (JsonProfunctor o i)) =
   JsonField
     (fmap o . view _Wrapped')

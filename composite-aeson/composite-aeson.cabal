@@ -1,15 +1,15 @@
--- This file has been generated from package.yaml by hpack version 0.17.0.
+-- This file has been generated from package.yaml by hpack version 0.19.3.
 --
 -- see: https://github.com/sol/hpack
 
 name:           composite-aeson
-version:        0.4.2.0
+version:        0.5.3.0
 synopsis:       JSON for Vinyl/Frames records
 description:    Integration between Aeson and Vinyl/Frames records allowing records to be easily converted to JSON using automatic derivation, explicit formats, or a mix of both.
 category:       Records
 homepage:       https://github.com/ConferHealth/composite#readme
 author:         Confer Health, Inc
-maintainer:     oss@confer.care
+maintainer:     oss@confer.health
 copyright:      2017 Confer Health, Inc.
 license:        BSD3
 build-type:     Simple
@@ -21,10 +21,9 @@ library
   default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
-      base >= 4.7 && < 5
-    , mtl
-    , aeson
+      aeson
     , aeson-better-errors
+    , base >=4.7 && <5
     , composite-base
     , containers
     , contravariant
@@ -55,6 +54,8 @@ library
       Composite.Aeson.Formats.Provided
       Composite.Aeson.Record
       Composite.Aeson.TH
+  other-modules:
+      Paths_composite_aeson
   default-language: Haskell2010
 
 test-suite composite-aeson-test
@@ -65,15 +66,18 @@ test-suite composite-aeson-test
   default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
-      base >= 4.7 && < 5
-    , mtl
+      QuickCheck
     , aeson
     , aeson-better-errors
+    , aeson-qq
+    , base >=4.7 && <5
+    , composite-aeson
     , composite-base
     , containers
     , contravariant
     , generic-deriving
     , hashable
+    , hspec
     , lens
     , mmorph
     , mtl
@@ -86,14 +90,12 @@ test-suite composite-aeson-test
     , unordered-containers
     , vector
     , vinyl
-    , QuickCheck
-    , aeson-qq
-    , composite-aeson
-    , hspec
   other-modules:
+      DateTimeSpec
       EnumSpec
       FieldSpec
       RecordSpec
       THSpec
       TupleSpec
+      Paths_composite_aeson
   default-language: Haskell2010

@@ -67,16 +67,16 @@ iso8601DateTimeJsonFormat :: JsonFormat e UTCTime
 iso8601DateTimeJsonFormat =
   dateTimeJsonFormat defaultTimeLocale (withMs :| [withoutMs])
   where
-    withMs    = DateTimeFormat "%FT%T.%Q%z" "yyyy-mm-ddThh:mm:ss.sssZ" fixupTzIn (fixupTzOut . fixupMs)
-    withoutMs = DateTimeFormat "%FT%T%z"    "yyyy-mm-ddThh:mm:ssZ"     fixupTzIn fixupTzOut
+    withMs    = DateTimeFormat "%FT%T%Q%z" "yyyy-mm-ddThh:mm:ss.sssZ" fixupTzIn (fixupTzOut . fixupMs)
+    withoutMs = DateTimeFormat "%FT%T%z"   "yyyy-mm-ddThh:mm:ssZ"     fixupTzIn fixupTzOut
 
 -- |ISO8601 extended time format (@hh:mm:ss.sss@ or @hh:mm:ss@)
 iso8601TimeJsonFormat :: JsonFormat e TimeOfDay
 iso8601TimeJsonFormat =
   dateTimeJsonFormat defaultTimeLocale (withMs :| [withoutMs])
   where
-    withMs    = DateTimeFormat "%T.%Q%z" "hh:mm:ss.sss" id fixupMs
-    withoutMs = DateTimeFormat "%T.%Q"   "hh:mm:ss"     id id
+    withMs    = DateTimeFormat "%T%Q%z" "hh:mm:ss.sss" id fixupMs
+    withoutMs = DateTimeFormat "%T%Q"   "hh:mm:ss"     id id
 
 
 -- |Monad for capturing uses of 'fail', because @Data.Time.Format@ has a poorly factored interface.

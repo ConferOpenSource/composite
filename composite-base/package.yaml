@@ -1,11 +1,11 @@
 name:                composite-base
-version:             0.4.2.0
+version:             0.5.3.0
 synopsis:            Shared utilities for composite-* packages.
 description:         Shared helpers for the various composite packages.
 homepage:            https://github.com/ConferHealth/composite#readme
 license:             BSD3
 author:              Confer Health, Inc.
-maintainer:          oss@confer.care
+maintainer:          oss@confer.health
 copyright:           2017 Confer Health, Inc.
 category:            Records
 

@@ -1,15 +1,15 @@
--- This file has been generated from package.yaml by hpack version 0.17.0.
+-- This file has been generated from package.yaml by hpack version 0.19.3.
 --
 -- see: https://github.com/sol/hpack
 
 name:           composite-base
-version:        0.4.2.0
+version:        0.5.3.0
 synopsis:       Shared utilities for composite-* packages.
 description:    Shared helpers for the various composite packages.
 category:       Records
 homepage:       https://github.com/ConferHealth/composite#readme
 author:         Confer Health, Inc.
-maintainer:     oss@confer.care
+maintainer:     oss@confer.health
 copyright:      2017 Confer Health, Inc.
 license:        BSD3
 build-type:     Simple
@@ -21,7 +21,7 @@ library
   default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
-      base >= 4.7 && < 5
+      base >=4.7 && <5
     , exceptions
     , lens
     , monad-control
@@ -38,6 +38,8 @@ library
       Composite.Record
       Composite.TH
       Control.Monad.Composite.Context
+  other-modules:
+      Paths_composite_base
   default-language: Haskell2010
 
 test-suite composite-base-test
@@ -48,8 +50,11 @@ test-suite composite-base-test
   default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
-      base >= 4.7 && < 5
+      QuickCheck
+    , base >=4.7 && <5
+    , composite-base
     , exceptions
+    , hspec
     , lens
     , monad-control
     , mtl
@@ -59,10 +64,8 @@ test-suite composite-base-test
     , transformers
     , transformers-base
     , vinyl
-    , QuickCheck
-    , composite-base
-    , hspec
   other-modules:
       RecordSpec
       THSpec
+      Paths_composite_base
   default-language: Haskell2010

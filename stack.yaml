@@ -1,4 +1,4 @@
-resolver: lts-8.12
+resolver: lts-9.13
 packages:
   - composite-aeson
   - composite-aeson-refined
@@ -6,13 +6,5 @@ packages:
   - composite-ekg
   - composite-opaleye
   - example
-extra-deps:
-  - servant-0.10
-  - servant-server-0.10
-# nix:
-#   enable: true
-#   packages:
-#     - postgresql
-#     - zlib
 flags: {}
 extra-package-dbs: []

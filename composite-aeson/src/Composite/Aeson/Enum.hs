@@ -9,7 +9,7 @@ import Data.List (intercalate, stripPrefix)
 import qualified Data.Map.Strict as M
 import Data.Text (Text, pack, unpack)
 import GHC.Generics (Generic(type Rep))
-import Generics.Deriving.ConNames (ConNames, conNames)
+import Generics.Deriving.ConNames (ConNames, conNameOf)
 import Generics.Deriving.Enum (Enum', genumDefault)
 
 -- |For some type @a@ which represents an enumeration (i.e. all nullary constructors) generate a 'JsonFormat' which maps that type to strings in JSON.
@@ -27,11 +27,11 @@ import Generics.Deriving.Enum (Enum', genumDefault)
 -- > toJsonWithFormat myEnumFormat MyEnumFoo == Aeson.String "Foo"
 enumJsonFormat :: forall e a. (Show a, Ord a, Generic a, ConNames (Rep a), Enum' (Rep a)) => String -> JsonFormat e a
 enumJsonFormat prefix =
-  let names = map (pack . removePrefix) $ conNames (undefined :: a)
-      removePrefix s
+  let removePrefix s
         | Just suffix <- stripPrefix prefix s = suffix
         | otherwise                           = s
       values = genumDefault
+      names = map (pack . removePrefix . conNameOf) values
       lookupText  = flip HM.lookup . HM.fromList $ zip names values
       lookupValue = flip  M.lookup .  M.fromList $ zip values names
       expectedValues = "one of " ++ (intercalate ", " . map unpack $ names)
