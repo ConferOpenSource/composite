@@ -12,7 +12,6 @@ category:            Records
 dependencies:
   - base >= 4.7 && < 5
   - composite-base
-  - ekg
   - ekg-core
   - lens
   - text
