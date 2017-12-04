@@ -40,3 +40,15 @@ ghc-options: -Wall -O2
 
 library:
   source-dirs: src
+
+tests:
+  composite-swagger-test:
+    source-dirs: test
+    main: Main.hs
+    ghc-options: -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
+    dependencies:
+      - QuickCheck
+      - composite-aeson
+      - composite-base
+      - composite-swagger
+      - hspec
