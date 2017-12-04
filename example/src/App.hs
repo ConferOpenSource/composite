@@ -2,7 +2,9 @@ module App (startApp) where
 
 import ClassyPrelude hiding (Handler)
 
-import Api (api, createUser, retrieveUser, updateUser, deleteUser, enumerateUsers)
+import Api
+  ( apiSwaggerDefinition, redirect, swaggerApi
+  , createUser, retrieveUser, updateUser, deleteUser, enumerateUsers )
 import Control.Monad.Logger (askLoggerIO, logInfo)
 import Data.Pool (Pool)
 import qualified Data.Pool as Pool
@@ -11,7 +13,7 @@ import Foundation (AppData(AppData), AppStackM, configureMetrics)
 import Logging (LogFunction, withLogger, withLoggingFunc)
 import Network.Wai.Handler.Warp (run)
 import Servant ((:<|>)((:<|>)), Handler, (:~>)(NT), enter, serve)
-
+import Servant.Swagger.UI (swaggerSchemaUIServer)
 
 -- |Perform app initialization and then begin serving the API
 startApp :: IO ()
@@ -22,8 +24,10 @@ startApp = do
       let appData = AppData connPool metrics
       logFn <- askLoggerIO
       $logInfo $ "Starting server on port 8080"
-      liftIO . run 8080 . serve api . enter (appStackToHandler appData logFn)
-        $ createUser :<|> retrieveUser :<|> updateUser :<|> deleteUser :<|> enumerateUsers
+      liftIO . run 8080 . serve swaggerApi
+        $ enter (appStackToHandler appData logFn) ( createUser :<|> retrieveUser :<|> updateUser :<|> deleteUser :<|> enumerateUsers )
+          :<|> swaggerSchemaUIServer apiSwaggerDefinition
+          :<|> redirect "/dev/index.html"
 
 withPostgresqlPool :: MonadBaseControl IO m => ByteString -> Int -> (Pool PG.Connection -> m a) -> m a
 withPostgresqlPool connStr nConns action = do

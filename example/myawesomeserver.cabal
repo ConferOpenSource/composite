@@ -1,4 +1,4 @@
--- This file has been generated from package.yaml by hpack version 0.19.3.
+-- This file has been generated from package.yaml by hpack version 0.17.1.
 --
 -- see: https://github.com/sol/hpack
 
@@ -21,14 +21,15 @@ library
   default-extensions: Arrows ConstraintKinds DataKinds DeriveGeneric FlexibleContexts FlexibleInstances GADTs GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving TemplateHaskell TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall
   build-depends:
-      aeson
-    , base >=4.7 && <5
+      base >= 4.7 && < 5
+    , aeson
     , bytestring
     , classy-prelude
     , composite-aeson
     , composite-base
     , composite-ekg
     , composite-opaleye
+    , composite-swagger
     , configurator
     , ekg
     , ekg-core
@@ -44,6 +45,10 @@ library
     , resource-pool
     , servant
     , servant-server
+    , servant-swagger
+    , servant-swagger-ui
+    , swagger2
+    , text
     , vinyl
     , warp
   exposed-modules:
@@ -65,14 +70,15 @@ executable myawesomeserver-exe
   default-extensions: Arrows ConstraintKinds DataKinds DeriveGeneric FlexibleContexts FlexibleInstances GADTs GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving TemplateHaskell TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aeson
-    , base >=4.7 && <5
+      base >= 4.7 && < 5
+    , aeson
     , bytestring
     , classy-prelude
     , composite-aeson
     , composite-base
     , composite-ekg
     , composite-opaleye
+    , composite-swagger
     , configurator
     , ekg
     , ekg-core
@@ -81,7 +87,6 @@ executable myawesomeserver-exe
     , lens
     , monad-logger
     , mtl
-    , myawesomeserver
     , opaleye
     , postgresql-simple
     , product-profunctors
@@ -89,8 +94,11 @@ executable myawesomeserver-exe
     , resource-pool
     , servant
     , servant-server
+    , servant-swagger
+    , servant-swagger-ui
+    , swagger2
+    , text
     , vinyl
     , warp
-  other-modules:
-      Paths_myawesomeserver
+    , myawesomeserver
   default-language: Haskell2010
