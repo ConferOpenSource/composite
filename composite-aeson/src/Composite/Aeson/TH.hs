@@ -9,7 +9,7 @@ import Composite.Aeson.Formats.Default (DefaultJsonFormat, defaultJsonFormat)
 import Composite.Aeson.Formats.Generic (SumStyle)
 import Composite.Aeson.Record (defaultJsonFormatRecord, recordJsonFormat)
 import Composite.CoRecord (Field)
-import Composite.Record (Record)
+import Composite.TH (makeRecordWrapper)
 import Control.Lens (_head, over)
 import Data.Aeson (FromJSON(parseJSON), ToJSON(toJSON))
 import Data.Char (toLower)
@@ -178,17 +178,10 @@ makeRecordJsonWrapperExplicit :: String -> Name -> Q Exp -> Q [Dec]
 makeRecordJsonWrapperExplicit wrapperNameStr fieldsTyName recFormatExp = do
   let wrapperName = mkName wrapperNameStr
       extractorName = mkName $ "un" <> wrapperNameStr
-      recordTy = [t| Record $(conT fieldsTyName) |]
   formatName <- newName $ over _head toLower wrapperNameStr <> "Format"
-  sequence
-    [ newtypeD
-        (cxt [])
-        wrapperName
-        [] -- TyVarBndrs
-        Nothing -- kind
-        (recC wrapperName [varBangType extractorName (bangType (bang noSourceUnpackedness noSourceStrictness) recordTy)])
-        (cxt []) -- deriving context
-    , sigD
+  wrapperNewtype <- makeRecordWrapper wrapperNameStr fieldsTyName
+  wrapperInstances <- sequence $
+    [ sigD
         formatName
         [t| forall e. JsonFormat e $(conT wrapperName) |]
     , valD
@@ -217,4 +210,4 @@ makeRecordJsonWrapperExplicit wrapperNameStr fieldsTyName recFormatExp = do
             [ clause [] (normalB [| toJsonWithFormat $(varE formatName) |]) [] ]
         ]
     ]
-
+  pure $ wrapperNewtype <> wrapperInstances
