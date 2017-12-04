@@ -12,7 +12,8 @@ import Data.Swagger
 import qualified Data.Text as Text
 import GHC.TypeLits (KnownSymbol, symbolVal)
 
--- instance (ToParamSchema a, KnownSymbol s) => ToParamSchema (s :-> a)
+-- Orphan instances for 'Data.Vinyl.Record' that stuff a name/parameter schema into a
+-- 'Data.Swagger.Schema' object.
 
 instance ToSchema (Record '[]) where
   declareNamedSchema _ = pure $ NamedSchema Nothing mempty

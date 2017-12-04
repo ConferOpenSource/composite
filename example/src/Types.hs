@@ -30,12 +30,12 @@ instance DefaultJsonFormat UserType where
 
 deriveOpaleyeEnum ''UserType "usertype" (stripPrefix "UserType")
 
+-- Manula swagger instances for sum type
 instance ToParamSchema UserType where
   toParamSchema = genericToParamSchema $ unprefix "UserType"
     where
       unprefix prefix = defaultSchemaOptions
         { constructorTagModifier = unpack . over (ix 1) charToLower . replace prefix "" . pack }
-
 instance ToSchema UserType where
   declareNamedSchema = pure . paramSchemaToNamedSchema defaultSchemaOptions
 

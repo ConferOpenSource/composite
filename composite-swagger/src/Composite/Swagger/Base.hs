@@ -9,6 +9,8 @@ import Data.Swagger
 import Data.Swagger.Declare (Declare)
 import qualified Data.Text as Text
 
+-- |Given a 'Control.Lens.Wrapped' and an underlying 'Data.Swagger.ToSchema' instance, create a
+-- Schema with the given name surrounding the underlying instance.
 wrappedSchema :: (Wrapped wrap, ToSchema (Unwrapped wrap)) => Proxy wrap -> String -> Declare (Definitions Schema) NamedSchema
 wrappedSchema (Proxy :: Proxy wrap) name = do
   s <- declareSchema (Proxy :: Proxy (Unwrapped wrap))

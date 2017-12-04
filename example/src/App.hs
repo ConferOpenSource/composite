@@ -3,7 +3,7 @@ module App (startApp) where
 import ClassyPrelude hiding (Handler)
 
 import Api
-  ( apiSwaggerDefinition, redirect, swaggerApi
+  ( swaggerApiDefinition, redirect, swaggerApi
   , createUser, retrieveUser, updateUser, deleteUser, enumerateUsers )
 import Control.Monad.Logger (askLoggerIO, logInfo)
 import Data.Pool (Pool)
@@ -26,8 +26,8 @@ startApp = do
       $logInfo $ "Starting server on port 8080"
       liftIO . run 8080 . serve swaggerApi
         $ enter (appStackToHandler appData logFn) ( createUser :<|> retrieveUser :<|> updateUser :<|> deleteUser :<|> enumerateUsers )
-          :<|> swaggerSchemaUIServer apiSwaggerDefinition
-          :<|> redirect "/dev/index.html"
+          :<|> swaggerSchemaUIServer swaggerApiDefinition -- serve the Swagger docs
+          :<|> redirect "/dev/index.html" -- redirect to the Swagger docs at '/'
 
 withPostgresqlPool :: MonadBaseControl IO m => ByteString -> Int -> (Pool PG.Connection -> m a) -> m a
 withPostgresqlPool connStr nConns action = do

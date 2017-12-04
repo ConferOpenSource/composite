@@ -50,8 +50,8 @@ api = Proxy
 swaggerApi :: Proxy (DocumentedApi API "dev")
 swaggerApi = Proxy
 
-apiSwaggerDefinition :: Swagger
-apiSwaggerDefinition =
+swaggerApiDefinition :: Swagger
+swaggerApiDefinition =
   toSwagger api
     & info.title .~ "Example API"
     & info.version .~ pack (showVersion Paths_myawesomeserver.version)
