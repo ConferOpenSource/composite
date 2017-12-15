@@ -53,7 +53,8 @@ withProxies qDecs = do
       proxyType <- [t|Proxy $tySynType|]
       proxyVal <- [|Proxy|]
       pure
-        [ SigD proxyName proxyType
+        [ PragmaD (InlineP proxyName Inlinable FunLike AllPhases)
+        , SigD proxyName proxyType
         , ValD (VarP proxyName) (NormalB proxyVal) []
         ]
 
@@ -181,7 +182,8 @@ proxyDecFor (FieldDec { fieldName, fieldTypeApplied }) = do
   proxyType <- [t|Proxy $(pure fieldTypeApplied)|]
   proxyVal <- [|Proxy|]
   pure
-    [ SigD proxyName proxyType
+    [ PragmaD (InlineP proxyName Inlinable FunLike AllPhases)
+    , SigD proxyName proxyType
     , ValD (VarP proxyName) (NormalB proxyVal) []
     ]
 
@@ -202,7 +204,8 @@ lensDecFor (FieldDec {..}) = do
   rlensVal    <- [| rlens $(pure proxyVal) |]
 
   pure
-    [ SigD lensName (ForallT lensBinders lensContext lensType)
+    [ PragmaD (InlineP lensName Inlinable FunLike AllPhases)
+    , SigD lensName (ForallT lensBinders lensContext lensType)
     , ValD (VarP lensName) (NormalB rlensVal) []
     ]
 
@@ -221,6 +224,7 @@ prismDecFor (FieldDec {..}) = do
   fieldPrismVal <- [| fieldPrism $(pure proxyVal) . _Wrapped |]
 
   pure
-    [ SigD prismName (ForallT prismBinders prismContext prismType)
+    [ PragmaD (InlineP prismName Inlinable FunLike AllPhases)
+    , SigD prismName (ForallT prismBinders prismContext prismType)
     , ValD (VarP prismName) (NormalB fieldPrismVal) []
     ]
