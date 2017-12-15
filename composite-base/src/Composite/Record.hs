@@ -2,7 +2,7 @@
 module Composite.Record
   ( Rec((:&), RNil), Record
   , pattern (:*:), pattern (:^:)
-  , (:->)(Val, getVal), val, valName, valWithName
+  , (:->)(Val, getVal), _Val, val, valName, valWithName
   , RElem, rlens, rlens'
   , AllHave, HasInstances, ValuesAllHave
   , zipRecsWith, reifyDicts, recordToNonEmpty
@@ -11,6 +11,7 @@ module Composite.Record
   , RDelete, RDeletable, rdelete
   ) where
 
+import Control.Lens (Iso, iso)
 import Control.Lens.TH (makeWrapped)
 import Data.Functor.Identity (Identity(Identity))
 import Data.Kind (Constraint)
@@ -39,6 +40,9 @@ type RElem r rs = Vinyl.RElem r rs (Vinyl.RIndex r rs)
 --
 -- Recommended pronunciation: record val.
 newtype (:->) (s :: Symbol) a = Val { getVal :: a }
+
+_Val :: Iso (s :-> a) (s :-> b) a b
+_Val = iso getVal Val
 
 makeWrapped ''(:->)
 

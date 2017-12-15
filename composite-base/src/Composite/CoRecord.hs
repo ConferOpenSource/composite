@@ -4,7 +4,7 @@
 module Composite.CoRecord where
 
 import Prelude
-import Composite.Record (AllHave, HasInstances, reifyDicts, zipRecsWith)
+import Composite.Record (AllHave, HasInstances, (:->)(getVal, Val), reifyDicts, val, zipRecsWith)
 import Control.Lens (Prism', prism')
 import Data.Functor.Identity (Identity(Identity), runIdentity)
 import Data.Kind (Constraint)
@@ -56,9 +56,19 @@ coRecPrism proxy = prism' CoVal (getCompose . rget proxy . coRecToRec)
 field :: r ∈ rs => r -> Field rs
 field = CoVal . Identity
 
+-- |Inject a value @a@ into a @'Field' rs@ given that @s :-> a@ is one of the valid @rs@.
+--
+-- Equivalent to @'CoVal' . 'Identity' . 'Val'@.
+fieldVal :: forall s a rs proxy. s :-> a ∈ rs => proxy (s :-> a) -> a -> Field rs
+fieldVal _ = CoVal . val @s
+
 -- |Produce a prism for the given alternative of a 'Field', given a proxy to identify which @r@ you meant.
 fieldPrism :: (RecApplicative rs, r ∈ rs) => proxy r -> Prism' (Field rs) r
 fieldPrism proxy = coRecPrism proxy . dimap runIdentity (fmap Identity)
+
+-- |Produce a prism for the given @:->@ alternative of a 'Field', given a proxy to identify which @s :-> a@ you meant.
+fieldValPrism :: (RecApplicative rs, s :-> a ∈ rs) => proxy (s :-> a) -> Prism' (Field rs) a
+fieldValPrism proxy = coRecPrism proxy . dimap (getVal . runIdentity) (fmap (Identity . Val))
 
 -- |Apply an extraction to whatever @f r@ is contained in the given 'CoRec'.
 --
