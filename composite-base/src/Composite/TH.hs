@@ -102,7 +102,7 @@ withLensesAndProxies = withBoilerplate True False
 -- @
 --   type FFoo = "foo" :-> Int
 --   _FFoo :: FFoo ∈ rs => Prism' (Field rs) Int
---   _FFoo = fieldPrism fFoo_ . _Wrapped
+--   _FFoo = fieldValPrism fFoo_
 --   fFoo_ :: Proxy FFoo
 --   fFoo_ = Proxy
 -- @
