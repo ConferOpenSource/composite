@@ -32,7 +32,7 @@ instance DefaultJsonFormatField '[] where
 instance forall s a rs. (DefaultJsonFormat a, DefaultJsonFormatField rs) => DefaultJsonFormatField (s :-> a ': rs) where
   defaultJsonFormatField = wrappedJsonFormat defaultJsonFormat :& (defaultJsonFormatField :: JsonFormatField e rs)
 
--- |Make a @'JsonFormat' e (Field rs)@ given how to map the sum type to JSON alogn with a record with formatters for each value the field could have.
+-- |Make a @'JsonFormat' e (Field rs)@ given how to map the sum type to JSON along with a record with formatters for each value the field could have.
 fieldJsonFormat
   :: forall (rs :: [*]) r' (rs' :: [*]) e.
      (rs ~ (r' ': rs'), RecApplicative rs, RecWithContext rs rs, ReifyNames rs)

@@ -6,9 +6,9 @@ module Composite.TH
   , makeRecordWrapper
   ) where
 
-import Composite.CoRecord (Field, fieldPrism)
+import Composite.CoRecord (Field, fieldValPrism)
 import Composite.Record ((:->), Record, rlens)
-import Control.Lens (Prism', _1, _head, _Wrapped, each, over, toListOf)
+import Control.Lens (Prism', _1, _head, each, over, toListOf)
 import Data.Char (toLower)
 import Data.List (foldl')
 import Data.Maybe (catMaybes)
@@ -20,8 +20,9 @@ import Language.Haskell.TH
   ( Q, newName, mkName, nameBase
   , recC, varBangType, bang, bangType, noSourceUnpackedness, noSourceStrictness
   , Body(NormalB), conT, cxt
-  , Dec(SigD, ValD), newtypeD
-  , Exp(VarE), Name, Pat(VarP)
+  , Dec(PragmaD, SigD, ValD), newtypeD
+  , Exp(VarE), Inline(Inlinable), Name, Pat(VarP)
+  , Phases(AllPhases), Pragma(InlineP), RuleMatch(FunLike)
   , Type(AppT, ConT, ForallT, VarT), TyVarBndr(PlainTV, KindedTV), varT
   )
 import Language.Haskell.TH.Lens (_TySynD)
@@ -58,7 +59,8 @@ withProxies qDecs = do
       proxyType <- [t|Proxy $tySynType|]
       proxyVal <- [|Proxy|]
       pure
-        [ SigD proxyName proxyType
+        [ PragmaD (InlineP proxyName Inlinable FunLike AllPhases)
+        , SigD proxyName proxyType
         , ValD (VarP proxyName) (NormalB proxyVal) []
         ]
 
@@ -89,7 +91,7 @@ withProxies qDecs = do
 withLensesAndProxies :: Q [Dec] -> Q [Dec]
 withLensesAndProxies = withBoilerplate True False
 
--- |Make 'fieldPrism' and 'Proxy' definitions for each of the @type@ synonyms in the given block of declarations. The prisms have the same names as the
+-- |Make 'fieldValPrism' and 'Proxy' definitions for each of the @type@ synonyms in the given block of declarations. The prisms have the same names as the
 -- synonyms but prefixed with @_@. The proxies will have the same name as the synonym but with the first character lowercased and @_@ appended.
 --
 -- For example:
@@ -105,7 +107,7 @@ withLensesAndProxies = withBoilerplate True False
 -- @
 --   type FFoo = "foo" :-> Int
 --   _FFoo :: FFoo ∈ rs => Prism' (Field rs) Int
---   _FFoo = fieldPrism fFoo_ . _Wrapped
+--   _FFoo = fieldValPrism fFoo_
 --   fFoo_ :: Proxy FFoo
 --   fFoo_ = Proxy
 -- @
@@ -116,7 +118,7 @@ withLensesAndProxies = withBoilerplate True False
 withPrismsAndProxies :: Q [Dec] -> Q [Dec]
 withPrismsAndProxies = withBoilerplate False True
 
--- |Make 'rlens', 'fieldPrism', and 'Proxy' definitions for each of the @type@ synonyms in the given block of declarations.
+-- |Make 'rlens', 'fieldValPrism', and 'Proxy' definitions for each of the @type@ synonyms in the given block of declarations.
 -- The lenses have the same names as the synonyms but with the first letter lowercased, e.g. @FFoo@ becomes @fFoo@.
 -- The prisms have the same names as the synonyms but with @_@ prepended, e.g. @FFoo@ becomes @_FFoo@.
 -- The proxies have the same names as the synonyms but with the first letter lowercase and trailing @_@, e.g. @FFoo@ becomes @fFoo_@.
@@ -136,7 +138,7 @@ withPrismsAndProxies = withBoilerplate False True
 --   fFoo :: FFoo ∈ rs => Lens' (Record rs) Int
 --   fFoo = rlens fFoo_
 --   _FFoo :: FFoo ∈ rs => Prism' (Field rs) Int
---   _FFoo = fieldPrism fFoo_ . _Wrapped
+--   _FFoo = fieldValPrism fFoo_
 --   fFoo_ :: Proxy FFoo
 --   fFoo_ = Proxy
 -- @
@@ -186,7 +188,8 @@ proxyDecFor (FieldDec { fieldName, fieldTypeApplied }) = do
   proxyType <- [t|Proxy $(pure fieldTypeApplied)|]
   proxyVal <- [|Proxy|]
   pure
-    [ SigD proxyName proxyType
+    [ PragmaD (InlineP proxyName Inlinable FunLike AllPhases)
+    , SigD proxyName proxyType
     , ValD (VarP proxyName) (NormalB proxyVal) []
     ]
 
@@ -207,7 +210,8 @@ lensDecFor (FieldDec {..}) = do
   rlensVal    <- [| rlens $(pure proxyVal) |]
 
   pure
-    [ SigD lensName (ForallT lensBinders lensContext lensType)
+    [ PragmaD (InlineP lensName Inlinable FunLike AllPhases)
+    , SigD lensName (ForallT lensBinders lensContext lensType)
     , ValD (VarP lensName) (NormalB rlensVal) []
     ]
 
@@ -223,10 +227,11 @@ prismDecFor (FieldDec {..}) = do
 
   prismContext  <- cxt [ [t| RecApplicative $rsTy |], [t| $(pure fieldTypeApplied) ∈ $rsTy |] ]
   prismType     <- [t| Prism' (Field $rsTy) $(pure fieldValueType) |]
-  fieldPrismVal <- [| fieldPrism $(pure proxyVal) . _Wrapped |]
+  fieldPrismVal <- [| fieldValPrism $(pure proxyVal) |]
 
   pure
-    [ SigD prismName (ForallT prismBinders prismContext prismType)
+    [ PragmaD (InlineP prismName Inlinable FunLike AllPhases)
+    , SigD prismName (ForallT prismBinders prismContext prismType)
     , ValD (VarP prismName) (NormalB fieldPrismVal) []
     ]
 

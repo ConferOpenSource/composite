@@ -9,3 +9,6 @@ packages:
   - example
 flags: {}
 extra-package-dbs: []
+nix:
+  packages:
+    - postgresql
