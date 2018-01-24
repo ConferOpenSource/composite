@@ -6,8 +6,9 @@ import Control.Arrow (returnA)
 import Control.Lens (_Unwrapping, each, toListOf, view, (?~), (.~), (&))
 import Control.Monad.Except (MonadError, throwError)
 import Control.Monad.Logger (logInfo)
+import Data.Aeson (ToJSON, toJSON, Value (String))
 import Data.Proxy (Proxy(Proxy))
-import Data.Swagger (Swagger, info, title, version, description, license)
+import Data.Swagger (Swagger, info, title, version, description, license, ToSchema, declareNamedSchema, genericDeclareNamedSchema, defaultSchemaOptions)
 import Data.Version (showVersion)
 import Data.Vinyl.Lens (rsubset)
 import Foundation
@@ -27,10 +28,19 @@ import Servant.Swagger (toSwagger)
 import Servant.Swagger.UI (SwaggerSchemaUI)
 import qualified System.Metrics.Counter as Counter
 
-type API = "users" :> ( ReqBody '[JSON] ApiUserJson :> Post '[JSON] ()
+-- Use a type isomorphic to () to get Swagger API docs to generate
+data Accepted = Accepted deriving Generic
+
+instance ToJSON Accepted where
+  toJSON _ = String "Accepted"
+
+instance ToSchema Accepted where
+  declareNamedSchema _ = genericDeclareNamedSchema defaultSchemaOptions (Proxy :: Proxy Accepted)
+
+type API = "users" :> ( ReqBody '[JSON] ApiUserJson :> Post '[JSON] Accepted
                         :<|> Capture "userKey" FId :> Get '[JSON] ApiUserJson
-                        :<|> Capture "userKey" FId :> ReqBody '[JSON] ApiUserJson :> Put '[JSON] ()
-                        :<|> Capture "userKey" FId :> Delete '[JSON] ()
+                        :<|> Capture "userKey" FId :> ReqBody '[JSON] ApiUserJson :> Put '[JSON] Accepted
+                        :<|> Capture "userKey" FId :> Delete '[JSON] Accepted
                         :<|> QueryParam "login" FLogin :> QueryParam "type" FUserType :> Get '[JSON] [ApiUserJson]
                       )
 
@@ -68,13 +78,14 @@ toWrite userKeyMay user =
     Nothing -> Nothing :*: user
 
 -- |Create a user from some fields
-createUser :: ApiUserJson -> AppStackM ()
+createUser :: ApiUserJson -> AppStackM Accepted
 createUser (ApiUserJson user) = do
   $logInfo "received create request"
   -- Increment the user create requests ekg counter
   liftIO . Counter.inc =<< asks (view fUserCreateRequests . appMetrics)
 
   void $ withDb $ \ conn -> runInsertMany conn userTable [toWrite Nothing user]
+  pure Accepted
 
 -- |Retrieve a user by key
 retrieveUser :: FId -> AppStackM ApiUserJson
@@ -95,7 +106,7 @@ retrieveUser (Val userKey) = do
     Nothing -> throwError err404
 
 -- |Replace a user by key
-updateUser :: FId -> ApiUserJson -> AppStackM ()
+updateUser :: FId -> ApiUserJson -> AppStackM Accepted
 updateUser uId@(Val userKey) (ApiUserJson user) = do
   $logInfo "received update request"
   -- Increment the user update requests ekg counter
@@ -103,9 +114,10 @@ updateUser uId@(Val userKey) (ApiUserJson user) = do
 
   void $ withDb $ \ conn -> runUpdate conn userTable (const $ toWrite (Just uId) user) $
     \ u -> view cId u .== constant userKey
+  pure Accepted
 
 -- |Delete a user by key
-deleteUser :: FId -> AppStackM ()
+deleteUser :: FId -> AppStackM Accepted
 deleteUser (Val userKey) = do
   $logInfo "received delete request"
   -- Increment the user delete requests ekg counter
@@ -113,6 +125,7 @@ deleteUser (Val userKey) = do
 
   void $ withDb $ \ conn -> runDelete conn userTable $
     \ u -> view cId u .== constant userKey
+  pure Accepted
 
 -- |List users - omitting query parameters results in unbounded query
 enumerateUsers :: Maybe FLogin -> Maybe FUserType -> AppStackM [ApiUserJson]
