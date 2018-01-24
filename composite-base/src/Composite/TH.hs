@@ -17,7 +17,7 @@ import Data.Vinyl (RecApplicative)
 import Data.Vinyl.Lens (type (∈))
 import Language.Haskell.TH
   ( Q, newName, mkName, nameBase
-  , Body(NormalB), cxt, Dec(SigD, ValD), Exp(VarE), Name, Pat(VarP), Phases(AllPhases), Pragma(InlineP), RuleMatch(FunLike)
+  , Body(NormalB), cxt, Dec(PragmaD, SigD, ValD), Exp(VarE), Inline(Inlinable), Name, Pat(VarP), Phases(AllPhases), Pragma(InlineP), RuleMatch(FunLike)
   , Type(AppT, ConT, ForallT, VarT), TyVarBndr(PlainTV, KindedTV), varT
   )
 import Language.Haskell.TH.Lens (_TySynD)
