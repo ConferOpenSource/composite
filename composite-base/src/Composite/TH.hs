@@ -3,7 +3,6 @@ module Composite.TH
   , withLensesAndProxies
   , withPrismsAndProxies
   , withOpticsAndProxies
-  , makeRecordWrapper
   ) where
 
 import Composite.CoRecord (Field, fieldValPrism)
@@ -18,11 +17,7 @@ import Data.Vinyl (RecApplicative)
 import Data.Vinyl.Lens (type (∈))
 import Language.Haskell.TH
   ( Q, newName, mkName, nameBase
-  , recC, varBangType, bang, bangType, noSourceUnpackedness, noSourceStrictness
-  , Body(NormalB), conT, cxt
-  , Dec(PragmaD, SigD, ValD), newtypeD
-  , Exp(VarE), Inline(Inlinable), Name, Pat(VarP)
-  , Phases(AllPhases), Pragma(InlineP), RuleMatch(FunLike)
+  , Body(NormalB), cxt, Dec(SigD, ValD), Exp(VarE), Name, Pat(VarP), Phases(AllPhases), Pragma(InlineP), RuleMatch(FunLike)
   , Type(AppT, ConT, ForallT, VarT), TyVarBndr(PlainTV, KindedTV), varT
   )
 import Language.Haskell.TH.Lens (_TySynD)
@@ -233,33 +228,4 @@ prismDecFor (FieldDec {..}) = do
     [ PragmaD (InlineP prismName Inlinable FunLike AllPhases)
     , SigD prismName (ForallT prismBinders prismContext prismType)
     , ValD (VarP prismName) (NormalB fieldPrismVal) []
-    ]
-
--- |TH splice which makes it more convenient to define a newtype wrapper for 'Record' types.
---
--- For example:
---
--- @
---   type MyRecord = '[FFoo, FBar]
---   makeRecordWrapper "MyRecordWrapper" ''MyRecord
--- @
---
--- is equivalent to:
---
--- @
---   newtype MyRecordWrapper = MyRecordWrapper { unMyRecordWrapper :: Record MyRecord }
--- @
-makeRecordWrapper :: String -> Name -> Q [Dec]
-makeRecordWrapper wrapperNameStr fieldsTyName = do
-  let wrapperName = mkName wrapperNameStr
-      extractorName = mkName $ "un" <> wrapperNameStr
-      recordTy = [t| Record $(conT fieldsTyName) |]
-  sequence
-    [ newtypeD
-        (cxt [])
-        wrapperName
-        [] -- TyVarBndrs
-        Nothing -- kind
-        (recC wrapperName [varBangType extractorName (bangType (bang noSourceUnpackedness noSourceStrictness) recordTy)])
-        (cxt []) -- deriving context
     ]
