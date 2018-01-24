@@ -29,6 +29,7 @@ library
     , composite-base
     , composite-ekg
     , composite-opaleye
+    , composite-swagger
     , configurator
     , ekg
     , ekg-core
@@ -44,6 +45,10 @@ library
     , resource-pool
     , servant
     , servant-server
+    , servant-swagger
+    , servant-swagger-ui
+    , swagger2
+    , text
     , vinyl
     , warp
   exposed-modules:
@@ -73,6 +78,7 @@ executable myawesomeserver-exe
     , composite-base
     , composite-ekg
     , composite-opaleye
+    , composite-swagger
     , configurator
     , ekg
     , ekg-core
@@ -89,6 +95,10 @@ executable myawesomeserver-exe
     , resource-pool
     , servant
     , servant-server
+    , servant-swagger
+    , servant-swagger-ui
+    , swagger2
+    , text
     , vinyl
     , warp
   other-modules:

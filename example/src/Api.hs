@@ -3,10 +3,12 @@ module Api where
 import ClassyPrelude
 import Composite.Record (Record, (:->)(Val), pattern (:*:), getVal)
 import Control.Arrow (returnA)
-import Control.Lens (_Unwrapping, each, toListOf, view)
-import Control.Monad.Except (throwError)
+import Control.Lens (_Unwrapping, each, toListOf, view, (?~), (.~), (&))
+import Control.Monad.Except (MonadError, throwError)
 import Control.Monad.Logger (logInfo)
 import Data.Proxy (Proxy(Proxy))
+import Data.Swagger (Swagger, info, title, version, description, license)
+import Data.Version (showVersion)
 import Data.Vinyl.Lens (rsubset)
 import Foundation
   ( AppStackM, appMetrics, withDb
@@ -15,11 +17,14 @@ import Foundation
 import Opaleye
   ( (.==), (.&&), constant, desc, limit, orderBy, queryTable, restrict
   , runDelete, runInsertMany, runQuery, runUpdate )
-import Servant (Capture, Delete, Get, JSON, Post, Put, QueryParam, ReqBody, (:>), (:<|>))
-import Servant.Server (err404)
+import qualified Paths_myawesomeserver
+import Servant (Capture, Delete, Get, JSON, Post, Put, QueryParam, ReqBody, ServantErr, (:>), (:<|>))
+import Servant.Server (err307, err404, errHeaders)
 import Types
   ( ApiUser, ApiUserJson(ApiUserJson), DbUser, FId, FIdMay, FLogin, FUserType, DbUserInsCols
   , cId, cLogin, cUserType, userTable )
+import Servant.Swagger (toSwagger)
+import Servant.Swagger.UI (SwaggerSchemaUI)
 import qualified System.Metrics.Counter as Counter
 
 type API = "users" :> ( ReqBody '[JSON] ApiUserJson :> Post '[JSON] ()
@@ -29,8 +34,29 @@ type API = "users" :> ( ReqBody '[JSON] ApiUserJson :> Post '[JSON] ()
                         :<|> QueryParam "login" FLogin :> QueryParam "type" FUserType :> Get '[JSON] [ApiUserJson]
                       )
 
+-- |Routing for an API along with its Swagger documentation and a redirect from root to the docs.
+type DocumentedApi api docsDir =
+  api :<|>
+  SwaggerSchemaUI docsDir "swagger.json" :<|>
+  Get '[JSON] ()
+
+-- |Always redirect to the given location.
+redirect :: (MonadError ServantErr m) => Text -> m a
+redirect loc = throwError $ err307 { errHeaders = [("Location", fromString $ unpack loc)] }
+
 api :: Proxy API
 api = Proxy
+
+swaggerApi :: Proxy (DocumentedApi API "dev")
+swaggerApi = Proxy
+
+swaggerApiDefinition :: Swagger
+swaggerApiDefinition =
+  toSwagger api
+    & info.title .~ "Example API"
+    & info.version .~ pack (showVersion Paths_myawesomeserver.version)
+    & info.description ?~ "An example API"
+    & info.license ?~ "BSD3"
 
 -- |Convert an id-less User to something that may have a key if it's provided on input; needed
 -- because @Opaleye.Table.TableProperties@ uses writer columns for inserts and deletes

@@ -5,6 +5,7 @@ packages:
   - composite-base
   - composite-ekg
   - composite-opaleye
+  - composite-swagger
   - example
 flags: {}
 extra-package-dbs: []
