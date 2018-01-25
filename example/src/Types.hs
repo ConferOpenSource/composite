@@ -56,7 +56,6 @@ withLensesAndProxies [d|
   type CUserType = "usertype" :-> Column PGUserType
   |]
 
-
 type ApiUser       = '[FLogin, FUserType]
 type DbUser        = '[FId, FLogin, FUserType]
 type DbUserInsCols = '[CIdMay, CLogin, CUserType]

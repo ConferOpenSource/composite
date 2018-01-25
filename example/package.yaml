@@ -48,6 +48,7 @@ dependencies:
   - ekg-core
   - fast-logger
   - http-api-data
+  - insert-ordered-containers
   - lens
   - monad-logger
   - mtl
