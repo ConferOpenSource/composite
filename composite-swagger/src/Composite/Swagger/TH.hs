@@ -65,6 +65,6 @@ makeToSchemaWrapper wrapperNameStr fieldsTyName = do
     [] -- TyVarBndrs
     Nothing -- kind
     (recC wrapperName [varBangType extractorName (bangType (bang noSourceUnpackedness noSourceStrictness) fieldTy)])
-    (cxt []) -- deriving context
+    [] -- deriving context
   wrapperInstances <- makeToSchema wrapperNameStr wrapperName
   pure $ wrapperNewtype:wrapperInstances

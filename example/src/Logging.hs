@@ -1,6 +1,7 @@
 module Logging (LogFunction, withLogger, withLoggingFunc) where
 
 import ClassyPrelude
+import Control.Monad.Catch (MonadMask(..))
 import Control.Monad.Logger
   ( LoggingT(runLoggingT), LogLevel, LogSource
   , Loc(loc_package, loc_module, loc_filename, loc_start) )

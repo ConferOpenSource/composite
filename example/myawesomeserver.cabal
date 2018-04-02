@@ -1,6 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.19.3.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: a849569caf9735caefe9a5f77b0ceeb108e121f0f80b9b253692fce9e8ff0745
 
 name:           myawesomeserver
 version:        0.0.1
@@ -33,10 +35,12 @@ library
     , configurator
     , ekg
     , ekg-core
+    , exceptions
     , fast-logger
     , http-api-data
     , insert-ordered-containers
     , lens
+    , monad-control
     , monad-logger
     , mtl
     , opaleye

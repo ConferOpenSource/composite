@@ -7,6 +7,7 @@ module Foundation
 import ClassyPrelude hiding (Handler)
 import Composite.Record (Record)
 import Control.Monad.Logger (LoggingT)
+import Control.Monad.Trans.Control (MonadBaseControl(..))
 import Data.Pool (Pool, withResource)
 import Database.PostgreSQL.Simple (Connection)
 import Metrics
@@ -25,7 +26,7 @@ data AppData = AppData
   , appMetrics :: Record EkgMetrics
   }
 
-withDb :: (MonadBaseControl IO m, MonadReader AppData m) => (Connection -> IO a) -> m a
+withDb :: (MonadBaseControl IO m, MonadReader AppData m) => (Connection -> m a) -> m a
 withDb action = do
   pool <- asks appConnPool
-  liftBase $ withResource pool action
+  withResource pool action

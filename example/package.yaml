@@ -46,10 +46,12 @@ dependencies:
   - configurator
   - ekg
   - ekg-core
+  - exceptions
   - fast-logger
   - http-api-data
   - insert-ordered-containers
   - lens
+  - monad-control
   - monad-logger
   - mtl
   - opaleye

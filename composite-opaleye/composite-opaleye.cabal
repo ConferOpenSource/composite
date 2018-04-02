@@ -1,6 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.19.3.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: a1c620c148c581c5ae4fe885f39c181f2a5ccea5e701717b1e162c6d884211bd
 
 name:           composite-opaleye
 version:        0.5.3.0
