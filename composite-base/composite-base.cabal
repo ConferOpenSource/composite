@@ -1,6 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.19.3.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 2618bea197d35bcbfa54da654a7ac6b494be054ccf4a1c58b235c2464847b49b
 
 name:           composite-base
 version:        0.5.3.0

@@ -98,7 +98,7 @@ deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
   let conPairs = nullaryCons <&> \ conName ->
         (conName, fromMaybe (nameBase conName) (hsConToSqlValue (nameBase conName)))
 
-  sqlTypeDecl <- dataD (cxt []) sqlTypeName [] Nothing [] (cxt [])
+  sqlTypeDecl <- dataD (cxt []) sqlTypeName [] Nothing [] []
 
   fromFieldInst <- instanceD (cxt []) [t| FromField $hsType |] . (:[]) $ do
     field <- newName "field"

@@ -3,16 +3,18 @@ module App (startApp) where
 import ClassyPrelude hiding (Handler)
 
 import Api
-  ( swaggerApiDefinition, redirect, swaggerApi
+  ( api, swaggerApiDefinition, redirect, swaggerApi
   , createUser, retrieveUser, updateUser, deleteUser, enumerateUsers )
 import Control.Monad.Logger (askLoggerIO, logInfo)
+import Control.Monad.Trans.Control (MonadBaseControl(..))
 import Data.Pool (Pool)
 import qualified Data.Pool as Pool
 import qualified Database.PostgreSQL.Simple as PG
 import Foundation (AppData(AppData), AppStackM, configureMetrics)
 import Logging (LogFunction, withLogger, withLoggingFunc)
 import Network.Wai.Handler.Warp (run)
-import Servant ((:<|>)((:<|>)), Handler, (:~>)(NT), enter, serve)
+import Servant ((:<|>)((:<|>)), Handler, serve)
+import Servant.Server (hoistServer)
 import Servant.Swagger.UI (swaggerSchemaUIServer)
 
 -- |Perform app initialization and then begin serving the API
@@ -25,13 +27,13 @@ startApp = do
       logFn <- askLoggerIO
       $logInfo $ "Starting server on port 8080"
       liftIO . run 8080 . serve swaggerApi
-        $ enter (appStackToHandler appData logFn) ( createUser :<|> retrieveUser :<|> updateUser :<|> deleteUser :<|> enumerateUsers )
+        $ hoistServer api (appStackToHandler appData logFn) ( createUser :<|> retrieveUser :<|> updateUser :<|> deleteUser :<|> enumerateUsers )
           :<|> swaggerSchemaUIServer swaggerApiDefinition -- serve the Swagger docs
           :<|> redirect "/dev/index.html" -- redirect to the Swagger docs at '/'
 
 withPostgresqlPool :: MonadBaseControl IO m => ByteString -> Int -> (Pool PG.Connection -> m a) -> m a
 withPostgresqlPool connStr nConns action = do
-  stm <- liftBaseWith $ \ runInBase ->
+  stm <- liftBaseWith $ \ runInBase -> liftIO $
     bracket createPool Pool.destroyAllResources (runInBase . action)
   restoreM stm
   where
@@ -40,5 +42,5 @@ withPostgresqlPool connStr nConns action = do
 appStackToHandler' :: forall a. AppData -> LogFunction -> AppStackM a -> Handler a
 appStackToHandler' appData logger action = withLoggingFunc logger $ runReaderT action appData
 
-appStackToHandler :: AppData -> LogFunction -> (AppStackM :~> Handler)
-appStackToHandler ad lf = NT $ appStackToHandler' ad lf
+appStackToHandler :: AppData -> LogFunction -> (forall a . AppStackM a -> Handler a)
+appStackToHandler ad lf = appStackToHandler' ad lf

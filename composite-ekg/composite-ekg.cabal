@@ -1,6 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.19.3.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 3726ca578ca7926732d3ab015220c3602fc54ccdd157a2e781bee1a16dc4d101
 
 name:           composite-ekg
 version:        0.5.3.0
@@ -23,7 +25,6 @@ library
   build-depends:
       base >=4.7 && <5
     , composite-base
-    , ekg
     , ekg-core
     , lens
     , text

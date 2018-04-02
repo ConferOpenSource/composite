@@ -88,7 +88,7 @@ createUser (ApiUserJson user) = do
   -- Increment the user create requests ekg counter
   liftIO . Counter.inc =<< asks (view fUserCreateRequests . appMetrics)
 
-  void $ withDb $ \ conn -> runInsertMany conn userTable [toWrite Nothing user]
+  void $ withDb $ \ conn -> liftIO $ runInsertMany conn userTable [toWrite Nothing user]
   pure Result
 
 -- |Retrieve a user by key
@@ -98,7 +98,7 @@ retrieveUser (Val userKey) = do
   -- Increment the user retrieve requests ekg counter
   liftIO . Counter.inc =<< asks (view fUserRetrieveRequests . appMetrics)
 
-  users <- withDb $ \ conn ->
+  users <- withDb $ \ conn -> liftIO $ 
     runQuery conn . limit 1 $ proc () -> do
       user <- queryTable userTable -< ()
       restrict -< view cId user .== constant userKey
@@ -116,7 +116,7 @@ updateUser uId@(Val userKey) (ApiUserJson user) = do
   -- Increment the user update requests ekg counter
   liftIO . Counter.inc =<< asks (view fUserUpdateRequests . appMetrics)
 
-  void $ withDb $ \ conn -> runUpdate conn userTable (const $ toWrite (Just uId) user) $
+  void $ withDb $ \ conn -> liftIO $ runUpdate conn userTable (const $ toWrite (Just uId) user) $
     \ u -> view cId u .== constant userKey
   pure Result
 
@@ -127,7 +127,7 @@ deleteUser (Val userKey) = do
   -- Increment the user delete requests ekg counter
   liftIO . Counter.inc =<< asks (view fUserDeleteRequests . appMetrics)
 
-  void $ withDb $ \ conn -> runDelete conn userTable $
+  void $ withDb $ \ conn -> liftIO $ runDelete conn userTable $
     \ u -> view cId u .== constant userKey
   pure Result
 
@@ -138,7 +138,7 @@ enumerateUsers login userType = do
   -- Increment the user enumerate requests ekg counter
   liftIO . Counter.inc =<< asks (view fUserEnumerateRequests . appMetrics)
 
-  users <- withDb $ \ conn -> runQuery conn . orderBy (desc $ view cLogin) $ proc () -> do
+  users <- withDb $ \ conn -> liftIO $ runQuery conn . orderBy (desc $ view cLogin) $ proc () -> do
     user <- queryTable userTable -< ()
     restrict -< maybe (constant True) ((.== view cUserType user) . constant . getVal) userType
       .&& maybe (constant True) ((.== view cLogin user) . constant . getVal) login

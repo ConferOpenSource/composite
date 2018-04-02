@@ -7,7 +7,8 @@ import Data.Profunctor.Product ((***!))
 import qualified Data.Profunctor.Product as PP
 import Data.Proxy (Proxy(Proxy))
 import GHC.TypeLits (KnownSymbol, symbolVal)
-import Opaleye (Column, TableProperties, required, optional)
+import Opaleye (Column, required, optional)
+import Opaleye.Internal.Table (TableProperties)
 
 -- |Helper typeclass which picks which of 'required' or 'optional' to use for a pair of write column type and read column type.
 --

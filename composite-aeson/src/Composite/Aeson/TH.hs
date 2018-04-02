@@ -90,7 +90,7 @@ makeFieldJsonWrapperExplicit wrapperNameStr fieldsTyName sumStyle fieldFormatExp
         [] -- TyVarBndrs
         Nothing -- kind
         (recC wrapperName [varBangType extractorName (bangType (bang noSourceUnpackedness noSourceStrictness) fieldTy)])
-        (cxt []) -- deriving context
+        [] -- deriving context
     , sigD
         formatName
         [t| forall e. JsonFormat e $(conT wrapperName) |]
@@ -187,7 +187,7 @@ makeRecordJsonWrapperExplicit wrapperNameStr fieldsTyName recFormatExp = do
         [] -- TyVarBndrs
         Nothing -- kind
         (recC wrapperName [varBangType extractorName (bangType (bang noSourceUnpackedness noSourceStrictness) recordTy)])
-        (cxt []) -- deriving context
+        [] -- deriving context
     , sigD
         formatName
         [t| forall e. JsonFormat e $(conT wrapperName) |]
