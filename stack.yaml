@@ -12,3 +12,4 @@ extra-package-dbs: []
 nix:
   packages:
     - postgresql
+    - zlib

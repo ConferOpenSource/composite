@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Composite.Swagger.TH where
 
 import Composite.CoRecord (Field)
@@ -65,6 +66,10 @@ makeToSchemaWrapper wrapperNameStr fieldsTyName = do
     [] -- TyVarBndrs
     Nothing -- kind
     (recC wrapperName [varBangType extractorName (bangType (bang noSourceUnpackedness noSourceStrictness) fieldTy)])
+#if MIN_VERSION_template_haskell(2,12,0)
     [] -- deriving context
+#else
+    (cxt [])
+#endif
   wrapperInstances <- makeToSchema wrapperNameStr wrapperName
   pure $ wrapperNewtype:wrapperInstances

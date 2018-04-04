@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a849569caf9735caefe9a5f77b0ceeb108e121f0f80b9b253692fce9e8ff0745
+-- hash: 125276927ba2f7246d33cc93aa50a30aa917cc3212a8f3ce0f7bbe4c521a7e08
 
 name:           myawesomeserver
 version:        0.0.1
@@ -23,39 +23,39 @@ library
   default-extensions: Arrows ConstraintKinds DataKinds DeriveGeneric FlexibleContexts FlexibleInstances GADTs GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving TemplateHaskell TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall
   build-depends:
-      aeson
+      aeson >=1.1.2.0 && <1.3
     , base >=4.7 && <5
-    , bytestring
-    , classy-prelude
-    , composite-aeson
-    , composite-base
-    , composite-ekg
-    , composite-opaleye
-    , composite-swagger
-    , configurator
-    , ekg
-    , ekg-core
-    , exceptions
-    , fast-logger
-    , http-api-data
-    , insert-ordered-containers
-    , lens
-    , monad-control
-    , monad-logger
-    , mtl
-    , opaleye
-    , postgresql-simple
-    , product-profunctors
-    , profunctors
-    , resource-pool
-    , servant
-    , servant-server
-    , servant-swagger
-    , servant-swagger-ui
-    , swagger2
-    , text
-    , vinyl
-    , warp
+    , bytestring >=0.10.8.1 && <0.11
+    , classy-prelude >=1.2.0.1 && <1.5
+    , composite-aeson >=0.5.3.0 && <0.6
+    , composite-base >=0.5.3.0 && <0.6
+    , composite-ekg >=0.5.3.0 && <0.6
+    , composite-opaleye >=0.5.3.0 && <0.6
+    , composite-swagger >=0.5.3.0 && <0.6
+    , configurator >=0.3.0.0 && <0.4
+    , ekg >=0.1.1.3 && <0.5
+    , ekg-core >=0.1.1.3 && <0.5
+    , exceptions >=0.8.3 && <0.9
+    , fast-logger >=2.4.10 && <2.5
+    , http-api-data >=0.3.7.1 && <0.4
+    , insert-ordered-containers >=0.2.1.0 && <0.3
+    , lens >=4.15.4 && <4.17
+    , monad-control >=1.0.2.2 && <1.1
+    , monad-logger >=0.3.25.1 && <0.4
+    , mtl >=2.2.1 && <2.3
+    , opaleye >=0.5.4.0 && <0.7
+    , postgresql-simple >=0.5.3.0 && <0.6
+    , product-profunctors >=0.8.0.3 && <0.10
+    , profunctors >=5.2.1 && <5.3
+    , resource-pool >=0.2.3.2 && <0.3
+    , servant >=0.11 && <0.14
+    , servant-server >=0.11.0.1 && <0.14
+    , servant-swagger >=1.1.4 && <1.2
+    , servant-swagger-ui >=0.2.4.3.4.0 && <0.3
+    , swagger2 >=2.1.6 && <2.3
+    , text >=1.2.2.2 && <1.3
+    , vinyl >=0.5.3 && <0.8
+    , warp >=3.2.13 && <3.3
   exposed-modules:
       Api
       ApiOrphans
@@ -75,38 +75,40 @@ executable myawesomeserver-exe
   default-extensions: Arrows ConstraintKinds DataKinds DeriveGeneric FlexibleContexts FlexibleInstances GADTs GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses NoImplicitPrelude OverloadedStrings PatternSynonyms QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving TemplateHaskell TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aeson
+      aeson >=1.1.2.0 && <1.3
     , base >=4.7 && <5
-    , bytestring
-    , classy-prelude
-    , composite-aeson
-    , composite-base
-    , composite-ekg
-    , composite-opaleye
-    , composite-swagger
-    , configurator
-    , ekg
-    , ekg-core
-    , fast-logger
-    , http-api-data
-    , insert-ordered-containers
-    , lens
-    , monad-logger
-    , mtl
+    , bytestring >=0.10.8.1 && <0.11
+    , classy-prelude >=1.2.0.1 && <1.5
+    , composite-aeson >=0.5.3.0 && <0.6
+    , composite-base >=0.5.3.0 && <0.6
+    , composite-ekg >=0.5.3.0 && <0.6
+    , composite-opaleye >=0.5.3.0 && <0.6
+    , composite-swagger >=0.5.3.0 && <0.6
+    , configurator >=0.3.0.0 && <0.4
+    , ekg >=0.1.1.3 && <0.5
+    , ekg-core >=0.1.1.3 && <0.5
+    , exceptions >=0.8.3 && <0.9
+    , fast-logger >=2.4.10 && <2.5
+    , http-api-data >=0.3.7.1 && <0.4
+    , insert-ordered-containers >=0.2.1.0 && <0.3
+    , lens >=4.15.4 && <4.17
+    , monad-control >=1.0.2.2 && <1.1
+    , monad-logger >=0.3.25.1 && <0.4
+    , mtl >=2.2.1 && <2.3
     , myawesomeserver
-    , opaleye
-    , postgresql-simple
-    , product-profunctors
-    , profunctors
-    , resource-pool
-    , servant
-    , servant-server
-    , servant-swagger
-    , servant-swagger-ui
-    , swagger2
-    , text
-    , vinyl
-    , warp
+    , opaleye >=0.5.4.0 && <0.7
+    , postgresql-simple >=0.5.3.0 && <0.6
+    , product-profunctors >=0.8.0.3 && <0.10
+    , profunctors >=5.2.1 && <5.3
+    , resource-pool >=0.2.3.2 && <0.3
+    , servant >=0.11 && <0.14
+    , servant-server >=0.11.0.1 && <0.14
+    , servant-swagger >=1.1.4 && <1.2
+    , servant-swagger-ui >=0.2.4.3.4.0 && <0.3
+    , swagger2 >=2.1.6 && <2.3
+    , text >=1.2.2.2 && <1.3
+    , vinyl >=0.5.3 && <0.8
+    , warp >=3.2.13 && <3.3
   other-modules:
       Paths_myawesomeserver
   default-language: Haskell2010

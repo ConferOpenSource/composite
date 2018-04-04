@@ -2,10 +2,10 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3726ca578ca7926732d3ab015220c3602fc54ccdd157a2e781bee1a16dc4d101
+-- hash: ede0627c100b634875900316ad1ba97ad65b35b38d4032df0c600181dfd18b10
 
 name:           composite-ekg
-version:        0.5.3.0
+version:        0.5.4.0
 synopsis:       EKG Metrics for Vinyl/Frames records
 description:    Integration between EKG and Vinyl/Frames records allowing records holding registered metrics to be easily constructed from a type declaration.
 category:       Records
@@ -24,11 +24,11 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , composite-base
-    , ekg-core
-    , lens
-    , text
-    , vinyl
+    , composite-base >=0.5.3.0 && <0.6
+    , ekg-core >=0.1.1.3 && <0.5
+    , lens >=4.15.4 && <4.17
+    , text >=1.2.2.2 && <1.3
+    , vinyl >=0.5.3 && <0.8
   exposed-modules:
       Composite.Ekg
   other-modules:
