@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Composite.Aeson.TH
   ( makeFieldJsonWrapper, makeFieldJsonWrapperExplicit
   , makeRecordJsonWrapper, makeRecordJsonWrapperExplicit
@@ -90,7 +91,11 @@ makeFieldJsonWrapperExplicit wrapperNameStr fieldsTyName sumStyle fieldFormatExp
         [] -- TyVarBndrs
         Nothing -- kind
         (recC wrapperName [varBangType extractorName (bangType (bang noSourceUnpackedness noSourceStrictness) fieldTy)])
-        (cxt []) -- deriving context
+#if MIN_VERSION_template_haskell(2,12,0)
+        [] -- deriving context
+#else
+        (cxt [])
+#endif
     , sigD
         formatName
         [t| forall e. JsonFormat e $(conT wrapperName) |]
@@ -187,7 +192,11 @@ makeRecordJsonWrapperExplicit wrapperNameStr fieldsTyName recFormatExp = do
         [] -- TyVarBndrs
         Nothing -- kind
         (recC wrapperName [varBangType extractorName (bangType (bang noSourceUnpackedness noSourceStrictness) recordTy)])
-        (cxt []) -- deriving context
+#if MIN_VERSION_template_haskell(2,12,0)
+        [] -- deriving context
+#else
+        (cxt [])
+#endif
     , sigD
         formatName
         [t| forall e. JsonFormat e $(conT wrapperName) |]

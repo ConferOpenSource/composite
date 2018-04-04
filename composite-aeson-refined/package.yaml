@@ -1,5 +1,5 @@
 name:                composite-aeson-refined
-version:             0.5.3.0
+version:             0.5.4.0
 synopsis:            composite-aeson support for Refined from the refined package
 description:         JsonFormat and DefaultJsonFormat for Refined
 homepage:            https://github.com/ConferHealth/composite#readme
@@ -10,11 +10,11 @@ copyright:           2017 Confer Health, Inc.
 category:            Records
 
 dependencies:
-  - aeson-better-errors
   - base >= 4.7 && < 5
-  - composite-aeson
-  - mtl
-  - refined
+  - aeson-better-errors >= 0.9.1.0 && < 0.10
+  - composite-aeson >= 0.5.3.0 && < 0.6
+  - mtl >= 2.2.1 && < 2.3
+  - refined >= 0.1.2.1 && < 0.2
 
 default-extensions:
   - DataKinds

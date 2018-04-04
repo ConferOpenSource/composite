@@ -1,4 +1,4 @@
-resolver: lts-9.13
+resolver: lts-11.2
 packages:
   - composite-aeson
   - composite-aeson-refined
@@ -12,3 +12,4 @@ extra-package-dbs: []
 nix:
   packages:
     - postgresql
+    - zlib

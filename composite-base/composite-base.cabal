@@ -1,9 +1,11 @@
--- This file has been generated from package.yaml by hpack version 0.19.3.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 0e7b65fc80c01f09bbc6c5d29da7e17ba09561542cffc9f1780105d9c863f54d
 
 name:           composite-base
-version:        0.5.3.0
+version:        0.5.4.0
 synopsis:       Shared utilities for composite-* packages.
 description:    Shared helpers for the various composite packages.
 category:       Records
@@ -22,16 +24,16 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , exceptions
-    , lens
-    , monad-control
-    , mtl
-    , profunctors
-    , template-haskell
-    , text
-    , transformers
-    , transformers-base
-    , vinyl
+    , exceptions >=0.8.3 && <0.9
+    , lens >=4.15.4 && <4.17
+    , monad-control >=1.0.2.2 && <1.1
+    , mtl >=2.2.1 && <2.3
+    , profunctors >=5.2.1 && <5.3
+    , template-haskell >=2.11.1.0 && <2.13
+    , text >=1.2.2.2 && <1.3
+    , transformers >=0.5.2.0 && <0.6
+    , transformers-base >=0.4.4 && <0.5
+    , vinyl >=0.5.3 && <0.8
   exposed-modules:
       Composite
       Composite.CoRecord
@@ -53,17 +55,17 @@ test-suite composite-base-test
       QuickCheck
     , base >=4.7 && <5
     , composite-base
-    , exceptions
+    , exceptions >=0.8.3 && <0.9
     , hspec
-    , lens
-    , monad-control
-    , mtl
-    , profunctors
-    , template-haskell
-    , text
-    , transformers
-    , transformers-base
-    , vinyl
+    , lens >=4.15.4 && <4.17
+    , monad-control >=1.0.2.2 && <1.1
+    , mtl >=2.2.1 && <2.3
+    , profunctors >=5.2.1 && <5.3
+    , template-haskell >=2.11.1.0 && <2.13
+    , text >=1.2.2.2 && <1.3
+    , transformers >=0.5.2.0 && <0.6
+    , transformers-base >=0.4.4 && <0.5
+    , vinyl >=0.5.3 && <0.8
   other-modules:
       RecordSpec
       THSpec

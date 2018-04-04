@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "composite-opaleye";
-  version = "0.5.3.0";
+  version = "0.5.4.0";
   src = ./.;
   libraryHaskellDepends = [
     base bytestring composite-base lens opaleye postgresql-simple

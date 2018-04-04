@@ -1,9 +1,11 @@
--- This file has been generated from package.yaml by hpack version 0.19.3.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: e7ec678d5b3717c82d20aa9880dfddf8946c7be6daa1d10b3fd6b6e366a31bbf
 
 name:           composite-swagger
-version:        0.5.3.0
+version:        0.5.4.0
 synopsis:       Swagger for Vinyl/Frames records
 description:    Integration between Swagger and Vinyl/Frames records allowing easily derivable/explicit Swagger definitions for records.
 category:       Records
@@ -22,13 +24,13 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , composite-base
-    , insert-ordered-containers
-    , lens
-    , swagger2
-    , template-haskell
-    , text
-    , vinyl
+    , composite-base >=0.5.3.0 && <0.6
+    , insert-ordered-containers >=0.2.1.0 && <0.3
+    , lens >=4.15.4 && <4.17
+    , swagger2 >=2.1.6 && <2.3
+    , template-haskell >=2.11.1.0 && <2.13
+    , text >=1.2.2.2 && <1.3
+    , vinyl >=0.5.3 && <0.8
   exposed-modules:
       Composite.Swagger
       Composite.Swagger.Base
@@ -52,12 +54,12 @@ test-suite composite-swagger-test
     , composite-base
     , composite-swagger
     , hspec
-    , insert-ordered-containers
-    , lens
-    , swagger2
-    , template-haskell
-    , text
-    , vinyl
+    , insert-ordered-containers >=0.2.1.0 && <0.3
+    , lens >=4.15.4 && <4.17
+    , swagger2 >=2.1.6 && <2.3
+    , template-haskell >=2.11.1.0 && <2.13
+    , text >=1.2.2.2 && <1.3
+    , vinyl >=0.5.3 && <0.8
   other-modules:
       THSpec
       Paths_composite_swagger

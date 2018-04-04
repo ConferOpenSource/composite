@@ -1,9 +1,11 @@
--- This file has been generated from package.yaml by hpack version 0.19.3.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 170cc0e585bd302406efd7480633161799ed9c5027f62f50cfeea723b73865f6
 
 name:           composite-aeson-refined
-version:        0.5.3.0
+version:        0.5.4.0
 synopsis:       composite-aeson support for Refined from the refined package
 description:    JsonFormat and DefaultJsonFormat for Refined
 category:       Records
@@ -21,11 +23,11 @@ library
   default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
-      aeson-better-errors
+      aeson-better-errors >=0.9.1.0 && <0.10
     , base >=4.7 && <5
-    , composite-aeson
-    , mtl
-    , refined
+    , composite-aeson >=0.5.3.0 && <0.6
+    , mtl >=2.2.1 && <2.3
+    , refined >=0.1.2.1 && <0.2
   exposed-modules:
       Composite.Aeson.Refined
   other-modules:

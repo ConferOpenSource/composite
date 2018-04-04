@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Composite.Opaleye.TH where
 
 import Composite.Opaleye.Util (constantColumnUsing)
@@ -98,7 +99,18 @@ deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
   let conPairs = nullaryCons <&> \ conName ->
         (conName, fromMaybe (nameBase conName) (hsConToSqlValue (nameBase conName)))
 
-  sqlTypeDecl <- dataD (cxt []) sqlTypeName [] Nothing [] (cxt [])
+  sqlTypeDecl <-
+    dataD
+      (cxt [])
+      sqlTypeName
+      []
+      Nothing
+      []
+#if MIN_VERSION_template_haskell(2,12,0)
+      []
+#else
+      (cxt [])
+#endif
 
   fromFieldInst <- instanceD (cxt []) [t| FromField $hsType |] . (:[]) $ do
     field <- newName "field"
