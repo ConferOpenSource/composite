@@ -1,12 +1,14 @@
 module Composite.Aeson.Formats.InternalTH
-  ( makeTupleDefaults, makeTupleFormats
+  ( makeTupleDefaults, makeTupleFormats, makeNamedTupleFormats
   ) where
 
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor))
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
+import qualified Data.HashMap.Lazy as HM
 import Data.List (foldl')
 import Data.Monoid ((<>))
+import Data.Text (Text)
 import qualified Data.Vector as V
 import Language.Haskell.TH
   ( Name, mkName, newName, tupleDataName
@@ -64,8 +66,8 @@ makeTupleFormats = concat <$> traverse makeTupleFormat [2..59]
             ForallT
               (PlainTV tyErrName : map PlainTV tyNames)
               []
-              (foldr (\ l r -> AppT (AppT ArrowT (AppT (AppT (ConT ''JsonFormat) (VarT tyErrName)) l)) r)
-                     (AppT (AppT (ConT ''JsonFormat) (VarT tyErrName)) tupleType)
+              (foldr (\ tyName rest -> ArrowT `AppT` (ConT ''JsonFormat `AppT` VarT tyErrName `AppT` tyName) `AppT` rest)
+                     (ConT ''JsonFormat `AppT` VarT tyErrName `AppT` tupleType)
                      (map VarT tyNames))
           oTupImpl =
             lamE
@@ -89,6 +91,55 @@ makeTupleFormats = concat <$> traverse makeTupleFormat [2..59]
         , funD name
           [ clause
               (map (\ (oName, iName) -> conP 'JsonFormat [conP 'JsonProfunctor [varP oName, varP iName]]) (zip oNames iNames))
+              (normalB [| JsonFormat (JsonProfunctor $(varE oTupName) $(varE iTupName)) |])
+              [ valD (varP oTupName) (normalB oTupImpl) []
+              , valD (varP iTupName) (normalB iTupImpl) []
+              ]
+          ]
+        ]
+
+-- |Splice which inserts the @namedTupleNJsonFormat@ implementations for tuples.
+makeNamedTupleFormats :: Q [Dec]
+makeNamedTupleFormats = concat <$> traverse makeNamedTupleFormat [2..59]
+  where
+    makeNamedTupleFormat arity = do
+      tyNames   <- traverse (newName . ("t" ++) . show) [1..arity]
+      fNames    <- traverse (newName . ("f" ++) . show) [1..arity]
+      oNames    <- traverse (newName . ("o" ++) . show) [1..arity]
+      iNames    <- traverse (newName . ("i" ++) . show) [1..arity]
+      oTupName  <- newName "oTup"
+      iTupName  <- newName "iTup"
+      valNames  <- traverse (newName . ("v" ++) . show) [1..arity]
+      tyErrName <- newName "e"
+
+      let name = mkName $ "namedTuple" <> show arity <> "JsonFormat"
+          tupleType = foldl' AppT (TupleT arity) (map VarT tyNames)
+          funType =
+            ForallT
+              (PlainTV tyErrName : map PlainTV tyNames)
+              []
+              (foldr (\ tyName rest -> ArrowT `AppT` ConT ''Text `AppT` (ArrowT `AppT` (ConT ''JsonFormat `AppT` VarT tyErrName `AppT` tyName) `AppT` rest))
+                     (ConT ''JsonFormat `AppT` VarT tyErrName `AppT` tupleType)
+                     (map VarT tyNames))
+          oTupImpl =
+            lamE
+              [conP (tupleDataName arity) (map varP valNames)]
+              [| (Aeson.Object . HM.fromList)
+                 $(listE $ map (\ (fName, varName, oName) -> [| ($(varE fName), $(varE oName) $(varE varName)) |])
+                               (zip3 fNames valNames oNames)) |]
+          iTupImpl =
+            doE
+              $  map ( \ (fName, valName, iName) ->
+                       bindS (varP valName) [| ABE.key $(varE fName) $(varE iName) |] )
+                     (zip3 fNames valNames iNames)
+              ++ [ noBindS (appE (varE 'pure) (pure $ foldl' AppE (ConE (tupleDataName arity)) (map VarE valNames))) ]
+      sequence
+        [ sigD name (pure funType)
+        , funD name
+          [ clause
+              (foldr (\ (fName, oName, iName) rest -> varP fName : conP 'JsonFormat [conP 'JsonProfunctor [varP oName, varP iName]] : rest)
+                     []
+                     (zip3 fNames oNames iNames))
               (normalB [| JsonFormat (JsonProfunctor $(varE oTupName) $(varE iTupName)) |])
               [ valD (varP oTupName) (normalB oTupImpl) []
               , valD (varP iTupName) (normalB iTupImpl) []

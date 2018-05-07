@@ -4,12 +4,13 @@ import DateTimeSpec (dateTimeSuite)
 import EnumSpec (enumSuite)
 import RecordSpec (recordSuite)
 import THSpec (thSuite)
-import TupleSpec (tupleSuite)
+import TupleSpec (tupleSuite, namedTupleSuite)
 
 main :: IO ()
 main = hspec $ do
   dateTimeSuite
   enumSuite
+  namedTupleSuite
   recordSuite
   thSuite
   tupleSuite

@@ -3,7 +3,7 @@ module Composite.Aeson.Formats.Provided where
 
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor), _JsonProfunctor, dimapJsonFormat, toJsonWithFormat)
 import Composite.Aeson.Formats.Generic (SumStyle, abeJsonFormat, aesonJsonFormat, jsonArrayFormat, jsonObjectFormat, jsonSumFormat)
-import Composite.Aeson.Formats.InternalTH (makeTupleFormats)
+import Composite.Aeson.Formats.InternalTH (makeTupleFormats, makeNamedTupleFormats)
 import Control.Arrow (first)
 import Control.Lens (_2, _Wrapped, over, view)
 import qualified Data.Aeson as Aeson
@@ -161,6 +161,8 @@ textJsonFormat :: JsonFormat e Text
 textJsonFormat = abeJsonFormat ABE.asText
 
 $makeTupleFormats
+
+$makeNamedTupleFormats
 
 -- |'JsonFormat' for '()' which maps to an empty array.
 unitJsonFormat :: JsonFormat e ()
