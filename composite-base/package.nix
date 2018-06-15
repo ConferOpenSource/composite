@@ -1,6 +1,6 @@
 { mkDerivation, base, exceptions, hspec, lens, monad-control, mtl
 , profunctors, QuickCheck, stdenv, template-haskell, text
-, transformers, transformers-base, vinyl
+, transformers, transformers-base, unliftio-core, vinyl
 }:
 mkDerivation {
   pname = "composite-base";
@@ -8,11 +8,12 @@ mkDerivation {
   src = ./.;
   libraryHaskellDepends = [
     base exceptions lens monad-control mtl profunctors template-haskell
-    text transformers transformers-base vinyl
+    text transformers transformers-base unliftio-core vinyl
   ];
   testHaskellDepends = [
     base exceptions hspec lens monad-control mtl profunctors QuickCheck
-    template-haskell text transformers transformers-base vinyl
+    template-haskell text transformers transformers-base unliftio-core
+    vinyl
   ];
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "Shared utilities for composite-* packages";

@@ -1,8 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.20.0.
+-- This file has been generated from package.yaml by hpack version 0.27.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0e7b65fc80c01f09bbc6c5d29da7e17ba09561542cffc9f1780105d9c863f54d
+-- hash: b746e53a0cfe97d0438e3622bc5cfa0dda9a6e4a0d8d8e0c667a18eea98cf70a
 
 name:           composite-base
 version:        0.5.4.0
@@ -33,6 +33,7 @@ library
     , text >=1.2.2.2 && <1.3
     , transformers >=0.5.2.0 && <0.6
     , transformers-base >=0.4.4 && <0.5
+    , unliftio-core >=0.1.0.0 && <0.2.0.0
     , vinyl >=0.5.3 && <0.8
   exposed-modules:
       Composite
@@ -65,6 +66,7 @@ test-suite composite-base-test
     , text >=1.2.2.2 && <1.3
     , transformers >=0.5.2.0 && <0.6
     , transformers-base >=0.4.4 && <0.5
+    , unliftio-core >=0.1.0.0 && <0.2.0.0
     , vinyl >=0.5.3 && <0.8
   other-modules:
       RecordSpec
