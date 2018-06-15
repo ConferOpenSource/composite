@@ -21,6 +21,7 @@ import Control.Monad.Fail (MonadFail)
 import qualified Control.Monad.Fail as MonadFail
 import Control.Monad.Fix (MonadFix(mfix))
 import Control.Monad.IO.Class (MonadIO(liftIO))
+import Control.Monad.IO.Unlift (askUnliftIO, MonadUnliftIO, UnliftIO(UnliftIO), unliftIO, withUnliftIO, withRunInIO)
 import Control.Monad.Reader (ReaderT(ReaderT), runReaderT)
 import Control.Monad.Reader.Class (MonadReader(local, ask, reader))
 import qualified Control.Monad.RWS.Lazy as Lazy
@@ -161,6 +162,17 @@ instance MonadBaseControl b m => MonadBaseControl b (ContextT c m) where
     ContextT $ \ c ->
       liftBaseWith $ \ runInBase ->
         f (runInBase . ($ c) . runContextT)
+
+instance MonadUnliftIO m => MonadUnliftIO (ContextT c m) where
+  {-# INLINE askUnliftIO #-}
+  askUnliftIO = ContextT $ \c ->
+                withUnliftIO $ \u ->
+                return (UnliftIO (unliftIO u . flip runContextT c))
+  {-# INLINE withRunInIO #-}
+  withRunInIO inner =
+    ContextT $ \c ->
+    withRunInIO $ \run ->
+    inner (run . flip runContextT c)
 
 instance MonadReader r m => MonadReader r (ContextT c m) where
   ask    = lift ask
