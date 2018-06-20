@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# LANGUAGE UndecidableInstances #-}
 -- Required to make passthrough instances for MonadContext for things like ReaderT work as they do not satisfy the functional dependency | m -> c
 
@@ -21,7 +22,6 @@ import Control.Monad.Fail (MonadFail)
 import qualified Control.Monad.Fail as MonadFail
 import Control.Monad.Fix (MonadFix(mfix))
 import Control.Monad.IO.Class (MonadIO(liftIO))
-import Control.Monad.IO.Unlift (askUnliftIO, MonadUnliftIO, UnliftIO(UnliftIO), unliftIO, withUnliftIO, withRunInIO)
 import Control.Monad.Reader (ReaderT(ReaderT), runReaderT)
 import Control.Monad.Reader.Class (MonadReader(local, ask, reader))
 import qualified Control.Monad.RWS.Lazy as Lazy
@@ -38,6 +38,12 @@ import qualified Control.Monad.Writer.Lazy as Lazy
 import qualified Control.Monad.Writer.Strict as Strict
 import Control.Monad.Writer.Class (MonadWriter(writer, tell, listen, pass))
 import Data.Monoid (Monoid)
+
+#if MIN_VERSION_unliftio_core(1,1,0)
+import Control.Monad.IO.Unlift (askUnliftIO, MonadUnliftIO, UnliftIO(UnliftIO), unliftIO, withUnliftIO, withRunInIO)
+#else
+import Control.Monad.IO.Unlift (askUnliftIO, MonadUnliftIO, UnliftIO(UnliftIO), unliftIO, withUnliftIO)
+#endif
 
 -- |Class of monad (stacks) which have context reading functionality baked in. Similar to 'Control.Monad.Reader.MonadReader' but can coexist with a
 -- another monad that provides 'Control.Monad.Reader.MonadReader' and requires the context to be a record.
@@ -168,11 +174,13 @@ instance MonadUnliftIO m => MonadUnliftIO (ContextT c m) where
   askUnliftIO = ContextT $ \c ->
                 withUnliftIO $ \u ->
                 return (UnliftIO (unliftIO u . flip runContextT c))
-  {-# INLINE withRunInIO #-}
-  withRunInIO inner =
-    ContextT $ \c ->
-    withRunInIO $ \run ->
-    inner (run . flip runContextT c)
+  #if MIN_VERSION_unliftio_core(1,1,0)
+      {-# INLINE withRunInIO #-}
+      withRunInIO inner =
+        ContextT $ \c ->
+        withRunInIO $ \run ->
+        inner (run . flip runContextT c)
+  #endif
 
 instance MonadReader r m => MonadReader r (ContextT c m) where
   ask    = lift ask
