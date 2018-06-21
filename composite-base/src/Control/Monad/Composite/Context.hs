@@ -39,7 +39,7 @@ import qualified Control.Monad.Writer.Strict as Strict
 import Control.Monad.Writer.Class (MonadWriter(writer, tell, listen, pass))
 import Data.Monoid (Monoid)
 
-#if MIN_VERSION_unliftio_core(1,1,0)
+#if MIN_VERSION_unliftio_core(0,1,1)
 import Control.Monad.IO.Unlift (askUnliftIO, MonadUnliftIO, UnliftIO(UnliftIO), unliftIO, withUnliftIO, withRunInIO)
 #else
 import Control.Monad.IO.Unlift (askUnliftIO, MonadUnliftIO, UnliftIO(UnliftIO), unliftIO, withUnliftIO)
@@ -174,12 +174,12 @@ instance MonadUnliftIO m => MonadUnliftIO (ContextT c m) where
   askUnliftIO = ContextT $ \c ->
                 withUnliftIO $ \u ->
                 return (UnliftIO (unliftIO u . flip runContextT c))
-  #if MIN_VERSION_unliftio_core(1,1,0)
-      {-# INLINE withRunInIO #-}
-      withRunInIO inner =
-        ContextT $ \c ->
-        withRunInIO $ \run ->
-        inner (run . flip runContextT c)
+  #if MIN_VERSION_unliftio_core(0,1,1)
+  {-# INLINE withRunInIO #-}
+  withRunInIO inner =
+    ContextT $ \c ->
+    withRunInIO $ \run ->
+    inner (run . flip runContextT c)
   #endif
 
 instance MonadReader r m => MonadReader r (ContextT c m) where
