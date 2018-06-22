@@ -174,13 +174,13 @@ instance MonadUnliftIO m => MonadUnliftIO (ContextT c m) where
   askUnliftIO = ContextT $ \c ->
                 withUnliftIO $ \u ->
                 return (UnliftIO (unliftIO u . flip runContextT c))
-  #if MIN_VERSION_unliftio_core(0,1,1)
+#if MIN_VERSION_unliftio_core(0,1,1)
   {-# INLINE withRunInIO #-}
   withRunInIO inner =
     ContextT $ \c ->
     withRunInIO $ \run ->
     inner (run . flip runContextT c)
-  #endif
+#endif
 
 instance MonadReader r m => MonadReader r (ContextT c m) where
   ask    = lift ask
