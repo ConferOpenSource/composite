@@ -10,7 +10,6 @@ packages:
 flags: {}
 extra-deps:
   - opaleye-0.6.7003.1
-deps-package-dbs: []
 nix:
   packages:
     - lzma
