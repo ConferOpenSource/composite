@@ -1,11 +1,13 @@
--- This file has been generated from package.yaml by hpack version 0.20.0.
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 170cc0e585bd302406efd7480633161799ed9c5027f62f50cfeea723b73865f6
+-- hash: a61486d28933012d285084ce32b7c5b064e687752c1672322ee9b4658d50b0e1
 
 name:           composite-aeson-refined
-version:        0.5.4.0
+version:        0.5.5.0
 synopsis:       composite-aeson support for Refined from the refined package
 description:    JsonFormat and DefaultJsonFormat for Refined
 category:       Records
@@ -15,7 +17,6 @@ maintainer:     oss@confer.health
 copyright:      2017 Confer Health, Inc.
 license:        BSD3
 build-type:     Simple
-cabal-version:  >= 1.10
 
 library
   hs-source-dirs:
@@ -27,7 +28,7 @@ library
     , base >=4.7 && <5
     , composite-aeson >=0.5.3.0 && <0.6
     , mtl >=2.2.1 && <2.3
-    , refined >=0.1.2.1 && <0.2
+    , refined >=0.1.2.1 && <0.3
   exposed-modules:
       Composite.Aeson.Refined
   other-modules:

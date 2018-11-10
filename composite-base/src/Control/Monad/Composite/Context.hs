@@ -13,7 +13,14 @@ import Control.Applicative (Alternative(empty, (<|>)))
 import Control.Lens (Getter, view)
 import Control.Monad (MonadPlus(mzero, mplus))
 import Control.Monad.Base (MonadBase(liftBase))
-import Control.Monad.Catch (MonadThrow(throwM), MonadCatch(catch), MonadMask(mask, uninterruptibleMask))
+import Control.Monad.Catch
+  ( MonadThrow(throwM), MonadCatch(catch)
+#if MIN_VERSION_exceptions(0,9,0)
+  , MonadMask(mask, uninterruptibleMask, generalBracket)
+#else
+  , MonadMask(mask, uninterruptibleMask)
+#endif
+  )
 import Control.Monad.Cont (ContT(ContT), runContT)
 import Control.Monad.Cont.Class (MonadCont(callCC))
 import Control.Monad.Error.Class (MonadError(throwError, catchError))
@@ -231,3 +238,12 @@ instance MonadMask m => MonadMask (ContextT c m) where
     ContextT $ \e -> uninterruptibleMask $ \u -> runContextT (a $ q u) e
       where q :: (m a -> m a) -> ContextT c' m a -> ContextT c' m a
             q u (ContextT b) = ContextT (u . b)
+
+#if MIN_VERSION_exceptions(0,9,0)
+  generalBracket acquire release use =
+    ContextT $ \ r ->
+      generalBracket
+        (runContextT acquire r)
+        (\ a ec -> runContextT (release a ec) r)
+        (\ a -> runContextT (use a) r)
+#endif

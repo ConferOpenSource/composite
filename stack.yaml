@@ -1,4 +1,4 @@
-resolver: lts-11.9
+resolver: lts-12.17
 packages:
   - composite-aeson
   - composite-aeson-refined
@@ -8,8 +8,11 @@ packages:
   - composite-swagger
   - example
 flags: {}
-extra-package-dbs: []
+extra-deps:
+  - opaleye-0.6.7003.1
+deps-package-dbs: []
 nix:
   packages:
+    - lzma
     - postgresql
     - zlib

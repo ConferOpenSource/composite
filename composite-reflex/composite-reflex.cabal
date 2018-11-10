@@ -1,11 +1,11 @@
--- This file has been generated from package.yaml by hpack version 0.27.0.
+-- This file has been generated from package.yaml by hpack version 0.28.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e80196f4bb3c0d7b0bb9fbfb83489e69b5afe5e4fcd02ef666d1eb80165576e1
+-- hash: 4d7c56daacacd343db5fed45a839d342e9b88f365105d5fc5fb74a3022787045
 
 name:           composite-reflex
-version:        0.5.4.0
+version:        0.5.5.0
 synopsis:       Utilities for using composite records and corecords with Reflex
 description:    Utilities for using composite records and corecords with Reflex
 category:       Records

@@ -1,5 +1,5 @@
 name:                composite-opaleye
-version:             0.5.4.0
+version:             0.5.5.0
 synopsis:            Opaleye SQL for Frames records
 description:         Integration between Frames records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 homepage:            https://github.com/ConferHealth/composite#readme
@@ -16,11 +16,11 @@ dependencies:
   - lens >= 4.15.4 && < 4.17
   - opaleye >= 0.5.4.0 && < 0.7
   - postgresql-simple >= 0.5.3.0 && < 0.6
-  - product-profunctors >= 0.8.0.3 && < 0.10
+  - product-profunctors >= 0.8.0.3 && < 0.11
   - profunctors >= 5.2.1 && < 5.3
-  - template-haskell >= 2.11.1.0 && < 2.13
+  - template-haskell >= 2.11.1.0 && < 2.14
   - text >= 1.2.2.2 && < 1.3
-  - vinyl >= 0.5.3 && < 0.8
+  - vinyl >= 0.5.3 && < 0.9
 
 default-extensions:
   - DataKinds
