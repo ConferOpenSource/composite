@@ -22,8 +22,8 @@ import Opaleye
   , runDelete, runInsertMany, runQuery, runUpdate
   , (.&&), (.==) )
 import qualified Paths_myawesomeserver
-import Servant ((:<|>), (:>), Capture, Delete, Get, JSON, Post, Put, QueryParam, ReqBody, ServantErr)
-import Servant.Server (err307, err404, errHeaders)
+import Servant ((:<|>), (:>), Capture, Delete, Get, JSON, Post, Put, QueryParam, ReqBody)
+import Servant.Server (ServerError, err307, err404, errHeaders)
 import Servant.Swagger (toSwagger)
 import Servant.Swagger.UI (SwaggerSchemaUI)
 import qualified System.Metrics.Counter as Counter
@@ -37,8 +37,8 @@ instance ToJSON Result where
   toJSON _ = object [ "result" .= asText "accepted" ]
 instance ToSchema Result where
   declareNamedSchema _ =
-    let accepted = Inline $ mempty & type_ .~ SwaggerString & enum_ ?~ ["accepted"]
-        inner = mempty & type_ .~ SwaggerObject & properties .~ I.singleton "result" accepted
+    let accepted = Inline $ mempty & type_ ?~ SwaggerString & enum_ ?~ ["accepted"]
+        inner = mempty & type_ ?~ SwaggerObject & properties .~ I.singleton "result" accepted
     in pure $ NamedSchema (Just "Result") inner
 
 type API = "users" :> ( ReqBody '[JSON] ApiUserJson :> Post '[JSON] Result
@@ -55,7 +55,7 @@ type DocumentedApi api docsDir =
   Get '[JSON] ()
 
 -- |Always redirect to the given location.
-redirect :: (MonadError ServantErr m) => Text -> m a
+redirect :: (MonadError ServerError m) => Text -> m a
 redirect loc = throwError $ err307 { errHeaders = [("Location", fromString $ unpack loc)] }
 
 api :: Proxy API
