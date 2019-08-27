@@ -4,14 +4,14 @@
 module Composite.CoRecord where
 
 import Prelude
-import Composite.Record (AllHave, HasInstances, (:->)(getVal, Val), reifyDicts, val, zipRecsWith)
+import Composite.Record (AllHave, HasInstances, (:->)(getVal, Val), reifyDicts, reifyVal, val, zipRecsWith)
 import Control.Lens (Prism', prism')
 import Data.Functor.Identity (Identity(Identity), runIdentity)
 import Data.Kind (Constraint)
 import Data.Maybe (fromMaybe)
 import Data.Profunctor (dimap)
 import Data.Proxy (Proxy(Proxy))
-import Data.Vinyl.Core (Dict(Dict), Rec((:&), RNil), RecApplicative, recordToList, reifyConstraint, rmap, rpure)
+import Data.Vinyl.Core (Dict(Dict), Rec((:&), RNil), RMap, RecApplicative, RecordToList, ReifyConstraint, recordToList, reifyConstraint, rmap, rpure)
 import Data.Vinyl.Functor (Compose(Compose, getCompose), Const(Const), (:.))
 import Data.Vinyl.Lens (RElem, type (∈), type (⊆), rget, rput, rreplace)
 import Data.Vinyl.TypeLevel (RecAll, RIndex)
@@ -28,14 +28,14 @@ instance forall rs. (AllHave '[Show] rs, RecApplicative rs) => Show (CoRec Ident
     where
       shower :: Rec (Op String) rs
       shower = reifyDicts (Proxy @'[Show]) (\ _ -> Op show)
-      show' = runOp (rget Proxy shower)
+      show' = runOp (rget shower)
 
-instance forall rs. (RecAll Maybe rs Eq, RecApplicative rs) => Eq (CoRec Identity rs) where
+instance forall rs. (RMap rs, RecAll Maybe rs Eq, RecApplicative rs, RecordToList rs, ReifyConstraint Eq Maybe rs) => Eq (CoRec Identity rs) where
   crA == crB = and . recordToList $ zipRecsWith f (toRec crA) (fieldToRec crB)
     where
       f :: forall a. (Dict Eq :. Maybe) a -> Maybe a -> Const Bool a
       f (Compose (Dict a)) b = Const $ a == b
-      toRec = reifyConstraint (Proxy @Eq) . fieldToRec
+      toRec = reifyConstraint . fieldToRec
 
 -- |The common case of a 'CoRec' with @f ~ 'Identity'@, i.e. a regular value.
 type Field = CoRec Identity
@@ -46,9 +46,9 @@ type Field = CoRec Identity
 coRec :: r ∈ rs => f r -> CoRec f rs
 coRec = CoVal
 
--- |Produce a prism for the given alternative of a 'CoRec', given a proxy to identify which @r@ you meant.
-coRecPrism :: (RecApplicative rs, r ∈ rs) => proxy r -> Prism' (CoRec f rs) (f r)
-coRecPrism proxy = prism' CoVal (getCompose . rget proxy . coRecToRec)
+-- |Produce a prism for the given alternative of a 'CoRec'.
+coRecPrism :: (RecApplicative rs, r ∈ rs) => Prism' (CoRec f rs) (f r)
+coRecPrism = prism' CoVal (getCompose . rget . coRecToRec)
 
 -- |Inject a value @r@ into a @'Field' rs@ given that @r@ is one of the valid @rs@.
 --
@@ -62,13 +62,13 @@ field = CoVal . Identity
 fieldVal :: forall s a rs proxy. s :-> a ∈ rs => proxy (s :-> a) -> a -> Field rs
 fieldVal _ = CoVal . val @s
 
--- |Produce a prism for the given alternative of a 'Field', given a proxy to identify which @r@ you meant.
-fieldPrism :: (RecApplicative rs, r ∈ rs) => proxy r -> Prism' (Field rs) r
-fieldPrism proxy = coRecPrism proxy . dimap runIdentity (fmap Identity)
+-- |Produce a prism for the given alternative of a 'Field'.
+fieldPrism :: (RecApplicative rs, r ∈ rs) => Prism' (Field rs) r
+fieldPrism = coRecPrism . dimap runIdentity (fmap Identity)
 
 -- |Produce a prism for the given @:->@ alternative of a 'Field', given a proxy to identify which @s :-> a@ you meant.
 fieldValPrism :: (RecApplicative rs, s :-> a ∈ rs) => proxy (s :-> a) -> Prism' (Field rs) a
-fieldValPrism proxy = coRecPrism proxy . dimap (getVal . runIdentity) (fmap (Identity . Val))
+fieldValPrism proxy = coRecPrism . dimap (getVal . reifyVal proxy . runIdentity) (fmap (Identity . Val))
 
 -- |Apply an extraction to whatever @f r@ is contained in the given 'CoRec'.
 --
@@ -95,7 +95,7 @@ coRecToRec (CoVal a) = rput (Compose (Just a)) (rpure (Compose Nothing))
 
 -- |Project a 'Field' into a @'Rec' 'Maybe'@ where only the single @r@ held by the 'Field' is 'Just' in the resulting record, and all other
 -- fields are 'Nothing'.
-fieldToRec :: RecApplicative rs => Field rs -> Rec Maybe rs
+fieldToRec :: (RMap rs, RecApplicative rs) => Field rs -> Rec Maybe rs
 fieldToRec = rmap (fmap runIdentity . getCompose) . coRecToRec
 {-# INLINE fieldToRec #-}
 
@@ -136,7 +136,7 @@ firstCoRec v@(x :& _) = traverseCoRec getCompose $ foldRec f (CoVal x) v
 {-# INLINE firstCoRec #-}
 
 -- |Given a @'Rec' 'Maybe' rs@, yield a @Just field@ for the first field which is @Just@, or @Nothing@ if there are no @Just@ fields in the record.
-firstField :: FoldRec rs rs => Rec Maybe rs -> Maybe (Field rs)
+firstField :: (FoldRec rs rs, RMap rs) => Rec Maybe rs -> Maybe (Field rs)
 firstField = firstCoRec . rmap (Compose . fmap Identity)
 {-# INLINE firstField #-}
 
@@ -150,7 +150,7 @@ lastCoRec v@(x :& _) = traverseCoRec getCompose $ foldRec f (CoVal x) v
 {-# INLINE lastCoRec #-}
 
 -- |Given a @'Rec' 'Maybe' rs@, yield a @Just field@ for the last field which is @Just@, or @Nothing@ if there are no @Just@ fields in the record.
-lastField :: FoldRec rs rs => Rec Maybe rs -> Maybe (Field rs)
+lastField :: (RMap rs, FoldRec rs rs) => Rec Maybe rs -> Maybe (Field rs)
 lastField = lastCoRec . rmap (Compose . fmap Identity)
 {-# INLINE lastField #-}
 
@@ -167,7 +167,7 @@ onCoRec
   -> f b
 onCoRec p f (CoVal x) = go <$> x
   where
-    go = runOp $ rget Proxy (reifyDicts p (\ _ -> Op f) :: Rec (Op b) rs)
+    go = runOp $ rget (reifyDicts p (\ _ -> Op f) :: Rec (Op b) rs)
 {-# INLINE onCoRec #-}
 
 -- |Given a list of constraints @cs@ required to apply some function, apply the function to whatever value @r@ which the 'Field' contains.
@@ -183,8 +183,8 @@ onField p f x = runIdentity (onCoRec p f x)
 
 -- |Given some target type @r@ that's a possible value of @'Field' rs@, yield @Just@ if that is indeed the value being stored by the 'Field', or @Nothing@ if
 -- not.
-asA :: (r ∈ rs, RecApplicative rs) => proxy r -> Field rs -> Maybe r
-asA p = rget p . fieldToRec
+asA :: (r ∈ rs, RMap rs, RecApplicative rs) => Field rs -> Maybe r
+asA = rget . fieldToRec
 {-# INLINE asA #-}
 
 -- |An extractor function @f a -> b@ which can be passed to 'foldCoRec' to eliminate one possible alternative of a 'CoRec'.
@@ -215,14 +215,14 @@ newtype Case b a = Case { unCase :: a -> b }
 type Cases rs b = Rec (Case b) rs
 
 -- |Fold a 'Field' using 'Cases' which eliminate each possible value held by the 'Field', yielding the @b@ produced by whichever case matches.
-foldField :: RecApplicative (r ': rs) => Cases (r ': rs) b -> Field (r ': rs) -> b
+foldField :: (RMap rs, RecApplicative (r ': rs)) => Cases (r ': rs) b -> Field (r ': rs) -> b
 foldField hs = foldCoRec (rmap (Case' . (. runIdentity) . unCase) hs)
 {-# INLINE foldField #-}
 
 -- |Fold a 'Field' using 'Cases' which eliminate each possible value held by the 'Field', yielding the @b@ produced by whichever case matches.
 --
 -- Equivalent to 'foldCoRec' but with its arguments flipped so it can be written @matchCoRec coRec $ cases@.
-matchField :: RecApplicative (r ': rs) => Field (r ': rs) -> Cases (r ': rs) b -> b
+matchField :: (RMap rs, RecApplicative (r ': rs)) => Field (r ': rs) -> Cases (r ': rs) b -> b
 matchField = flip foldField
 {-# INLINE matchField #-}
 
@@ -233,7 +233,7 @@ widenCoRec r =
     firstCoRec (rreplace (coRecToRec r) (rpure $ Compose Nothing))
 
 -- |Widen a @'Field' rs@ to a @'Field' ss@ given that @rs ⊆ ss@.
-widenField :: (FoldRec ss ss, RecApplicative rs, RecApplicative ss, rs ⊆ ss) => Field rs -> Field ss
+widenField :: (FoldRec ss ss, RMap rs, RMap ss, RecApplicative rs, RecApplicative ss, rs ⊆ ss) => Field rs -> Field ss
 widenField r =
   fromMaybe (error "widenField should be provably total, isn't") $
     firstField (rreplace (fieldToRec r) (rpure Nothing))
