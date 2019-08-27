@@ -1,6 +1,6 @@
 module Composite.Swagger.Base where
 
-import Control.Lens (Unwrapped, Wrapped, (&), (.~))
+import Control.Lens (Unwrapped, Wrapped, (&), (?~))
 import Composite.Swagger.OrphanInstances ()
 import Data.Proxy (Proxy (Proxy))
 import Data.Swagger
@@ -15,4 +15,4 @@ wrappedSchema :: (Wrapped wrap, ToSchema (Unwrapped wrap)) => Proxy wrap -> Stri
 wrappedSchema (Proxy :: Proxy wrap) name = do
   s <- declareSchema (Proxy :: Proxy (Unwrapped wrap))
   pure $ NamedSchema (Just $ Text.pack name) s
-    & type_ .~ SwaggerObject
+    & type_ ?~ SwaggerObject

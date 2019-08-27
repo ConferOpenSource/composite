@@ -22,7 +22,7 @@ import Data.Functor.Identity (Identity(Identity))
 import qualified Data.HashMap.Strict as HM
 import Data.Proxy (Proxy(Proxy))
 import Data.Text (Text, pack)
-import Data.Vinyl (Rec((:&), RNil), rmap)
+import Data.Vinyl (RMap, Rec((:&), RNil), rmap)
 import GHC.TypeLits (KnownSymbol, symbolVal)
 
 -- |Function to encode a single field of a record, possibly choosing to elide the field with @Nothing@.
@@ -143,7 +143,7 @@ instance forall s a rs. (KnownSymbol s, RecordFromJson rs) => RecordFromJson (s 
 -- |Take a 'JsonFormatRecord' describing how to map a record with field @rs@ to and from JSON and produce a @'JsonFormat' e (Record rs)@.
 --
 -- See 'JsonFormatRecord' for more.
-recordJsonFormat :: (RecordToJsonObject rs, RecordFromJson rs) => JsonFormatRecord e rs -> JsonFormat e (Rec Identity rs)
+recordJsonFormat :: (RMap rs, RecordToJsonObject rs, RecordFromJson rs) => JsonFormatRecord e rs -> JsonFormat e (Rec Identity rs)
 recordJsonFormat formatRec =
   JsonFormat $ JsonProfunctor
     (recordToJson   . rmap (\ (JsonField o _) -> ToField o  ) $ formatRec)
