@@ -6,7 +6,7 @@
 }:
 mkDerivation {
   pname = "composite-aeson";
-  version = "0.5.5.0";
+  version = "0.6.5.0";
   src = ./.;
   libraryHaskellDepends = [
     aeson aeson-better-errors base composite-base containers

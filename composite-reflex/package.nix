@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "composite-reflex";
-  version = "0.5.5.0";
+  version = "0.6.5.0";
   src = ./.;
   libraryHaskellDepends = [
     base composite-base data-default dependent-map dependent-sum
