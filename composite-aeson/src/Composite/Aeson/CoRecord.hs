@@ -13,7 +13,7 @@ import Data.Functor.Identity (Identity(Identity))
 import Data.List.NonEmpty (NonEmpty)
 import Data.Maybe (catMaybes, fromMaybe, listToMaybe)
 import Data.Text (Text)
-import Data.Vinyl (RecApplicative, rapply, recordToList, (<<&>>))
+import Data.Vinyl (RApply, RMap, RecApplicative, RecordToList, rapply, recordToList, (<<&>>))
 import Data.Vinyl.Functor (Compose(Compose), (:.), Const(Const), Lift(Lift))
 import Data.Vinyl.Lens (type (∈))
 import Data.Proxy (Proxy(Proxy))
@@ -35,7 +35,8 @@ instance forall s a rs. (DefaultJsonFormat a, DefaultJsonFormatField rs) => Defa
 -- |Make a @'JsonFormat' e (Field rs)@ given how to map the sum type to JSON along with a record with formatters for each value the field could have.
 fieldJsonFormat
   :: forall (rs :: [*]) r' (rs' :: [*]) e.
-     (rs ~ (r' ': rs'), RecApplicative rs, RecWithContext rs rs, ReifyNames rs)
+     ( rs ~ (r' ': rs'), RApply rs, RMap rs
+     , RecApplicative rs, RecWithContext rs rs, RecordToList rs', ReifyNames rs )
   => SumStyle -> JsonFormatField e rs -> JsonFormat e (Field rs)
 fieldJsonFormat sumStyle fmts = jsonSumFormat sumStyle o i
   where

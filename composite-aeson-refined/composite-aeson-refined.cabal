@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.0.
+-- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a61486d28933012d285084ce32b7c5b064e687752c1672322ee9b4658d50b0e1
+-- hash: 52b191208a7281f3ae881bdefc2685ffda7059e78c4f78677a35fae86ddb576d
 
 name:           composite-aeson-refined
-version:        0.5.5.0
+version:        0.6.5.0
 synopsis:       composite-aeson support for Refined from the refined package
 description:    JsonFormat and DefaultJsonFormat for Refined
 category:       Records
@@ -19,6 +19,10 @@ license:        BSD3
 build-type:     Simple
 
 library
+  exposed-modules:
+      Composite.Aeson.Refined
+  other-modules:
+      Paths_composite_aeson_refined
   hs-source-dirs:
       src
   default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
@@ -26,11 +30,7 @@ library
   build-depends:
       aeson-better-errors >=0.9.1.0 && <0.10
     , base >=4.7 && <5
-    , composite-aeson >=0.5.3.0 && <0.6
+    , composite-aeson >=0.5.3.0 && <0.7
     , mtl >=2.2.1 && <2.3
     , refined >=0.1.2.1 && <0.3
-  exposed-modules:
-      Composite.Aeson.Refined
-  other-modules:
-      Paths_composite_aeson_refined
   default-language: Haskell2010

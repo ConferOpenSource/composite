@@ -5,7 +5,7 @@ module Composite.Record
   , (:->)(Val, getVal), _Val, val, valName, valWithName
   , RElem, rlens, rlens'
   , AllHave, HasInstances, ValuesAllHave
-  , zipRecsWith, reifyDicts, recordToNonEmpty
+  , zipRecsWith, reifyDicts, reifyVal, recordToNonEmpty
   , ReifyNames(reifyNames)
   , RecWithContext(rmapWithContext)
   , RDelete, RDeletable, rdelete
@@ -153,6 +153,10 @@ pattern (:^:) fa rs <- (fmap getVal -> fa) :& rs where
   (:^:) fa rs = fmap Val fa :& rs
 infixr 5 :^:
 
+-- |Reify the type of a val.
+reifyVal :: proxy (s :-> a) -> (s :-> a) -> (s :-> a)
+reifyVal _ = id
+
 -- |Lens to a particular field of a record using the 'Identity' functor.
 --
 -- For example, given:
@@ -176,7 +180,7 @@ infixr 5 :^:
 -- @
 rlens :: (Functor g, RElem (s :-> a) rs, Functor g) => proxy (s :-> a) -> (a -> g a) -> Rec Identity rs -> g (Rec Identity rs)
 rlens proxy f =
-  Vinyl.rlens proxy $ \ (Identity (Val a)) ->
+  Vinyl.rlens $ \ (Identity (getVal . reifyVal proxy -> a)) ->
     Identity . Val <$> f a
 {-# INLINE rlens #-}
 
@@ -203,7 +207,7 @@ rlens proxy f =
 -- @
 rlens' :: (Functor f, Functor g, RElem (s :-> a) rs, Functor g) => proxy (s :-> a) -> (f a -> g (f a)) -> Rec f rs -> g (Rec f rs)
 rlens' proxy f =
-  Vinyl.rlens proxy $ \ (fmap getVal -> fa) ->
+  Vinyl.rlens $ \ (fmap (getVal . reifyVal proxy) -> fa) ->
     fmap Val <$> f fa
 {-# INLINE rlens' #-}
 
@@ -213,7 +217,7 @@ zipRecsWith _ RNil      _         = RNil
 zipRecsWith f (r :& rs) (s :& ss) = f r s :& zipRecsWith f rs ss
 
 -- | Convert a provably nonempty @'Rec' ('Const' a) rs@ to a @'NonEmpty' a@.
-recordToNonEmpty :: Rec (Const a) (r ': rs) -> NonEmpty a
+recordToNonEmpty :: Vinyl.RecordToList rs => Rec (Const a) (r ': rs) -> NonEmpty a
 recordToNonEmpty (Const a :& rs) = a :| recordToList rs
 
 -- |Type function which produces a constraint on @a@ for each constraint in @cs@.

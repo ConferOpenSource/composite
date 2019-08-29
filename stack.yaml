@@ -1,4 +1,4 @@
-resolver: lts-12.17
+resolver: lts-14.3
 packages:
   - composite-aeson
   - composite-aeson-refined
@@ -10,6 +10,8 @@ packages:
 flags: {}
 extra-deps:
   - opaleye-0.6.7003.1
+  - refined-0.2.3.0
+  - transformers-0.5.5.2
 nix:
   packages:
     - lzma
