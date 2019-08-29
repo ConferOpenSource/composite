@@ -7,7 +7,7 @@ cabal-version: 1.12
 -- hash: fe34fc19db728606b98af719106034a07269295b7ff9f1af4f0506f432968ea2
 
 name:           composite-reflex
-version:        0.6.5.0
+version:        0.6.0.0
 synopsis:       Utilities for using composite records and corecords with Reflex
 description:    Utilities for using composite records and corecords with Reflex
 category:       Records

@@ -7,7 +7,7 @@ cabal-version: 1.12
 -- hash: 07d0720f8ca6afb65660fb74ac73b3d0910962355401e84040c5cfaa70339214
 
 name:           composite-base
-version:        0.6.5.0
+version:        0.6.0.0
 synopsis:       Shared utilities for composite-* packages.
 description:    Shared helpers for the various composite packages.
 category:       Records
