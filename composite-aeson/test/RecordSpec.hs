@@ -5,7 +5,7 @@ import Composite.Aeson.Base (JsonFormat, fromJsonWithFormat, toJsonWithFormat)
 import Composite.Aeson.Formats.Provided (stringJsonFormat)
 import Composite.Aeson.Record (defaultJsonFormatRecord, recordJsonFormat, optionalField)
 import Composite.TH (withLensesAndProxies)
-import Control.Lens (set)
+import Control.Lens (Lens', set)
 import Data.Aeson.BetterErrors (parseValue)
 import Data.Aeson.QQ (aesonQQ)
 import Data.Vinyl.Lens (rlens)
@@ -21,9 +21,11 @@ type TestRec = '["foo" :-> Int, "bar" :-> Maybe String]
 recordSuite :: Spec
 recordSuite =
   describe "Record support" $ do
-    let defaultFmt, optionalFmt :: JsonFormat Void (Record TestRec)
+    let fBar' :: Lens' (Rec f TestRec) (f FBar)
+        fBar' = rlens
+        defaultFmt, optionalFmt :: JsonFormat Void (Record TestRec)
         defaultFmt = recordJsonFormat defaultJsonFormatRecord
-        optionalFmt = recordJsonFormat $ set (rlens fBar_) (optionalField stringJsonFormat) defaultJsonFormatRecord
+        optionalFmt = recordJsonFormat $ set fBar' (optionalField stringJsonFormat) defaultJsonFormatRecord
 
     it "by default requires all fields" $ do
       parseValue (fromJsonWithFormat defaultFmt) [aesonQQ| {foo: 123, bar: "abc"} |] `shouldBe`    Right (123 :*: Just "abc" :*: RNil)
