@@ -7,7 +7,7 @@ cabal-version: 1.12
 -- hash: dbb931ac492e8767dd62d1408c48108898c86535fa076ae3395568abd67f1dea
 
 name:           composite-ekg
-version:        0.6.5.0
+version:        0.6.0.0
 synopsis:       EKG Metrics for Vinyl/Frames records
 description:    Integration between EKG and Vinyl/Frames records allowing records holding registered metrics to be easily constructed from a type declaration.
 category:       Records

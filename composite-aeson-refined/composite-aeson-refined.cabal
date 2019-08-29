@@ -7,7 +7,7 @@ cabal-version: 1.12
 -- hash: 52b191208a7281f3ae881bdefc2685ffda7059e78c4f78677a35fae86ddb576d
 
 name:           composite-aeson-refined
-version:        0.6.5.0
+version:        0.6.0.0
 synopsis:       composite-aeson support for Refined from the refined package
 description:    JsonFormat and DefaultJsonFormat for Refined
 category:       Records
