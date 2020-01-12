@@ -16,7 +16,7 @@ mkDerivation {
     template-haskell text transformers transformers-base unliftio-core
     vinyl
   ];
-  preConfigure = "hpack";
+  prePatch = "hpack";
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "Shared utilities for composite-* packages";
   license = stdenv.lib.licenses.bsd3;

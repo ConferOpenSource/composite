@@ -2,6 +2,6 @@ with import <nixpkgs> {};
 
 stdenv.mkDerivation {
   name = "update-build";
-  buildInputs = [ cabal2nix haskellPackages.hpack ];
+  buildInputs = [ (haskellPackages.ghcWithPackages (p: with p; [hpack cabal2nix])) ];
   buildCommand = "";
 }

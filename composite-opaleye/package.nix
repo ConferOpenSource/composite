@@ -16,7 +16,7 @@ mkDerivation {
     product-profunctors profunctors QuickCheck template-haskell text
     vinyl
   ];
-  preConfigure = "hpack";
+  prePatch = "hpack";
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "Opaleye SQL for Frames records";
   license = stdenv.lib.licenses.bsd3;

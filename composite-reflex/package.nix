@@ -11,7 +11,7 @@ mkDerivation {
     http-api-data lens reflex reflex-dom text vinyl
   ];
   libraryToolDepends = [ hpack ];
-  preConfigure = "hpack";
+  prePatch = "hpack";
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "Utilities for using composite records and corecords with Reflex";
   license = stdenv.lib.licenses.bsd3;

@@ -21,7 +21,7 @@ mkDerivation {
     profunctors QuickCheck scientific tagged template-haskell text time
     unordered-containers vector vinyl
   ];
-  preConfigure = "hpack";
+  prePatch = "hpack";
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "JSON for Vinyl/Frames records";
   license = stdenv.lib.licenses.bsd3;

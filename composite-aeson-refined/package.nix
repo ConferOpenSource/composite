@@ -9,7 +9,7 @@ mkDerivation {
     aeson-better-errors base composite-aeson mtl refined
   ];
   libraryToolDepends = [ hpack ];
-  preConfigure = "hpack";
+  prePatch = "hpack";
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "composite-aeson support for Refined from the refined package";
   license = stdenv.lib.licenses.bsd3;

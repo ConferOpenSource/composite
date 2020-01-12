@@ -9,7 +9,7 @@
 }:
 mkDerivation {
   pname = "myawesomeserver";
-  version = "0.0.1";
+  version = "0.0.2";
   src = ./.;
   isLibrary = true;
   isExecutable = true;
@@ -32,7 +32,7 @@ mkDerivation {
     resource-pool servant servant-server servant-swagger
     servant-swagger-ui swagger2 text vinyl warp
   ];
-  preConfigure = "hpack";
+  prePatch = "hpack";
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "It's a server!";
   license = stdenv.lib.licenses.bsd3;

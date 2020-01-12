@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 52b191208a7281f3ae881bdefc2685ffda7059e78c4f78677a35fae86ddb576d
+-- hash: fd159c0f74c8d75f003ee3679ee64c32ed543c879a15aa6799ff4977a8bb0457
 
 name:           composite-aeson-refined
 version:        0.6.0.0

@@ -9,7 +9,7 @@ mkDerivation {
     base composite-base ekg-core lens text vinyl
   ];
   libraryToolDepends = [ hpack ];
-  preConfigure = "hpack";
+  prePatch = "hpack";
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "EKG Metrics for Vinyl/Frames records";
   license = stdenv.lib.licenses.bsd3;

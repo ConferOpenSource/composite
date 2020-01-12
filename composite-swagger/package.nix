@@ -15,7 +15,7 @@ mkDerivation {
     base composite-aeson composite-base hspec insert-ordered-containers
     lens QuickCheck swagger2 template-haskell text vinyl
   ];
-  preConfigure = "hpack";
+  prePatch = "hpack";
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "Swagger for Vinyl/Frames records";
   license = stdenv.lib.licenses.bsd3;
