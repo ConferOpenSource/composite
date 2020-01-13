@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8410a27545c99dd4428e082667b0652c98b30410250fc77be513dc28a669fe15
+-- hash: 8ee1ef175b287bc91d782b8c8ee880881cdf5c3a5858ff0974f76a63f0201a5e
 
 name:           myawesomeserver
 version:        0.0.2
@@ -66,7 +66,7 @@ library
     , swagger2 >=2.1.6 && <2.5
     , text >=1.2.2.2 && <1.3
     , vinyl >=0.5.3 && <0.12
-    , warp >=3.2.13 && <3.3
+    , warp >=3.2.13 && <3.4
   default-language: Haskell2010
 
 executable myawesomeserver-exe
@@ -111,5 +111,5 @@ executable myawesomeserver-exe
     , swagger2 >=2.1.6 && <2.5
     , text >=1.2.2.2 && <1.3
     , vinyl >=0.5.3 && <0.12
-    , warp >=3.2.13 && <3.3
+    , warp >=3.2.13 && <3.4
   default-language: Haskell2010

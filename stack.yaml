@@ -1,4 +1,4 @@
-resolver: lts-14.3
+resolver: lts-14.20
 packages:
   - composite-aeson
   - composite-aeson-refined
@@ -9,9 +9,7 @@ packages:
   - example
 flags: {}
 extra-deps:
-  - opaleye-0.6.7003.1
-  - refined-0.2.3.0
-  - transformers-0.5.5.2
+  - refined-0.4.4
 nix:
   packages:
     - lzma

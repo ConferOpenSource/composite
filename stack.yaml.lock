@@ -5,29 +5,15 @@
 
 packages:
 - completed:
-    hackage: opaleye-0.6.7003.1@sha256:48ee3eb0cad7ce9f3d8e6edf07c47bd3eacd811c67fc5ab3a45275c3dbd702c7,5331
+    hackage: refined-0.4.4@sha256:c387bd725ecb18f8ec93b2271b53604f2ed70f7e2fc548dc5f2f1991d4cd9ee0,2776
     pantry-tree:
-      size: 4713
-      sha256: 663332c25b96ffee3f20d39d82fb9b0f071d865c6b782d37688c68392ea3f590
+      size: 788
+      sha256: 8e5a9d4797cee5cd94f5791529d1628cf0714c43c442022cbc89cfb76e340111
   original:
-    hackage: opaleye-0.6.7003.1
-- completed:
-    hackage: refined-0.2.3.0@sha256:c4c3123e3a41b8efedb8ced52e7ad9156e61ef28bcc6294131cd74f7a2a8b35b,1228
-    pantry-tree:
-      size: 273
-      sha256: 11a1fc32081eb6bdcfdbe2152eb216338183cbb559c28eac5d9eac96a4f083b7
-  original:
-    hackage: refined-0.2.3.0
-- completed:
-    hackage: transformers-0.5.5.2@sha256:c6a1dc5261d87de1d7d0876b670ca8782c43ac89e59ec2bafa1e32d25c7d3509,3122
-    pantry-tree:
-      size: 2365
-      sha256: 5c38ca49a4b2468b6c61682a722611c8a54699bb94f8d6e0ee9f2c546477f116
-  original:
-    hackage: transformers-0.5.5.2
+    hackage: refined-0.4.4
 snapshots:
 - completed:
-    size: 523878
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/3.yaml
-    sha256: 470c46c27746a48c7c50f829efc0cf00112787a7804ee4ac7a27754658f6d92c
-  original: lts-14.3
+    size: 524154
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/20.yaml
+    sha256: 2f5099f69ddb6abfe64400fe1e6a604e8e628f55e6837211cd70a81eb0a8fa4d
+  original: lts-14.20
