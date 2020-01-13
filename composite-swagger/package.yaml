@@ -1,5 +1,5 @@
 name:                composite-swagger
-version:             0.6.0.0
+version:             0.6.1.0
 synopsis:            Swagger for Vinyl/Frames records
 description:         Integration between Swagger and Vinyl/Frames records allowing easily derivable/explicit Swagger definitions for records.
 homepage:            https://github.com/ConferHealth/composite#readme

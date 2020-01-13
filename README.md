@@ -88,8 +88,3 @@ As of writing, we use these libraries in all our Haskell projects internally and
 ## Contributing
 
 Contributions and feedback welcome! File an issue or make a PR.
-
-## Chat
-
-Asa (@asa) and Ross (@dridus) lurk on [fpchat](https://fpchat.com). You can also reach us at `oss@confer.health`.
-

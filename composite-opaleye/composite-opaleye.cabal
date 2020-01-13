@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d427dd2de4b49570c189fd69f8af8c7f55b54eb00e493a88b29654a62785929b
+-- hash: 796e0fc2311d9cc8ced5a68d57d144a537cc8ff6435a72cf8b9cec9928a2deca
 
 name:           composite-opaleye
-version:        0.6.0.0
+version:        0.6.1.0
 synopsis:       Opaleye SQL for Frames records
 description:    Integration between Frames records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 category:       Records

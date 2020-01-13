@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1.0
+
+* Code now compiles with Stackage LTS 14.20
+
 ## 0.6.0.0
 
 * Code now compiles with the lastest Stackage LTS (14.3)
