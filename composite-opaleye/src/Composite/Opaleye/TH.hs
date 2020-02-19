@@ -30,8 +30,8 @@ import Opaleye.Internal.HaskellDB.PrimQuery (Literal(StringLit))
 
 -- |Derive the various instances required to make a Haskell enumeration map to a PostgreSQL @enum@ type.
 --
--- In @deriveOpaleyeEnum ''HaskellType "sqltype" hsConToSqlValue@, @''HaskellType@ is the sum type (data declaration) to make instances for, @"sqltype"@ is
--- the PostgreSQL type name, and @hsConToSqlValue@ is a function to map names of constructors to SQL values.
+-- In @deriveOpaleyeEnum ''HaskellType "schema.sqltype" hsConToSqlValue@, @''HaskellType@ is the sum type (data declaration) to make instances for, 
+-- @"schema.sqltype"@ is the PostgreSQL type name, and @hsConToSqlValue@ is a function to map names of constructors to SQL values.
 --
 -- The function @hsConToSqlValue@ is of the type @String -> Maybe String@ in order to make using 'stripPrefix' convenient. The function is applied to each
 -- constructor name and for @Just value@ that value is used, otherwise for @Nothing@ the constructor name is used.
@@ -51,7 +51,7 @@ import Opaleye.Internal.HaskellDB.PrimQuery (Literal(StringLit))
 -- The splice:
 --
 -- @
---     deriveOpaleyeEnum ''MyEnum "myenum" ('stripPrefix' "my" . 'map' 'toLower')
+--     deriveOpaleyeEnum ''MyEnum "myschema.myenum" ('stripPrefix' "my" . 'map' 'toLower')
 -- @
 --
 -- Will create @PGMyEnum@ and instances required to use @MyEnum@ / @Column MyEnum@ in Opaleye.
@@ -62,7 +62,7 @@ import Opaleye.Internal.HaskellDB.PrimQuery (Literal(StringLit))
 --     data PGMyEnum
 --
 --     instance 'IsSqlType' PGMyEnum where
---       'showSqlType' _ = "myenum"
+--       'showSqlType' _ = "myschema.myenum"
 --
 --     instance 'FromField' MyEnum where
 --       'fromField' f mbs = do
@@ -71,7 +71,7 @@ import Opaleye.Internal.HaskellDB.PrimQuery (Literal(StringLit))
 --           _ | tname /= "myenum" -> 'returnError' 'Incompatible' f ""
 --           Just "foo" -> pure MyFoo
 --           Just "bar" -> pure MyBar
---           Just other -> 'returnError' 'ConversionFailed' f ("Unexpected myenum value: " <> 'BSC8.unpack' other)
+--           Just other -> 'returnError' 'ConversionFailed' f ("Unexpected myschema.myenum value: " <> 'BSC8.unpack' other)
 --           Nothing    -> 'returnError' 'UnexpectedNull' f ""
 --
 --     instance 'QueryRunnerColumnDefault' PGMyEnum MyEnum where
