@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.32.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1d178f2373fd7efd3befbbfec76d7ee3476598f049241f5a02f94ad6e0108a56
+-- hash: d38238f7e7f66d92e4f14c15bb87e2e27bd71f85de4f9dc6f1c2d7b27e03eaa8
 
 name:           composite-reflex
 version:        0.6.1.0
@@ -41,5 +41,5 @@ library
     , reflex
     , reflex-dom
     , text >=1.2.2.2 && <1.3
-    , vinyl >=0.5.3 && <0.12
+    , vinyl >=0.5.3 && <0.13
   default-language: Haskell2010

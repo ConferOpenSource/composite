@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.32.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 28a680cdc602a02cbe9350c286f761c3cbc625729c1fda4403710cab7077dfe5
+-- hash: 8e0c085fc9f45643eb15d319255a97411354fc2e7f20efd8bb85ae2f6a6e63a9
 
 name:           composite-base
 version:        0.6.1.0
@@ -43,7 +43,7 @@ library
     , transformers >=0.5.2.0 && <0.6
     , transformers-base >=0.4.4 && <0.5
     , unliftio-core >=0.1.0.0 && <0.2.0.0
-    , vinyl >=0.5.3 && <0.12
+    , vinyl >=0.5.3 && <0.13
   default-language: Haskell2010
 
 test-suite composite-base-test
@@ -72,5 +72,5 @@ test-suite composite-base-test
     , transformers >=0.5.2.0 && <0.6
     , transformers-base >=0.4.4 && <0.5
     , unliftio-core >=0.1.0.0 && <0.2.0.0
-    , vinyl >=0.5.3 && <0.12
+    , vinyl >=0.5.3 && <0.13
   default-language: Haskell2010

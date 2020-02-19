@@ -1,7 +1,6 @@
 {-# LANGUAGE CPP #-}
 module Composite.Opaleye.TH where
 
-import Composite.Opaleye.Util (constantColumnUsing)
 import Control.Lens ((<&>))
 import qualified Data.ByteString.Char8 as BSC8
 import Data.Maybe (fromMaybe)
@@ -24,8 +23,10 @@ import Language.Haskell.TH
   )
 import Language.Haskell.TH.Syntax (lift)
 import Opaleye
-  ( Column, Constant, QueryRunnerColumnDefault, PGText, fieldQueryRunnerColumn, queryRunnerColumnDefault
+  ( Column, Constant(..), QueryRunnerColumnDefault, ToFields, fieldQueryRunnerColumn, queryRunnerColumnDefault
   )
+import Opaleye.Internal.PGTypes (IsSqlType, showSqlType, literalColumn)
+import Opaleye.Internal.HaskellDB.PrimQuery (Literal(StringLit))
 
 -- |Derive the various instances required to make a Haskell enumeration map to a PostgreSQL @enum@ type.
 --
@@ -60,6 +61,9 @@ import Opaleye
 -- @
 --     data PGMyEnum
 --
+--     instance 'IsSqlType' PGMyEnum where
+--       'showSqlType' _ = "myenum"
+--
 --     instance 'FromField' MyEnum where
 --       'fromField' f mbs = do
 --         tname <- 'typename' f
@@ -73,10 +77,11 @@ import Opaleye
 --     instance 'QueryRunnerColumnDefault' PGMyEnum MyEnum where
 --       queryRunnerColumnDefault = 'fieldQueryRunnerColumn'
 --
---     instance 'Default' 'Constant' MyEnum ('Column' PGMyEnum) where
---       def = 'constantColumnUsing' (def :: 'Constant' String ('Column' 'PGText')) $ \ case
---         MyFoo -> "foo"
---         MyBar -> "bar"
+--     instance 'Default' 'ToFields' MyEnum ('Column' PGMyEnum) where
+--       def = 'Constant' $ \ a ->
+--         'literalColumn' . 'stringLit' $ case a of
+--           MyFoo -> "foo"
+--           MyBar -> "bar"
 -- @
 deriveOpaleyeEnum :: Name -> String -> (String -> Maybe String) -> Q [Dec]
 deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
@@ -111,6 +116,14 @@ deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
 #else
       (cxt [])
 #endif
+
+  isSqlTypeInst <- instanceD (cxt []) [t| IsSqlType $sqlType |] . (:[]) $ do
+    funD 'showSqlType
+      [ clause
+          [wildP]
+          (normalB (lift sqlName))
+          []
+      ]
 
   fromFieldInst <- instanceD (cxt []) [t| FromField $hsType |] . (:[]) $ do
     field <- newName "field"
@@ -161,7 +174,7 @@ deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
           []
       ]
 
-  defaultInst <- instanceD (cxt []) [t| Default Constant $hsType (Column $sqlType) |] . (:[]) $ do
+  defaultInst <- instanceD (cxt []) [t| Default ToFields $hsType (Column $sqlType) |] . (:[]) $ do
     s <- newName "s"
     let body = lamE [varP s] $
           caseE (varE s) $
@@ -174,9 +187,9 @@ deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
     funD 'def
       [ clause
           []
-          (normalB [| constantColumnUsing (def :: Constant String (Column PGText)) $body |])
+          (normalB [| Constant (literalColumn . StringLit . $body) |])
           []
       ]
 
-  pure [sqlTypeDecl, fromFieldInst, queryRunnerColumnDefaultInst, defaultInst]
+  pure [sqlTypeDecl, isSqlTypeInst, fromFieldInst, queryRunnerColumnDefaultInst, defaultInst]
 

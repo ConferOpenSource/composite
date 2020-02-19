@@ -21,7 +21,7 @@ dependencies:
   - transformers >= 0.5.2.0 && < 0.6
   - transformers-base >= 0.4.4 && < 0.5
   - unliftio-core >= 0.1.0.0 && < 0.2.0.0
-  - vinyl >= 0.5.3 && < 0.12
+  - vinyl >= 0.5.3 && < 0.13
 
 default-extensions:
   - ConstraintKinds
