@@ -1,5 +1,5 @@
 name:                composite-reflex
-version:             0.7.00
+version:             0.7.1.0
 synopsis:            Utilities for using composite records and corecords with Reflex
 description:         Utilities for using composite records and corecords with Reflex
 homepage:            https://github.com/ConferOpenSource/composite#readme

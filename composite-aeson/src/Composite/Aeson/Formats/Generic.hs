@@ -1,6 +1,6 @@
 module Composite.Aeson.Formats.Generic
   ( abeJsonFormat, aesonJsonFormat, jsonArrayFormat, jsonObjectFormat
-  , SumStyle(..), jsonSumFormat
+  , SumStyle(..), sumFromJson, sumToJson, jsonSumFormat
   ) where
 
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor), FromJson(FromJson))
@@ -157,64 +157,77 @@ expectedFieldsForInputs ((f, _) :| rest) =
     Nothing                   -> unpack f
 
 -- |'JsonFormat' which maps sum types to JSON according to 'SumStyle', given a pair of functions to decompose and recompose the sum type.
+sumFromJson :: SumStyle -> NonEmpty (Text, FromJson e a) -> ABE.Parse e a
+sumFromJson = \ case
+  SumStyleFieldName     -> fieldNameSumFromJson
+  SumStyleTypeValue t v -> typeValueSumFromJson t v
+  SumStyleMergeType t   -> mergeTypeSumFromJson t
+
+-- |'JsonFormat' which maps sum types to JSON according to 'SumStyle', given a pair of functions to decompose and recompose the sum type.
+sumToJson :: SumStyle -> (a -> (Text, Aeson.Value)) -> a -> Aeson.Value
+sumToJson = \ case
+  SumStyleFieldName     -> fieldNameSumToJson
+  SumStyleTypeValue t v -> typeValueSumToJson t v
+  SumStyleMergeType t   -> mergeTypeSumToJson t
+
+-- |'JsonFormat' which maps sum types to JSON according to 'SumStyle', given a pair of functions to decompose and recompose the sum type.
 jsonSumFormat :: SumStyle -> (a -> (Text, Aeson.Value)) -> NonEmpty (Text, FromJson e a) -> JsonFormat e a
-jsonSumFormat = \ case
-  SumStyleFieldName     -> jsonFieldNameSumFormat
-  SumStyleTypeValue t v -> jsonTypeValueSumFormat t v
-  SumStyleMergeType t   -> jsonMergeTypeSumFormat t
+jsonSumFormat style oA iAs = JsonFormat (JsonProfunctor (sumToJson style oA) (sumFromJson style iAs))
 
--- |'JsonFormat' which maps sum types to JSON in the 'SumStyleFieldName' style.
-jsonFieldNameSumFormat :: (a -> (Text, Aeson.Value)) -> NonEmpty (Text, FromJson e a) -> JsonFormat e a
-jsonFieldNameSumFormat oA iAs =
-  JsonFormat (JsonProfunctor o i)
+-- |Map a sum type from JSON in the 'SumStyleFieldName' style.
+fieldNameSumFromJson :: NonEmpty (Text, FromJson e a) -> ABE.Parse e a
+fieldNameSumFromJson iAs = do
+  fields <- ABE.withObject $ pure . StrictHashMap.keys
+  case fields of
+    [f] ->
+      case lookup f (NEL.toList iAs) of
+        Just (FromJson iA) -> ABE.key f iA
+        Nothing -> fail $ "unknown field " <> unpack f <> ", expected one of " <> expected
+    [] ->
+      fail $ "expected an object with one field (" <> expected <> ") not an empty object"
+    _ ->
+      fail $ "expected an object with one field (" <> expected <> ") not many fields"
   where
     expected = expectedFieldsForInputs iAs
-    o a = let (t, v) = oA a in Aeson.object [t .= v]
-    i = do
-      fields <- ABE.withObject $ pure . StrictHashMap.keys
-      case fields of
-        [f] ->
-          case lookup f (NEL.toList iAs) of
-            Just (FromJson iA) -> ABE.key f iA
-            Nothing -> fail $ "unknown field " <> unpack f <> ", expected one of " <> expected
-        [] ->
-          fail $ "expected an object with one field (" <> expected <> ") not an empty object"
-        _ ->
-          fail $ "expected an object with one field (" <> expected <> ") not many fields"
 
+-- |Map a sum type to JSON in the 'SumStyleFieldName' style.
+fieldNameSumToJson :: (a -> (Text, Aeson.Value)) -> a -> Aeson.Value
+fieldNameSumToJson oA = \ (oA -> (t, v)) -> Aeson.object [t .= v]
 
--- |'JsonFormat' which maps sum types to JSON in the 'SumStyleTypeValue' style.
-jsonTypeValueSumFormat :: Text -> Text -> (a -> (Text, Aeson.Value)) -> NonEmpty (Text, FromJson e a) -> JsonFormat e a
-jsonTypeValueSumFormat typeField valueField oA iAs =
-  JsonFormat (JsonProfunctor o i)
+-- |Map a sum type from JSON in the 'SumStyleTypeValue' style.
+typeValueSumFromJson :: Text -> Text -> NonEmpty (Text, FromJson e a) -> ABE.Parse e a
+typeValueSumFromJson typeField valueField iAs = do
+  t <- ABE.key typeField ABE.asText
+  case lookup t (NEL.toList iAs) of
+    Just (FromJson iA) -> ABE.key valueField iA
+    Nothing -> toss $ "expected " <> unpack typeField <> " to be one of " <> expected
   where
     expected = expectedFieldsForInputs iAs
-    o a = let (t, v) = oA a in Aeson.object [typeField .= t, valueField .= v]
-    i = do
-      t <- ABE.key typeField ABE.asText
-      case lookup t (NEL.toList iAs) of
-        Just (FromJson iA) -> ABE.key valueField iA
-        Nothing -> toss $ "expected " <> unpack typeField <> " to be one of " <> expected
     toss = throwError . ABE.BadSchema [] . ABE.FromAeson
 
--- |'JsonFormat' which maps sum types to JSON in the 'SumStyleMergeType' style.
-jsonMergeTypeSumFormat :: Text -> (a -> (Text, Aeson.Value)) -> NonEmpty (Text, FromJson e a) -> JsonFormat e a
-jsonMergeTypeSumFormat typeField oA iAs =
-  JsonFormat (JsonProfunctor o i)
+-- |Map a sum type to JSON in the 'SumStyleTypeValue' style.
+typeValueSumToJson :: Text -> Text -> (a -> (Text, Aeson.Value)) -> a -> Aeson.Value
+typeValueSumToJson typeField valueField oA = \ (oA -> (t, v)) -> Aeson.object [typeField .= t, valueField .= v]
+
+-- |Map a sum type from JSON in the 'SumStyleMergeType' style.
+mergeTypeSumFromJson :: Text -> NonEmpty (Text, FromJson e a) -> ABE.Parse e a
+mergeTypeSumFromJson typeField iAs = do
+  t <- ABE.key typeField ABE.asText
+  case lookup t (NEL.toList iAs) of
+    Just (FromJson iA) -> iA
+    Nothing -> toss $ "expected " <> unpack typeField <> " to be one of " <> expected
   where
     expected = expectedFieldsForInputs iAs
-    o a = case oA a of
-      (t, Aeson.Object fields) | StrictHashMap.member typeField fields ->
-        error $ "PRECONDITION VIOLATED: encoding a value with merge type sum style yielded "
-             <> "(" <> unpack t <> ", " <> show (Aeson.Object fields) <> ") which already contains the field " <> unpack typeField
-      (t, Aeson.Object fields) ->
-        Aeson.Object (StrictHashMap.insert typeField (Aeson.String t) fields)
-      (t, other) ->
-        error $ "PRECONDITION VIOLATED: encoding a value with merge type sum style yielded "
-             <> "(" <> unpack t <> ", " <> show other <> ") which isn't an object"
-    i = do
-      t <- ABE.key typeField ABE.asText
-      case lookup t (NEL.toList iAs) of
-        Just (FromJson iA) -> iA
-        Nothing -> toss $ "expected " <> unpack typeField <> " to be one of " <> expected
     toss = throwError . ABE.BadSchema [] . ABE.FromAeson
+
+-- |Map a sum type to JSON in the 'SumStyleMergeType' style.
+mergeTypeSumToJson :: Text -> (a -> (Text, Aeson.Value)) -> a -> Aeson.Value
+mergeTypeSumToJson typeField oA = \ a -> case oA a of
+  (t, Aeson.Object fields) | StrictHashMap.member typeField fields ->
+    error $ "PRECONDITION VIOLATED: encoding a value with merge type sum style yielded "
+         <> "(" <> unpack t <> ", " <> show (Aeson.Object fields) <> ") which already contains the field " <> unpack typeField
+  (t, Aeson.Object fields) ->
+    Aeson.Object (StrictHashMap.insert typeField (Aeson.String t) fields)
+  (t, other) ->
+    error $ "PRECONDITION VIOLATED: encoding a value with merge type sum style yielded "
+         <> "(" <> unpack t <> ", " <> show other <> ") which isn't an object"
