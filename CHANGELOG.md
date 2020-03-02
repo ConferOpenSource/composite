@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.7.1.0
+
+* Split out fieldJsonFormat and sumJsonFormat into encode-only and decode-only versions.
+
+## 0.7.0.0
+
+* Round out functions for working with decode-only or encode-only records.
+* Rename ToField to ToJsonField and FromField to FromJsonField.
+
+## 0.6.2.0
+
+* Widen vinyl bound to >= 0.5.3 && < 0.13 (was < 0.12)
+* Unbreak deriveOpaleyeEnum for newer PostgreSQL which won't implicitly convert text to an enum.
+
 ## 0.6.1.0
 
 * Code now compiles with Stackage LTS 14.20
