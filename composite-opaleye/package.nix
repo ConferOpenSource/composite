@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "composite-opaleye";
-  version = "0.6.2.0";
+  version = "0.7.0.0";
   src = ./.;
   libraryHaskellDepends = [
     base bytestring composite-base lens opaleye postgresql-simple
@@ -17,7 +17,7 @@ mkDerivation {
     vinyl
   ];
   prePatch = "hpack";
-  homepage = "https://github.com/ConferHealth/composite#readme";
-  description = "Opaleye SQL for Frames records";
+  homepage = "https://github.com/ConferOpenSource/composite#readme";
+  description = "Opaleye SQL for Vinyl records";
   license = stdenv.lib.licenses.bsd3;
 }

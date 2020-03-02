@@ -4,17 +4,17 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 05c1e5ab9fc9a081bac346233bcb8d9e44d53a04c92e08698d7f18cc8fa11af8
+-- hash: ef23d1ba1db8af3d1c701ad15d60323faf4f7de975fc0fcebe15c06288c23c73
 
 name:           composite-reflex
-version:        0.6.2.0
+version:        0.7.00
 synopsis:       Utilities for using composite records and corecords with Reflex
 description:    Utilities for using composite records and corecords with Reflex
 category:       Records
-homepage:       https://github.com/ConferHealth/composite#readme
+homepage:       https://github.com/ConferOpenSource/composite#readme
 author:         Confer Health, Inc
-maintainer:     oss@confer.health
-copyright:      2017 Confer Health, Inc.
+maintainer:     oss@vitalbio.com
+copyright:      2017 Confer Health, Inc., 2020 Vital Biosciences
 license:        BSD3
 build-type:     Simple
 
@@ -32,7 +32,7 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , composite-base >=0.5.3.0 && <0.7
+    , composite-base >=0.7 && <0.8
     , data-default >=0.7.1.1 && <0.8
     , dependent-map >=0.2.4.0 && <0.3
     , dependent-sum >=0.4 && <0.5

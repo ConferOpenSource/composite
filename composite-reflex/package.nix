@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "composite-reflex";
-  version = "0.6.2.0";
+  version = "0.7.0";
   src = ./.;
   libraryHaskellDepends = [
     base composite-base data-default dependent-map dependent-sum
@@ -12,7 +12,7 @@ mkDerivation {
   ];
   libraryToolDepends = [ hpack ];
   prePatch = "hpack";
-  homepage = "https://github.com/ConferHealth/composite#readme";
+  homepage = "https://github.com/ConferOpenSource/composite#readme";
   description = "Utilities for using composite records and corecords with Reflex";
   license = stdenv.lib.licenses.bsd3;
 }

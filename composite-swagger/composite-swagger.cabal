@@ -4,17 +4,17 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 27bc87f8f8fbe1d2b31b5c37597416303eaff3645c03728965e7735b366bcc2a
+-- hash: d729d5a382ac9449dee12511a1aa59409ddbd1fd17e5e1199379a108236068ea
 
 name:           composite-swagger
-version:        0.6.2.0
-synopsis:       Swagger for Vinyl/Frames records
-description:    Integration between Swagger and Vinyl/Frames records allowing easily derivable/explicit Swagger definitions for records.
+version:        0.7.0.0
+synopsis:       Swagger for Vinyl records
+description:    Integration between Swagger and Vinyl records allowing easily derivable/explicit Swagger definitions for records.
 category:       Records
-homepage:       https://github.com/ConferHealth/composite#readme
-author:         Confer Health, Inc
-maintainer:     oss@confer.health
-copyright:      2017 Confer Health, Inc.
+homepage:       https://github.com/ConferOpenSource/composite#readme
+author:         Dan Fithian
+maintainer:     oss@vitalbio.com
+copyright:      2017 Confer Health, Inc., 2020 Vital Biosciences
 license:        BSD3
 build-type:     Simple
 
@@ -32,7 +32,7 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , composite-base >=0.5.3.0 && <0.7
+    , composite-base >=0.7 && <0.8
     , insert-ordered-containers >=0.2.1.0 && <0.3
     , lens >=4.15.4 && <4.18
     , swagger2 >=2.1.6 && <2.5

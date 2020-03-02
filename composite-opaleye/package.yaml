@@ -1,18 +1,18 @@
 name:                composite-opaleye
-version:             0.6.2.0
-synopsis:            Opaleye SQL for Frames records
-description:         Integration between Frames records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
-homepage:            https://github.com/ConferHealth/composite#readme
+version:             0.7.0.0
+synopsis:            Opaleye SQL for Vinyl records
+description:         Integration between Vinyl records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
+homepage:            https://github.com/ConferOpenSource/composite#readme
 license:             BSD3
 author:              Confer Health, Inc.
-maintainer:          oss@confer.health
-copyright:           2017 Confer Health, Inc.
+maintainer:          oss@vitalbio.com
+copyright:           2017 Confer Health, Inc., 2020 Vital Biosciences
 category:            Records
 
 dependencies:
   - base >= 4.7 && < 5
   - bytestring >= 0.10.8.1 && < 0.11
-  - composite-base >= 0.5.3.0 && < 0.7
+  - composite-base >= 0.7 && < 0.8
   - lens >= 4.15.4 && < 4.18
   - opaleye >= 0.5.4.0 && < 0.7
   - postgresql-simple >= 0.5.3.0 && < 0.7
