@@ -5,6 +5,7 @@ import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunct
 import Composite.Aeson.Formats.Generic (SumStyle, abeJsonFormat, aesonJsonFormat, jsonArrayFormat, jsonObjectFormat, jsonSumFormat)
 import Composite.Aeson.Formats.InternalTH (makeTupleFormats, makeNamedTupleFormats)
 import Control.Arrow (first)
+import Control.Monad.Except (throwError)
 import Control.Lens (_2, _Wrapped, over, view)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
@@ -116,7 +117,7 @@ naturalJsonFormat = aesonJsonFormat
 -- |'JsonFormat' for 'NonEmpty' which maps to a JSON array.
 nonEmptyListJsonFormat :: JsonFormat e a -> JsonFormat e (NonEmpty a)
 nonEmptyListJsonFormat =
-  jsonArrayFormat NEL.toList (maybe (fail "expected nonempty array") pure . NEL.nonEmpty)
+  jsonArrayFormat NEL.toList (maybe (throwError $ ABE.InvalidJSON $ fail "expected nonempty array") pure . NEL.nonEmpty)
 
 -- |JSON format for '()' which maps to JSON as @null@.
 nullJsonFormat :: JsonFormat e ()

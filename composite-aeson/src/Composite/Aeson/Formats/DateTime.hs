@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Composite.Aeson.Formats.DateTime
   ( DateTimeFormat(..), regularDateTimeFormat
   , dateTimeJsonFormat
@@ -94,13 +95,19 @@ instance Applicative SuccessOrFail where
 
 instance Monad SuccessOrFail where
   return = Success
-  fail   = Fail
-
   Success a >>= k = k a
   Fail    f >>= _ = Fail f
+#if MIN_VERSION_base(4,13,0)
+instance MonadFail SuccessOrFail where
+#endif
+  fail   = Fail
 
 -- |Evaluate some action of type @Monad m => m a@ and apply either the first or second function based on whether the computation completed or used @fail@.
+#if MIN_VERSION_base(4,13,0)
+successOrFail :: (String -> b) -> (a -> b) -> (forall m. MonadFail m => m a) -> b
+#else
 successOrFail :: (String -> b) -> (a -> b) -> (forall m. Monad m => m a) -> b
+#endif
 successOrFail _ f (Success a) = f a
 successOrFail f _ (Fail    s) = f s
 

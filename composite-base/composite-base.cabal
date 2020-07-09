@@ -1,10 +1,8 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.32.0.
+-- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: 2c10b897d91f5a41384f9782bed6e25f102f890fb3bbd5cc3133a036def4d892
 
 name:           composite-base
 version:        0.7.1.0
@@ -34,16 +32,16 @@ library
   build-depends:
       base >=4.7 && <5
     , exceptions >=0.8.3 && <0.11
-    , lens >=4.15.4 && <4.18
+    , lens >=4.15.4 && <4.20
     , monad-control >=1.0.2.2 && <1.1
     , mtl >=2.2.1 && <2.3
-    , profunctors >=5.2.1 && <5.4
-    , template-haskell >=2.11.1.0 && <2.15
+    , profunctors >=5.2.1 && <5.6
+    , template-haskell >=2.11.1.0 && <2.17
     , text >=1.2.2.2 && <1.3
     , transformers >=0.5.2.0 && <0.6
     , transformers-base >=0.4.4 && <0.5
-    , unliftio-core >=0.1.0.0 && <0.2.0.0
-    , vinyl >=0.5.3 && <0.13
+    , unliftio-core >=0.1.0.0 && <0.3.0.0
+    , vinyl >=0.5.3 && <0.14
   default-language: Haskell2010
 
 test-suite composite-base-test
@@ -63,14 +61,14 @@ test-suite composite-base-test
     , composite-base
     , exceptions >=0.8.3 && <0.11
     , hspec
-    , lens >=4.15.4 && <4.18
+    , lens >=4.15.4 && <4.20
     , monad-control >=1.0.2.2 && <1.1
     , mtl >=2.2.1 && <2.3
-    , profunctors >=5.2.1 && <5.4
-    , template-haskell >=2.11.1.0 && <2.15
+    , profunctors >=5.2.1 && <5.6
+    , template-haskell >=2.11.1.0 && <2.17
     , text >=1.2.2.2 && <1.3
     , transformers >=0.5.2.0 && <0.6
     , transformers-base >=0.4.4 && <0.5
-    , unliftio-core >=0.1.0.0 && <0.2.0.0
-    , vinyl >=0.5.3 && <0.13
+    , unliftio-core >=0.1.0.0 && <0.3.0.0
+    , vinyl >=0.5.3 && <0.14
   default-language: Haskell2010
