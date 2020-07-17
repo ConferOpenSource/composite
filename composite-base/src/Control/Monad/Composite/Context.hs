@@ -152,7 +152,9 @@ instance Monad m => Monad (ContextT c m) where
     a <- runContextT clt ctx
     runContextT (k a) ctx
 
+#if !MIN_VERSION_base(4,13,0)
   fail = ContextT . const . fail
+#endif
 
 instance MonadIO m => MonadIO (ContextT c m) where
   liftIO = lift . liftIO

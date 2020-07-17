@@ -182,11 +182,11 @@ fieldNameSumFromJson iAs = do
     [f] ->
       case lookup f (NEL.toList iAs) of
         Just (FromJson iA) -> ABE.key f iA
-        Nothing -> fail $ "unknown field " <> unpack f <> ", expected one of " <> expected
+        Nothing -> throwError $ ABE.InvalidJSON $ "unknown field " <> unpack f <> ", expected one of " <> expected
     [] ->
-      fail $ "expected an object with one field (" <> expected <> ") not an empty object"
+      throwError $ ABE.InvalidJSON $ "expected an object with one field (" <> expected <> ") not an empty object"
     _ ->
-      fail $ "expected an object with one field (" <> expected <> ") not many fields"
+      throwError $ ABE.InvalidJSON $ "expected an object with one field (" <> expected <> ") not many fields"
   where
     expected = expectedFieldsForInputs iAs
 

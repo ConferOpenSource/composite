@@ -3,6 +3,7 @@ module Composite.Aeson.Formats.InternalTH
   ) where
 
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor))
+import Control.Monad.Except (throwError)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
 import qualified Data.HashMap.Lazy as HM
@@ -79,7 +80,7 @@ makeTupleFormats = concat <$> traverse makeTupleFormat [2..59]
                      ABE.withArray Right >>= \ a ->
                        if V.length a == $(lift arity)
                          then pure ()
-                         else fail $(lift $ "expected an array of exactly " <> show arity <> " elements")
+                         else throwError $ ABE.InvalidJSON $  $(lift $ "expected an array of exactly " <> show arity <> " elements")
                      |]
                  ]
               ++ map ( \ (n, valName, iName) ->

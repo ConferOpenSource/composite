@@ -1,0 +1,17 @@
+resolver: lts-14.20
+packages:
+  - composite-aeson
+  - composite-aeson-refined
+  - composite-base
+  - composite-ekg
+  - composite-opaleye
+  - composite-swagger
+  - example
+flags: {}
+extra-deps:
+  - refined-0.4.4
+nix:
+  packages:
+    - lzma
+    - postgresql
+    - zlib
