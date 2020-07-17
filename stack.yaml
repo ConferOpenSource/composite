@@ -1,4 +1,4 @@
-resolver: lts-14.20
+resolver: lts-16.5
 packages:
   - composite-aeson
   - composite-aeson-refined
@@ -10,6 +10,7 @@ packages:
 flags: {}
 extra-deps:
   - refined-0.4.4
+  - vinyl-0.13.0
 nix:
   packages:
     - lzma
