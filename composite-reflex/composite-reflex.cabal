@@ -1,10 +1,8 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.32.0.
+-- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: 9a7b56a4cdbc3cad663bd48cdf6007d0341499f8f5e4c18dfc919d04fc448d0f
 
 name:           composite-reflex
 version:        0.7.1.0

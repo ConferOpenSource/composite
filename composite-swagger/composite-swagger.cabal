@@ -3,8 +3,6 @@ cabal-version: 1.12
 -- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: adb7efee01ce5e90496d933b8108280c9e505a9b5d3ea1a21cf17ca81e3ad842
 
 name:           composite-swagger
 version:        0.7.1.0
