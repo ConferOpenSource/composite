@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9a9f06729576eb376c2021f74709d69aebf8b463c243b587b17c9524c0a8f710
+-- hash: 5b19ef0e1c6db89338f60831231310390f0a5582efb2a1d9f1640c56270dd066
 
 name:           composite-ekg
-version:        0.7.1.0
+version:        0.7.2.0
 synopsis:       EKG Metrics for Vinyl records
 description:    Integration between EKG and Vinyl records allowing records holding registered metrics to be easily constructed from a type declaration.
 category:       Records

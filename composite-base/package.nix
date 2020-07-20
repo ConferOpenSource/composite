@@ -4,7 +4,7 @@
 }:
 mkDerivation {
   pname = "composite-base";
-  version = "0.7.1.0";
+  version = "0.7.2.0";
   src = ./.;
   libraryHaskellDepends = [
     base exceptions lens monad-control mtl profunctors template-haskell
