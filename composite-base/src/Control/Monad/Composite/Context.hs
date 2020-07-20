@@ -179,10 +179,12 @@ instance MonadBaseControl b m => MonadBaseControl b (ContextT c m) where
         f (runInBase . ($ c) . runContextT)
 
 instance MonadUnliftIO m => MonadUnliftIO (ContextT c m) where
+#if !MIN_VERSION_unliftio_core(0,2,0)
   {-# INLINE askUnliftIO #-}
   askUnliftIO = ContextT $ \c ->
                 withUnliftIO $ \u ->
                 return (UnliftIO (unliftIO u . flip runContextT c))
+#endif
 #if MIN_VERSION_unliftio_core(0,1,1)
   {-# INLINE withRunInIO #-}
   withRunInIO inner =
