@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3eba00716a7e469c9b31d06587acd59a53dc789ebd03ca7bc216a5604343fb32
+-- hash: 52f4f585fc595aaee50b5172f24be8fad2fa7cebbd7274854ef1cfdf440cc516
 
 name:           composite-opaleye
 version:        0.7.2.0
@@ -41,7 +41,7 @@ library
     , postgresql-simple >=0.5.3.0 && <0.7
     , product-profunctors >=0.8.0.3 && <0.11
     , profunctors >=5.2.1 && <5.6
-    , template-haskell >=2.11.1.0 && <2.16
+    , template-haskell >=2.11.1.0 && <2.17
     , text >=1.2.2.2 && <1.3
     , vinyl >=0.5.3 && <0.14
   default-language: Haskell2010
@@ -68,7 +68,7 @@ test-suite composite-opaleye-test
     , postgresql-simple >=0.5.3.0 && <0.7
     , product-profunctors >=0.8.0.3 && <0.11
     , profunctors >=5.2.1 && <5.6
-    , template-haskell >=2.11.1.0 && <2.16
+    , template-haskell >=2.11.1.0 && <2.17
     , text >=1.2.2.2 && <1.3
     , vinyl >=0.5.3 && <0.14
   default-language: Haskell2010

@@ -1,4 +1,4 @@
-resolver: lts-14.20
+resolver: nightly-2020-07-19
 packages:
   - composite-aeson
   - composite-aeson-refined
@@ -9,7 +9,7 @@ packages:
   - example
 flags: {}
 extra-deps:
-  - refined-0.4.4
+  - vinyl-0.13.0
 nix:
   packages:
     - lzma

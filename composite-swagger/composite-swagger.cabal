@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 27d17c53e1d323e8472c37f3b6dbf78dd19f9506e6bfd260626b34046986742b
+-- hash: 636e75ae105ab6260968d5711d2c1e1d616bd0c787d57df8f608c80b17d6cd46
 
 name:           composite-swagger
 version:        0.7.2.0
@@ -35,8 +35,8 @@ library
     , composite-base >=0.7 && <0.8
     , insert-ordered-containers >=0.2.1.0 && <0.3
     , lens >=4.15.4 && <4.20
-    , swagger2 >=2.1.6 && <2.6
-    , template-haskell >=2.11.1.0 && <2.16
+    , swagger2 >=2.1.6 && <2.7
+    , template-haskell >=2.11.1.0 && <2.17
     , text >=1.2.2.2 && <1.3
     , vinyl >=0.5.3 && <0.14
   default-language: Haskell2010
@@ -60,8 +60,8 @@ test-suite composite-swagger-test
     , hspec
     , insert-ordered-containers >=0.2.1.0 && <0.3
     , lens >=4.15.4 && <4.20
-    , swagger2 >=2.1.6 && <2.6
-    , template-haskell >=2.11.1.0 && <2.16
+    , swagger2 >=2.1.6 && <2.7
+    , template-haskell >=2.11.1.0 && <2.17
     , text >=1.2.2.2 && <1.3
     , vinyl >=0.5.3 && <0.14
   default-language: Haskell2010
