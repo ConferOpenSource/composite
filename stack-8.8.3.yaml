@@ -1,0 +1,19 @@
+resolver: lts-16.5
+packages:
+  - composite-aeson
+  - composite-aeson-refined
+  - composite-base
+  - composite-ekg
+  - composite-opaleye
+  - composite-swagger
+  - example
+flags: {}
+extra-deps:
+  - refined-0.5.1
+  - these-skinny-0.7.4
+  - vinyl-0.13.0
+nix:
+  packages:
+    - lzma
+    - postgresql
+    - zlib
