@@ -10,6 +10,12 @@ packages:
 flags: {}
 extra-deps:
   - vinyl-0.13.0
+  - servant-0.17
+  - servant-server-0.17
+  - servant-swagger-1.1.8
+  - servant-swagger-ui-0.3.4.3.23.11
+  - servant-swagger-ui-core-0.3.3
+  - servant-blaze-0.9
 nix:
   packages:
     - lzma

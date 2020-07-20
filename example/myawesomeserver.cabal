@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e5ea9af6fb0244b13a049e19b384897b7b42bca0ff3d17c96e207f5606db4d35
+-- hash: 3650c00d376753d9afcc8ad0ce1a59ff50a4c5b33bc5e6a9cb9feeed3f6fe5a4
 
 name:           myawesomeserver
 version:        0.0.2
@@ -59,8 +59,8 @@ library
     , product-profunctors >=0.8.0.3 && <0.11
     , profunctors >=5.2.1 && <5.6
     , resource-pool >=0.2.3.2 && <0.3
-    , servant >=0.11 && <0.17
-    , servant-server >=0.11.0.1 && <0.17
+    , servant >=0.11 && <0.18
+    , servant-server >=0.11.0.1 && <0.18
     , servant-swagger >=1.1.4 && <1.5
     , servant-swagger-ui >=0.2.4.3.4.0 && <0.4
     , swagger2 >=2.1.6 && <2.7
@@ -104,8 +104,8 @@ executable myawesomeserver-exe
     , product-profunctors >=0.8.0.3 && <0.11
     , profunctors >=5.2.1 && <5.6
     , resource-pool >=0.2.3.2 && <0.3
-    , servant >=0.11 && <0.17
-    , servant-server >=0.11.0.1 && <0.17
+    , servant >=0.11 && <0.18
+    , servant-server >=0.11.0.1 && <0.18
     , servant-swagger >=1.1.4 && <1.5
     , servant-swagger-ui >=0.2.4.3.4.0 && <0.4
     , swagger2 >=2.1.6 && <2.7

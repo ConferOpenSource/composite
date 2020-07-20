@@ -59,8 +59,8 @@ dependencies:
   - product-profunctors >= 0.8.0.3 && < 0.11
   - profunctors >= 5.2.1 && < 5.6
   - resource-pool >= 0.2.3.2 && < 0.3
-  - servant >= 0.11 && < 0.17
-  - servant-server >= 0.11.0.1 && < 0.17
+  - servant >= 0.11 && < 0.18
+  - servant-server >= 0.11.0.1 && < 0.18
   - servant-swagger >= 1.1.4 && < 1.5
   - servant-swagger-ui >= 0.2.4.3.4.0 && < 0.4
   - swagger2 >= 2.1.6 && < 2.7
