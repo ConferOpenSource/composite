@@ -245,16 +245,20 @@ type family ValuesAllHave (cs :: [u -> Constraint]) (as :: [u]) :: Constraint wh
 -- |Given a list of constraints @cs@, apply some function for each @r@ in the target record type @rs@ with proof that those constraints hold for @r@,
 -- generating a record with the result of each application.
 reifyDicts
-  :: forall (cs :: [u -> Constraint]) (f :: u -> *) (rs :: [u]) (proxy :: [u -> Constraint] -> *).
+  :: forall u. forall (cs :: [u -> Constraint]) (f :: u -> *) (rs :: [u]) (proxy :: [u -> Constraint] -> *).
      (AllHave cs rs, RecApplicative rs)
   => proxy cs
   -> (forall proxy' (a :: u). HasInstances a cs => proxy' a -> f a)
   -> Rec f rs
-reifyDicts _ f = go (rpure (Const ()))
+reifyDicts x f = go x (rpure (Const ())) f
   where
-    go :: forall (rs' :: [u]). AllHave cs rs' => Rec (Const ()) rs' -> Rec f rs'
-    go RNil = RNil
-    go ((_ :: Const () a) :& xs) = f (Proxy @a) :& go xs
+    go :: forall (f :: u -> *) (cs :: [u -> Constraint]) (rs' :: [u]) (proxy :: [u -> Constraint] -> *). AllHave cs rs'
+       => proxy cs
+       -> Rec (Const ()) rs'
+       -> (forall proxy' (a :: u). HasInstances a cs => proxy' a -> f a)
+       -> Rec f rs'
+    go _ RNil _ = RNil
+    go x ((_ :: Const () a) :& xs) f = f (Proxy @a) :& go x xs f
 {-# INLINE reifyDicts #-}
 
 -- |Class which reifies the symbols of a record composed of ':->' fields as 'Text'.

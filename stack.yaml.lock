@@ -5,15 +5,57 @@
 
 packages:
 - completed:
-    hackage: refined-0.4.4@sha256:7dbbb741e397c61dc68a9c1d891b711344f8f1543f099bf012b54360a44a9ca0,2916
+    hackage: vinyl-0.13.0@sha256:0f247cd3f8682b30881a07de18e6fec52d540646fbcb328420049cc8d63cd407,3724
     pantry-tree:
-      size: 788
-      sha256: c103d3ae1233194c92c2843a08636e83ff025d02606345caf28b2324d65850a8
+      size: 1857
+      sha256: 860fb95820b595161cdbdec5f376100ebae2d14e5ef0dbe311546202f7525d01
   original:
-    hackage: refined-0.4.4
+    hackage: vinyl-0.13.0
+- completed:
+    hackage: servant-0.17@sha256:e78734cb6b75c5d1e52e8f5e16bc3f557154a580bbde4932a7e1a6a90da7eb04,5029
+    pantry-tree:
+      size: 2392
+      sha256: 36561a606c35393386aa48b7cc2407fa4013aba62a19d69f004ec9c2010209aa
+  original:
+    hackage: servant-0.17
+- completed:
+    hackage: servant-server-0.17@sha256:1a5adf564f0b703535eb733f249b282ef2ca7b587a303c357b549fb88e7a6dcd,5388
+    pantry-tree:
+      size: 2460
+      sha256: ea65ba54acb4362efedbfa7db616a51023579a6c83f18ab6d2ea6a84dea56021
+  original:
+    hackage: servant-server-0.17
+- completed:
+    hackage: servant-swagger-1.1.8@sha256:9b0282fce7e0895f7b6e47cfea461f59ba7a1cc98e20f5b4a66e7fa24897f361,4622
+    pantry-tree:
+      size: 1636
+      sha256: 2f1a79c09eb4fff96e6f948f15ed5d17d10eeb52de9299d57d853dbaebbda26e
+  original:
+    hackage: servant-swagger-1.1.8
+- completed:
+    hackage: servant-swagger-ui-0.3.4.3.23.11@sha256:11a3df5c7a83f3d5dbb983c057245dd2fc1e2b7626252131e67f4a1e618cbdf2,1743
+    pantry-tree:
+      size: 799
+      sha256: 9285a4a8fc74def5f45a232735cb2213f0e33fa0d41fd56f4fea13cd806f3ccd
+  original:
+    hackage: servant-swagger-ui-0.3.4.3.23.11
+- completed:
+    hackage: servant-swagger-ui-core-0.3.3@sha256:17d088983a9c90a2c0184ba49f85846f4176208a9cd445140b668f51fcc1a37b,1738
+    pantry-tree:
+      size: 243
+      sha256: 70bf33e79af20406b0b051e845bcf1b9a5d641278cca7d9b1212591445f017ee
+  original:
+    hackage: servant-swagger-ui-core-0.3.3
+- completed:
+    hackage: servant-blaze-0.9@sha256:c42249584d5585401508aa39fcd3d85de4ca69f8d426093e65e1f42a8562c95e,1577
+    pantry-tree:
+      size: 331
+      sha256: 2b001b244e8df6a49b324b66bc284d47a7980aae00e4792c7c3d49d9f7c8aa1f
+  original:
+    hackage: servant-blaze-0.9
 snapshots:
 - completed:
-    size: 524154
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/14/20.yaml
-    sha256: 2f5099f69ddb6abfe64400fe1e6a604e8e628f55e6837211cd70a81eb0a8fa4d
-  original: lts-14.20
+    size: 512195
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/7/19.yaml
+    sha256: c5ab758fbac270898400c61189919841d0c6755bff153a651311fca69d906d23
+  original: nightly-2020-07-19
