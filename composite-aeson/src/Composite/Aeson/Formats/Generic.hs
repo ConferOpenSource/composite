@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Composite.Aeson.Formats.Generic
   ( abeJsonFormat, aesonJsonFormat, jsonArrayFormat, jsonObjectFormat
   , SumStyle(..), sumFromJson, sumToJson, jsonSumFormat
@@ -13,10 +14,14 @@ import qualified Data.Aeson.BetterErrors as ABE
 import qualified Data.HashMap.Strict as StrictHashMap
 import Data.List.NonEmpty (NonEmpty((:|)))
 import qualified Data.List.NonEmpty as NEL
-import Data.Monoid ((<>))
 import Data.Text (Text, intercalate, unpack)
 import qualified Data.Vector as Vector
-import Language.Haskell.TH.Syntax (Lift, lift, liftString)
+import Language.Haskell.TH.Syntax
+  ( Lift, lift, liftString
+#if MIN_VERSION_template_haskell(2,16,0)
+  , liftTyped, TExp(TExp)
+#endif
+  )
 
 -- |Produce an explicit 'JsonFormat' by using the implicit Aeson 'ToJSON' instance and an explicit @aeson-better-errors@ 'ABE.Parse'.
 abeJsonFormat :: ToJSON a => ABE.Parse e a -> JsonFormat e a
@@ -148,6 +153,10 @@ instance Lift SumStyle where
     SumStyleFieldName     -> [| SumStyleFieldName |]
     SumStyleTypeValue a b -> [| SumStyleTypeValue $(liftString $ unpack a) $(liftString $ unpack b) |]
     SumStyleMergeType a   -> [| SumStyleMergeType $(liftString $ unpack a) |]
+#if MIN_VERSION_template_haskell(2,16,0)
+  liftTyped = fmap TExp . lift
+#endif
+
 
 -- |Helper used by the various sum format functions which takes a list of input format pairs and makes an oxford comma list of them.
 expectedFieldsForInputs :: NonEmpty (Text, x) -> String

@@ -3,7 +3,6 @@ module Composite.Swagger.TH where
 
 import Composite.CoRecord (Field)
 import Composite.Swagger.Base (wrappedSchema)
-import Data.Monoid ((<>))
 import Data.Proxy (Proxy (Proxy))
 import Data.Swagger (ToSchema, declareNamedSchema)
 import Language.Haskell.TH

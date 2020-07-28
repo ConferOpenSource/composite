@@ -3,7 +3,6 @@ module Composite.Ekg (EkgMetric(ekgMetric)) where
 import Composite.Record ((:->)(Val), Rec((:&), RNil), Record)
 import Data.Char (isUpper, toLower)
 import Data.Functor.Identity (Identity(Identity))
-import Data.Monoid ((<>))
 import qualified Data.Text as Text
 import Data.Proxy (Proxy(Proxy))
 import Data.Text (Text, pack)

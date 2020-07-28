@@ -7,7 +7,6 @@ import Control.Monad.Logger
   , Loc(loc_package, loc_module, loc_filename, loc_start) )
 import Data.ByteString.Char8 (hPutStrLn)
 import System.Log.FastLogger (LogStr, ToLogStr(toLogStr), fromLogStr)
-import System.IO (stderr)
 
 -- |An alias for the long type that LoggingT requires to log messages
 type LogFunction = Loc -> LogSource -> LogLevel -> LogStr -> IO ()

@@ -14,7 +14,6 @@ import Composite.Record (Record)
 import Control.Lens (_head, over)
 import Data.Aeson (FromJSON(parseJSON), ToJSON(toJSON))
 import Data.Char (toLower)
-import Data.Monoid ((<>))
 import Language.Haskell.TH
   ( Q, clause, cxt
   , normalB

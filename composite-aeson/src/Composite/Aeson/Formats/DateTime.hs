@@ -11,7 +11,6 @@ import Composite.Aeson.Formats.Provided (stringJsonFormat)
 import Control.Monad.Error.Class (throwError)
 import qualified Data.Aeson.BetterErrors as ABE
 import Data.Either (partitionEithers)
-import Data.Monoid ((<>))
 import Data.List (intercalate)
 import Data.List.NonEmpty (NonEmpty((:|)))
 import qualified Data.List.NonEmpty as NEL
@@ -110,5 +109,8 @@ successOrFail :: (String -> b) -> (a -> b) -> (forall m. Monad m => m a) -> b
 #endif
 successOrFail _ f (Success a) = f a
 successOrFail f _ (Fail    s) = f s
+#if __GLASGOW_HASKELL__ >= 810
+successOrFail f _ _           = f "pattern matching should have been exhaustive, but GHC disagreed"
+#endif
 
 

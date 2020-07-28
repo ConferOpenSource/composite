@@ -17,7 +17,6 @@ import Data.Functor.Identity (Identity(Identity))
 import Data.Kind (Constraint)
 import Data.List.NonEmpty (NonEmpty((:|)))
 import Data.Proxy (Proxy(Proxy))
-import Data.Semigroup (Semigroup)
 import Data.String (IsString)
 import Data.Text (Text, pack)
 import Data.Vinyl (Rec((:&), RNil), RecApplicative, rcast, recordToList, rpure)
@@ -258,7 +257,7 @@ reifyDicts x f = go x (rpure (Const ())) f
        -> (forall proxy' (a :: u). HasInstances a cs => proxy' a -> f a)
        -> Rec f rs'
     go _ RNil _ = RNil
-    go x ((_ :: Const () a) :& xs) f = f (Proxy @a) :& go x xs f
+    go y ((_ :: Const () a) :& ys) g = g (Proxy @a) :& go y ys g
 {-# INLINE reifyDicts #-}
 
 -- |Class which reifies the symbols of a record composed of ':->' fields as 'Text'.

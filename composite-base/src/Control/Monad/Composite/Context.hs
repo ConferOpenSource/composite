@@ -25,7 +25,9 @@ import Control.Monad.Cont (ContT(ContT), runContT)
 import Control.Monad.Cont.Class (MonadCont(callCC))
 import Control.Monad.Error.Class (MonadError(throwError, catchError))
 import Control.Monad.Except (ExceptT(ExceptT), runExceptT)
+#if !MIN_VERSION_base(4,13,0)
 import Control.Monad.Fail (MonadFail)
+#endif
 import qualified Control.Monad.Fail as MonadFail
 import Control.Monad.Fix (MonadFix(mfix))
 import Control.Monad.IO.Class (MonadIO(liftIO))
@@ -44,13 +46,16 @@ import Control.Monad.Trans.Maybe (MaybeT(MaybeT), runMaybeT)
 import qualified Control.Monad.Writer.Lazy as Lazy
 import qualified Control.Monad.Writer.Strict as Strict
 import Control.Monad.Writer.Class (MonadWriter(writer, tell, listen, pass))
-import Data.Monoid (Monoid)
 
-#if MIN_VERSION_unliftio_core(0,1,1)
-import Control.Monad.IO.Unlift (askUnliftIO, MonadUnliftIO, UnliftIO(UnliftIO), unliftIO, withUnliftIO, withRunInIO)
-#else
-import Control.Monad.IO.Unlift (askUnliftIO, MonadUnliftIO, UnliftIO(UnliftIO), unliftIO, withUnliftIO)
+import Control.Monad.IO.Unlift
+  ( MonadUnliftIO
+#if !MIN_VERSION_unliftio_core(0,2,0)
+  , UnliftIO(UnliftIO), askUnliftIO, unliftIO, withUnliftIO
 #endif
+#if MIN_VERSION_unliftio_core(0,1,1)
+  , withRunInIO
+#endif
+  )
 
 -- |Class of monad (stacks) which have context reading functionality baked in. Similar to 'Control.Monad.Reader.MonadReader' but can coexist with a
 -- another monad that provides 'Control.Monad.Reader.MonadReader' and requires the context to be a record.

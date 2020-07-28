@@ -8,7 +8,6 @@ import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
 import qualified Data.HashMap.Lazy as HM
 import Data.List (foldl')
-import Data.Monoid ((<>))
 import Data.Text (Text)
 import qualified Data.Vector as V
 import Language.Haskell.TH
