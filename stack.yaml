@@ -1,6 +1,7 @@
 resolver: nightly-2020-08-13
 packages:
   - composite-aeson
+  - composite-aeson-path
   - composite-aeson-refined
   - composite-base
   - composite-binary

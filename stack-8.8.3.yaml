@@ -1,6 +1,7 @@
 resolver: lts-16.5
 packages:
   - composite-aeson
+  - composite-aeson-path
   - composite-aeson-refined
   - composite-base
   - composite-binary
