@@ -1,4 +1,4 @@
-resolver: nightly-2020-07-19
+resolver: nightly-2020-08-13
 packages:
   - composite-aeson
   - composite-aeson-refined
@@ -9,13 +9,12 @@ packages:
   - example
 flags: {}
 extra-deps:
-  - vinyl-0.13.0
-  - servant-0.17
-  - servant-server-0.17
-  - servant-swagger-1.1.8
-  - servant-swagger-ui-0.3.4.3.23.11
-  - servant-swagger-ui-core-0.3.3
-  - servant-blaze-0.9
+- servant-blaze-0.9
+- servant-server-0.18
+- servant-swagger-1.1.8
+- servant-swagger-ui-0.3.4.3.23.11
+- servant-swagger-ui-core-0.3.3
+allow-newer: true
 nix:
   packages:
     - lzma
