@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f4a9dd8025ca20a24dd7b1c000231332627bcb754951b64c68ac5744e908b8cc
+-- hash: 88a3dd31b1d1b411a99939d3397f71b42bbaebb0c03fa4f0aa85bf9b749782f3
 
 name:           composite-aeson-refined
 version:        0.7.2.0
@@ -32,5 +32,5 @@ library
     , base >=4.7 && <5
     , composite-aeson >=0.7 && <0.8
     , mtl >=2.2.1 && <2.3
-    , refined >=0.1.2.1 && <0.6
+    , refined >=0.1.2.1 && <0.7
   default-language: Haskell2010

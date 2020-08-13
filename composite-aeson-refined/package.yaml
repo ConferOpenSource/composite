@@ -14,7 +14,7 @@ dependencies:
   - aeson-better-errors >= 0.9.1.0 && < 0.10
   - composite-aeson >= 0.7 && < 0.8
   - mtl >= 2.2.1 && < 2.3
-  - refined >= 0.1.2.1 && < 0.6
+  - refined >= 0.1.2.1 && < 0.7
 
 default-extensions:
   - DataKinds
