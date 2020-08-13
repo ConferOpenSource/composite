@@ -26,6 +26,7 @@ import qualified Data.Vinyl as Vinyl
 import Data.Vinyl.Functor (Compose(Compose), Const(Const), (:.))
 import Data.Vinyl.Lens (type (∈), type (⊆))
 import qualified Data.Vinyl.TypeLevel as Vinyl
+import Data.Vinyl.XRec(IsoHKD(HKD, toHKD, unHKD))
 import Foreign.Storable (Storable)
 import GHC.TypeLits (KnownSymbol, Symbol, symbolVal)
 
@@ -94,6 +95,11 @@ instance (NFData x, NFData (Record xs)) => NFData (Record (x : xs)) where
 
 instance forall (s :: Symbol) a. (KnownSymbol s, Show a) => Show (s :-> a) where
   showsPrec p (Val a) = ((symbolVal (Proxy :: Proxy s) ++ " :-> ") ++) . showsPrec p a
+
+instance KnownSymbol s => IsoHKD Identity (s :-> a) where
+  type HKD Identity (s :-> a) = a
+  unHKD = Identity . Val
+  toHKD (Identity (Val x)) = x
 
 -- |Convenience function to make an @'Identity' (s ':->' a)@ with a particular symbol, used for named field construction.
 --
