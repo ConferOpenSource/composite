@@ -5,6 +5,7 @@ packages:
   - composite-base
   - composite-binary
   - composite-ekg
+  - composite-hashable
   - composite-opaleye
   - composite-swagger
   - example
