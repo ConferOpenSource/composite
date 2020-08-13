@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8a796b93d5ebd8ec1452a4dc2d9b7f6bf3c5e45849c264c0530564327a215993
+-- hash: 0dbb39b963607d268df75aaa01cb91135835050f759657eaf96b907d3d864a3a
 
 name:           composite-base
 version:        0.7.2.0
@@ -33,6 +33,7 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
+    , deepseq >=1.4 && <1.5
     , exceptions >=0.8.3 && <0.11
     , lens >=4.15.4 && <4.20
     , monad-control >=1.0.2.2 && <1.1
@@ -61,6 +62,7 @@ test-suite composite-base-test
       QuickCheck
     , base >=4.7 && <5
     , composite-base
+    , deepseq >=1.4 && <1.5
     , exceptions >=0.8.3 && <0.11
     , hspec
     , lens >=4.15.4 && <4.20
