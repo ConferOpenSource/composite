@@ -3,6 +3,7 @@ packages:
   - composite-aeson
   - composite-aeson-refined
   - composite-base
+  - composite-binary
   - composite-ekg
   - composite-opaleye
   - composite-swagger
@@ -10,6 +11,7 @@ packages:
 flags: {}
 extra-deps:
   - refined-0.4.4
+allow-newer: true
 nix:
   packages:
     - lzma

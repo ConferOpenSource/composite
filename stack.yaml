@@ -3,6 +3,7 @@ packages:
   - composite-aeson
   - composite-aeson-refined
   - composite-base
+  - composite-binary
   - composite-ekg
   - composite-opaleye
   - composite-swagger
