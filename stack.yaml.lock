@@ -5,26 +5,19 @@
 
 packages:
 - completed:
-    hackage: vinyl-0.13.0@sha256:0f247cd3f8682b30881a07de18e6fec52d540646fbcb328420049cc8d63cd407,3724
+    hackage: servant-blaze-0.9@sha256:c42249584d5585401508aa39fcd3d85de4ca69f8d426093e65e1f42a8562c95e,1577
     pantry-tree:
-      size: 1857
-      sha256: 860fb95820b595161cdbdec5f376100ebae2d14e5ef0dbe311546202f7525d01
+      size: 331
+      sha256: 2b001b244e8df6a49b324b66bc284d47a7980aae00e4792c7c3d49d9f7c8aa1f
   original:
-    hackage: vinyl-0.13.0
+    hackage: servant-blaze-0.9
 - completed:
-    hackage: servant-0.17@sha256:e78734cb6b75c5d1e52e8f5e16bc3f557154a580bbde4932a7e1a6a90da7eb04,5029
+    hackage: servant-server-0.18@sha256:ec7f361bc9848968b1fff8091fa2213b721d3f47549421945c6a7ca1702e22e6,5424
     pantry-tree:
-      size: 2392
-      sha256: 36561a606c35393386aa48b7cc2407fa4013aba62a19d69f004ec9c2010209aa
+      size: 2546
+      sha256: c2470cd8665742cee13faae1db7e3d49d70b027d57c4578e3f7ba66ffc8dc7b4
   original:
-    hackage: servant-0.17
-- completed:
-    hackage: servant-server-0.17@sha256:1a5adf564f0b703535eb733f249b282ef2ca7b587a303c357b549fb88e7a6dcd,5388
-    pantry-tree:
-      size: 2460
-      sha256: ea65ba54acb4362efedbfa7db616a51023579a6c83f18ab6d2ea6a84dea56021
-  original:
-    hackage: servant-server-0.17
+    hackage: servant-server-0.18
 - completed:
     hackage: servant-swagger-1.1.8@sha256:9b0282fce7e0895f7b6e47cfea461f59ba7a1cc98e20f5b4a66e7fa24897f361,4622
     pantry-tree:
@@ -46,16 +39,9 @@ packages:
       sha256: 70bf33e79af20406b0b051e845bcf1b9a5d641278cca7d9b1212591445f017ee
   original:
     hackage: servant-swagger-ui-core-0.3.3
-- completed:
-    hackage: servant-blaze-0.9@sha256:c42249584d5585401508aa39fcd3d85de4ca69f8d426093e65e1f42a8562c95e,1577
-    pantry-tree:
-      size: 331
-      sha256: 2b001b244e8df6a49b324b66bc284d47a7980aae00e4792c7c3d49d9f7c8aa1f
-  original:
-    hackage: servant-blaze-0.9
 snapshots:
 - completed:
-    size: 512195
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/7/19.yaml
-    sha256: c5ab758fbac270898400c61189919841d0c6755bff153a651311fca69d906d23
-  original: nightly-2020-07-19
+    size: 520654
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/8/13.yaml
+    sha256: 45dc3acb60203159f6b7f0f9561e328f62d697f3004a7224fd7737dd896fad4d
+  original: nightly-2020-08-13

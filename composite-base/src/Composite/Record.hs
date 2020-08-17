@@ -1,4 +1,5 @@
 {-# LANGUAGE UndecidableInstances #-} -- argh, for ReifyNames
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 module Composite.Record
   ( Rec((:&), RNil), Record
   , pattern (:*:), pattern (:^:)
@@ -11,6 +12,7 @@ module Composite.Record
   , RDelete, RDeletable, rdelete
   ) where
 
+import Control.DeepSeq(NFData(rnf))
 import Control.Lens (Iso, iso)
 import Control.Lens.TH (makeWrapped)
 import Data.Functor.Identity (Identity(Identity))
@@ -80,6 +82,15 @@ instance Monad ((:->) s) where
   {-# INLINE return #-}
   Val a >>= k = k a
   {-# INLINE (>>=) #-}
+
+instance NFData a => NFData (s :-> a) where
+  rnf (Val x) = rnf x
+
+instance NFData (Record '[]) where
+  rnf RNil = ()
+
+instance (NFData x, NFData (Record xs)) => NFData (Record (x : xs)) where
+  rnf (x :& xs) = rnf x `seq` rnf xs
 
 instance forall (s :: Symbol) a. (KnownSymbol s, Show a) => Show (s :-> a) where
   showsPrec p (Val a) = ((symbolVal (Proxy :: Proxy s) ++ " :-> ") ++) . showsPrec p a
