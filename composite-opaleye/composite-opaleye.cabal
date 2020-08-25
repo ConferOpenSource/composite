@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fa388ee6662e216ecd95dcf719fc152b04d25baee175839273d24660a6969a9e
+-- hash: 8dd4a0c794f09d948ea1196d56abd3bf2df4f91b3270a505da88cb29339f703b
 
 name:           composite-opaleye
-version:        0.7.3.0
+version:        0.7.4.0
 synopsis:       Opaleye SQL for Vinyl records
 description:    Integration between Vinyl records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 category:       Records

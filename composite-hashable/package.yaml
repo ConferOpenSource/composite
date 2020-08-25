@@ -1,5 +1,5 @@
 name:                composite-hashable
-version:             0.7.3.0
+version:             0.7.4.0
 synopsis:            Orphan hashable instances.
 description:         Hashable instance for (:->) and Record.
 homepage:            https://github.com/ConferOpenSource/composite#readme

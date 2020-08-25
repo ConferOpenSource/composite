@@ -1,7 +1,7 @@
 { mkDerivation, base, composite-base, hashable, hpack, stdenv }:
 mkDerivation {
   pname = "composite-hashable";
-  version = "0.7.3.0";
+  version = "0.7.4.0";
   src = ./.;
   libraryHaskellDepends = [ base composite-base hashable ];
   libraryToolDepends = [ hpack ];

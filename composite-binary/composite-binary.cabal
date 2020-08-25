@@ -1,11 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: a6ec3b30f6193a5ac05adee9358e841a0f1985c3a23c48d9ceafc78ec0621524
 
 name:           composite-binary
-version:        0.7.3.0
+version:        0.7.4.0
 synopsis:       Orphan binary instances.
 description:    Binary instance for (:->) and Record.
 category:       Records

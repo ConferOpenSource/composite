@@ -1,7 +1,7 @@
 { mkDerivation, base, binary, composite-base, hpack, stdenv }:
 mkDerivation {
   pname = "composite-binary";
-  version = "0.7.3.0";
+  version = "0.7.4.0";
   src = ./.;
   libraryHaskellDepends = [ base binary composite-base ];
   libraryToolDepends = [ hpack ];

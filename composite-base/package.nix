@@ -5,7 +5,7 @@
 }:
 mkDerivation {
   pname = "composite-base";
-  version = "0.7.3.0";
+  version = "0.7.4.0";
   src = ./.;
   libraryHaskellDepends = [
     base deepseq exceptions lens monad-control mtl profunctors

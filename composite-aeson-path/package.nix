@@ -1,7 +1,7 @@
 { mkDerivation, base, composite-aeson, hpack, path, stdenv }:
 mkDerivation {
   pname = "composite-aeson-path";
-  version = "0.7.3.0";
+  version = "0.7.4.0";
   src = ./.;
   libraryHaskellDepends = [ base composite-aeson path ];
   libraryToolDepends = [ hpack ];

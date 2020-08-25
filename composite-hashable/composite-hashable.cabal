@@ -1,11 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 0c8bfc8ec3ee0943c5b055ead5ee34438c950c754e4627217c9bcda776d629c6
 
 name:           composite-hashable
-version:        0.7.3.0
+version:        0.7.4.0
 synopsis:       Orphan hashable instances.
 description:    Hashable instance for (:->) and Record.
 category:       Records
