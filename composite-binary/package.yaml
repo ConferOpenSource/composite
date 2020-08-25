@@ -1,0 +1,42 @@
+name:                composite-binary
+version:             0.7.3.0
+synopsis:            Orphan binary instances.
+description:         Binary instance for (:->) and Record.
+homepage:            https://github.com/ConferOpenSource/composite#readme
+license:             BSD3
+author:              Confer Health, Inc
+maintainer:          oss@vitalbio.com
+copyright:           2017 Confer Health, Inc., 2020 Vital Biosciences
+category:            Records
+
+dependencies:
+  - base >= 4.7 && < 5
+  - binary >= 0.8 && < 0.9
+  - composite-base >= 0.7 && < 0.8
+
+default-extensions:
+  - DataKinds
+  - FlexibleContexts
+  - FlexibleInstances
+  - GeneralizedNewtypeDeriving
+  - LambdaCase
+  - MultiParamTypeClasses
+  - MultiWayIf
+  - OverloadedStrings
+  - PatternSynonyms
+  - PolyKinds
+  - QuasiQuotes
+  - RankNTypes
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - StrictData
+  - TemplateHaskell
+  - TupleSections
+  - TypeFamilies
+  - TypeOperators
+  - ViewPatterns
+
+ghc-options: -Wall -O2
+
+library:
+  source-dirs: src

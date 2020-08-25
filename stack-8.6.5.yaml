@@ -1,15 +1,19 @@
 resolver: lts-14.20
 packages:
   - composite-aeson
+  - composite-aeson-path
   - composite-aeson-refined
   - composite-base
+  - composite-binary
   - composite-ekg
+  - composite-hashable
   - composite-opaleye
   - composite-swagger
   - example
 flags: {}
 extra-deps:
   - refined-0.4.4
+allow-newer: true
 nix:
   packages:
     - lzma
