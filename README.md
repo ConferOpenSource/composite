@@ -1,5 +1,7 @@
 ## composite
 
+[![Build Status](https://travis-ci.com/ConferOpenSource/composite.svg?branch=master)](https://travis-ci.com/ConferOpenSource/composite)
+
 Composite is a group of libraries focusing on practical uses of composite records, in particular [Vinyl](https://github.com/VinylRecords/Vinyl/), such as querying records from a database and converting them to JSON. These libraries are based on the excellent [Frames](https://github.com/acowley/Frames) style use of Vinyl records, though composite implements its own derived from Frames to make for a smaller dependency graph, as Frames is a full CSV parsing/printing and data manipulation library.
 
 ### `composite-aeson`

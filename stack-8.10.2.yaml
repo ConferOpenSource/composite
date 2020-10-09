@@ -1,0 +1,26 @@
+resolver: nightly-2020-10-09
+packages:
+  - composite-aeson
+  - composite-aeson-path
+  - composite-aeson-refined
+  - composite-base
+  - composite-binary
+  - composite-ekg
+  - composite-hashable
+  - composite-opaleye
+  - composite-swagger
+  - example
+flags: {}
+extra-deps:
+- servant-blaze-0.9
+- servant-server-0.18
+- servant-swagger-1.1.8
+- servant-swagger-ui-0.3.4.3.23.11
+- servant-swagger-ui-core-0.3.3
+- opaleye-0.6.7006.1
+allow-newer: true
+nix:
+  packages:
+    - lzma
+    - postgresql
+    - zlib

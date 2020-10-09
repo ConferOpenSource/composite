@@ -39,9 +39,16 @@ packages:
       sha256: 70bf33e79af20406b0b051e845bcf1b9a5d641278cca7d9b1212591445f017ee
   original:
     hackage: servant-swagger-ui-core-0.3.3
+- completed:
+    hackage: opaleye-0.6.7006.1@sha256:06c8d8808aedabb065ce26387285b5f2d3320b801f818899cced186dc645dc34,5725
+    pantry-tree:
+      size: 5535
+      sha256: 6a2d72804e9d87e1a9afe280a2a49838ee7771e640a4ef429c3b52e41f9c44c4
+  original:
+    hackage: opaleye-0.6.7006.1
 snapshots:
 - completed:
-    size: 520654
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/8/13.yaml
-    sha256: 45dc3acb60203159f6b7f0f9561e328f62d697f3004a7224fd7737dd896fad4d
-  original: nightly-2020-08-13
+    size: 536476
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2020/10/9.yaml
+    sha256: 244017ff19972abd1d9e7ab8ab86fd4e3d0ee8b58f5b6366e761c7e53def1797
+  original: nightly-2020-10-09
