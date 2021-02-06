@@ -113,16 +113,16 @@ instance KnownSymbol s => IsoHKD Identity (s :-> a) where
 --
 --   myRecord1 :: Record MyRecord
 --   myRecord1
---     =  val @"foo" 123
---     :& val @"bar" "foobar"
---     :& val @"baz" 3.21
+--     =  val \@"foo" 123
+--     :& val \@"bar" "foobar"
+--     :& val \@"baz" 3.21
 --     :& RNil
 --
 --   myRecord2 :: Record MyRecord
 --   myRecord2 = rcast
---     $  val @"baz" 3.21
---     :& val @"foo" 123
---     :& val @"bar" "foobar"
+--     $  val \@"baz" 3.21
+--     :& val \@"foo" 123
+--     :& val \@"bar" "foobar"
 --     :& RNil
 -- @
 --
