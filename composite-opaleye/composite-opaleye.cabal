@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.2.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8dd4a0c794f09d948ea1196d56abd3bf2df4f91b3270a505da88cb29339f703b
+-- hash: 51e6eb1697991fa8426efd0854c0e6a087998c220a8c4215d538f0fd92d0f94b
 
 name:           composite-opaleye
 version:        0.7.4.0
@@ -30,14 +30,28 @@ library
       Paths_composite_opaleye
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses OverloadedStrings PatternSynonyms PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      LambdaCase
+      MultiParamTypeClasses
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      ScopedTypeVariables
+      StrictData
+      TemplateHaskell
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
     , bytestring >=0.10.8.1 && <0.11
-    , composite-base >=0.7 && <0.8
+    , composite-base ==0.7.*
     , lens >=4.15.4 && <4.20
-    , opaleye >=0.5.4.0 && <0.7
+    , opaleye >=0.5.4.0 && <0.8
     , postgresql-simple >=0.5.3.0 && <0.7
     , product-profunctors >=0.8.0.3 && <0.12
     , profunctors >=5.2.1 && <5.6
@@ -54,17 +68,31 @@ test-suite composite-opaleye-test
       Paths_composite_opaleye
   hs-source-dirs:
       test
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses OverloadedStrings PatternSynonyms PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      LambdaCase
+      MultiParamTypeClasses
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      ScopedTypeVariables
+      StrictData
+      TemplateHaskell
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       QuickCheck
     , base >=4.7 && <5
     , bytestring >=0.10.8.1 && <0.11
-    , composite-base >=0.7 && <0.8
+    , composite-base ==0.7.*
     , composite-opaleye
     , hspec
     , lens >=4.15.4 && <4.20
-    , opaleye >=0.5.4.0 && <0.7
+    , opaleye >=0.5.4.0 && <0.8
     , postgresql-simple >=0.5.3.0 && <0.7
     , product-profunctors >=0.8.0.3 && <0.12
     , profunctors >=5.2.1 && <5.6

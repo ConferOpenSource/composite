@@ -14,7 +14,7 @@ dependencies:
   - bytestring >= 0.10.8.1 && < 0.11
   - composite-base >= 0.7 && < 0.8
   - lens >= 4.15.4 && < 4.20
-  - opaleye >= 0.5.4.0 && < 0.7
+  - opaleye >= 0.5.4.0 && < 0.8
   - postgresql-simple >= 0.5.3.0 && < 0.7
   - product-profunctors >= 0.8.0.3 && < 0.12
   - profunctors >= 5.2.1 && < 5.6

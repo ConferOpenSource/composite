@@ -54,7 +54,7 @@ dependencies:
   - monad-control >= 1.0.2.2 && < 1.1
   - monad-logger >= 0.3.25.1 && < 0.4
   - mtl >= 2.2.1 && < 2.3
-  - opaleye >= 0.5.4.0 && < 0.7
+  - opaleye >= 0.5.4.0 && < 0.8
   - postgresql-simple >= 0.5.3.0 && < 0.7
   - product-profunctors >= 0.8.0.3 && < 0.12
   - profunctors >= 5.2.1 && < 5.6
