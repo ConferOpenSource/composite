@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 626f7f14a1f4b99037ea84169660f52338e5df473c7fb6013af0da8928a9f698
+-- hash: f3ff49e01c069c4ec4fd5d4821611cb979b71990b0f22d791a50b3d870635d26
 
 name:           composite-base
 version:        0.7.4.0
@@ -58,7 +58,7 @@ library
       base >=4.7 && <5
     , deepseq ==1.4.*
     , exceptions >=0.8.3 && <0.11
-    , lens >=4.15.4 && <4.20
+    , lens >=4.15.4 && <5.1
     , monad-control >=1.0.2.2 && <1.1
     , mtl >=2.2.1 && <2.3
     , profunctors >=5.2.1 && <5.6
@@ -111,7 +111,7 @@ test-suite composite-base-test
     , deepseq ==1.4.*
     , exceptions >=0.8.3 && <0.11
     , hspec
-    , lens >=4.15.4 && <4.20
+    , lens >=4.15.4 && <5.1
     , monad-control >=1.0.2.2 && <1.1
     , mtl >=2.2.1 && <2.3
     , profunctors >=5.2.1 && <5.6

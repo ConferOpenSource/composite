@@ -12,6 +12,7 @@ packages:
   - example
 flags: {}
 extra-deps:
+- lens-5.0.1
 - opaleye-0.6.7006.1
 allow-newer: true
 nix:
