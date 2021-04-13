@@ -1,1 +1,22 @@
-stack-8.10.2.yaml
+resolver: nightly-2021-04-06
+packages:
+  - composite-aeson
+  - composite-aeson-path
+  - composite-aeson-refined
+  - composite-base
+  - composite-binary
+  - composite-ekg
+  - composite-hashable
+  - composite-opaleye
+  - composite-swagger
+  - example
+flags: {}
+extra-deps:
+- lens-5.0.1
+- opaleye-0.6.7006.1
+allow-newer: true
+nix:
+  packages:
+    - lzma
+    - postgresql
+    - zlib

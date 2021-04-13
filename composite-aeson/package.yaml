@@ -18,7 +18,7 @@ dependencies:
   - contravariant >= 1.4 && < 1.6
   - generic-deriving >= 1.11.2 && < 1.14
   - hashable >= 1.2.6.1 && < 1.4
-  - lens >= 4.15.4 && < 4.20
+  - lens >= 4.15.4 && < 5.1
   - mmorph >= 1.0.9 && < 1.2
   - mtl >= 2.2.1 && < 2.3
   - profunctors >= 5.2.1 && < 5.6

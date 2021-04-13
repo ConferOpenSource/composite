@@ -13,7 +13,7 @@ dependencies:
   - base >= 4.7 && < 5
   - deepseq >= 1.4 && < 1.5
   - exceptions >= 0.8.3 && < 0.11
-  - lens >= 4.15.4 && < 4.20
+  - lens >= 4.15.4 && < 5.1
   - monad-control >= 1.0.2.2 && < 1.1
   - mtl >= 2.2.1 && < 2.3
   - profunctors >= 5.2.1 && < 5.6
