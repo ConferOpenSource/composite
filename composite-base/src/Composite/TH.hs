@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Composite.TH
   ( withProxies
   , withLensesAndProxies
@@ -18,6 +19,9 @@ import Language.Haskell.TH
   ( Q, newName, mkName, nameBase
   , Body(NormalB), cxt, Dec(PragmaD, SigD, ValD), Exp(VarE), Inline(Inlinable), Name, Pat(VarP), Phases(AllPhases), Pragma(InlineP), RuleMatch(FunLike)
   , Type(AppT, ConT, ForallT, VarT), TyVarBndr(PlainTV, KindedTV), varT
+#if MIN_VERSION_template_haskell(2,17,0)
+  , Specificity(SpecifiedSpec)
+#endif
   )
 import Language.Haskell.TH.Lens (_TySynD)
 
@@ -141,31 +145,62 @@ withPrismsAndProxies = withBoilerplate False True
 withOpticsAndProxies :: Q [Dec] -> Q [Dec]
 withOpticsAndProxies = withBoilerplate True True
 
+#if MIN_VERSION_template_haskell(2,17,0)
+tyUnitToSpec :: Specificity -> TyVarBndr () -> TyVarBndr Specificity
+tyUnitToSpec x (PlainTV n ()) = PlainTV n x
+tyUnitToSpec x (KindedTV n () k) = KindedTV n x k
+
+fieldDecUnitToSpec :: Specificity -> FieldDec () -> FieldDec Specificity
+fieldDecUnitToSpec x (FieldDec n b t v) = FieldDec n (map (tyUnitToSpec x) b) t v
+
+data FieldDec a = FieldDec
+#else
 data FieldDec = FieldDec
+#endif
   { fieldName        :: Name
+#if MIN_VERSION_template_haskell(2,17,0)
+  , fieldBinders     :: [TyVarBndr a]
+#else
   , fieldBinders     :: [TyVarBndr]
+#endif
   , fieldTypeApplied :: Type
   , fieldValueType   :: Type
   }
+
 -- |TH splice which implements 'withLensesAndProxies', 'withPrismsAndProxies', and 'withOpticsAndProxies'
 withBoilerplate :: Bool -> Bool -> Q [Dec] -> Q [Dec]
 withBoilerplate generateLenses generatePrisms qDecs = do
   decs <- qDecs
 
   let fieldDecs = catMaybes . map fieldDecMay . toListOf (each . _TySynD) $ decs
-
+#if MIN_VERSION_template_haskell(2,17,0)
+  let sFieldDecs = map (fieldDecUnitToSpec SpecifiedSpec) fieldDecs
+#endif
   proxyDecs <- traverse proxyDecFor fieldDecs
-  lensDecs  <- if generateLenses then traverse lensDecFor  fieldDecs else pure []
+#if MIN_VERSION_template_haskell(2,17,0)
+  lensDecs  <- if generateLenses then traverse lensDecFor sFieldDecs else pure []
+  prismDecs <- if generatePrisms then traverse prismDecFor sFieldDecs else pure []
+#else 
+  lensDecs  <- if generateLenses then traverse lensDecFor fieldDecs else pure []
   prismDecs <- if generatePrisms then traverse prismDecFor fieldDecs else pure []
-
+#endif
   pure $ decs <> concat proxyDecs <> concat lensDecs <> concat prismDecs
 
+#if MIN_VERSION_template_haskell(2,17,0)
+fieldDecMay :: (Name, [TyVarBndr ()], Type) -> Maybe (FieldDec ())
+#else
 fieldDecMay :: (Name, [TyVarBndr], Type) -> Maybe FieldDec
+#endif
 fieldDecMay (fieldName, fieldBinders, ty) = case ty of
   AppT (AppT (ConT n) _) fieldValueType | n == ''(:->) ->
     let fieldTypeApplied         = foldl' AppT (ConT fieldName) (map binderTy fieldBinders)
-        binderTy (PlainTV n')    = VarT n'
+#if MIN_VERSION_template_haskell(2,17,0)
+        binderTy (PlainTV n' _ )    = VarT n'
+        binderTy (KindedTV n' _ _) = VarT n'
+#else
+        binderTy (PlainTV n' )    = VarT n'
         binderTy (KindedTV n' _) = VarT n'
+#endif
     in Just $ FieldDec {..}
   _ ->
     Nothing
@@ -175,7 +210,11 @@ lensNameFor  = mkName . over _head toLower . nameBase
 prismNameFor = mkName . ("_" ++) . nameBase
 proxyNameFor = mkName . (++ "_") . over _head toLower . nameBase
 
+#if MIN_VERSION_template_haskell(2,17,0)
+proxyDecFor :: FieldDec () -> Q [Dec]
+#else
 proxyDecFor :: FieldDec -> Q [Dec]
+#endif
 proxyDecFor (FieldDec { fieldName, fieldTypeApplied }) = do
   let proxyName = proxyNameFor fieldName
 
@@ -187,7 +226,11 @@ proxyDecFor (FieldDec { fieldName, fieldTypeApplied }) = do
     , ValD (VarP proxyName) (NormalB proxyVal) []
     ]
 
+#if MIN_VERSION_template_haskell(2,17,0)
+lensDecFor :: FieldDec Specificity -> Q [Dec]
+#else
 lensDecFor :: FieldDec -> Q [Dec]
+#endif
 lensDecFor (FieldDec {..}) = do
   f  <- newName "f"
   rs <- newName "rs"
@@ -197,7 +240,11 @@ lensDecFor (FieldDec {..}) = do
       proxyName               = proxyNameFor fieldName
       lensName                = lensNameFor fieldName
       proxyVal                = VarE proxyName
+#if MIN_VERSION_template_haskell(2,17,0)
+      lensBinders             = fieldBinders ++ [PlainTV f SpecifiedSpec, PlainTV rs SpecifiedSpec]
+#else
       lensBinders             = fieldBinders ++ [PlainTV f, PlainTV rs]
+#endif
 
   lensContext <- cxt [ [t| Functor $fTy |], [t| $(pure fieldTypeApplied) ∈ $rsTy |] ]
   lensType    <- [t| ($(pure fieldValueType) -> $fTy $(pure fieldValueType)) -> (Record $rsTy -> $fTy (Record $rsTy)) |]
@@ -209,7 +256,11 @@ lensDecFor (FieldDec {..}) = do
     , ValD (VarP lensName) (NormalB rlensVal) []
     ]
 
+#if MIN_VERSION_template_haskell(2,17,0)
+prismDecFor :: FieldDec Specificity -> Q [Dec]
+#else
 prismDecFor :: FieldDec -> Q [Dec]
+#endif
 prismDecFor (FieldDec {..}) = do
   rs <- newName "rs"
 
@@ -217,7 +268,11 @@ prismDecFor (FieldDec {..}) = do
       proxyName               = proxyNameFor fieldName
       prismName               = prismNameFor fieldName
       proxyVal                = VarE proxyName
+#if MIN_VERSION_template_haskell(2,17,0)
+      prismBinders            = fieldBinders ++ [PlainTV rs SpecifiedSpec]
+#else
       prismBinders            = fieldBinders ++ [PlainTV rs]
+#endif
 
   prismContext  <- cxt [ [t| RecApplicative $rsTy |], [t| $(pure fieldTypeApplied) ∈ $rsTy |] ]
   prismType     <- [t| Prism' (Field $rsTy) $(pure fieldValueType) |]
