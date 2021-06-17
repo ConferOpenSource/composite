@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f36b567442bdd52febf8ef607bf0a41795c161ef0d2ac08d9d9f10eeee4dc39e
+-- hash: c5abc76a7091a2517c06a939e760e276896cb09f8e4ac592c42b7048378054d4
 
 name:           composite-opaleye
 version:        0.7.5.0
@@ -40,7 +40,7 @@ library
     , opaleye >=0.5.4.0 && <0.8
     , postgresql-simple >=0.5.3.0 && <0.7
     , product-profunctors >=0.8.0.3 && <0.12
-    , profunctors >=5.2.1 && <5.6
+    , profunctors >=5.2.1 && <5.7
     , template-haskell >=2.11.1.0 && <2.17
     , text >=1.2.2.2 && <1.3
     , vinyl >=0.5.3 && <0.14
@@ -67,7 +67,7 @@ test-suite composite-opaleye-test
     , opaleye >=0.5.4.0 && <0.8
     , postgresql-simple >=0.5.3.0 && <0.7
     , product-profunctors >=0.8.0.3 && <0.12
-    , profunctors >=5.2.1 && <5.6
+    , profunctors >=5.2.1 && <5.7
     , template-haskell >=2.11.1.0 && <2.17
     , text >=1.2.2.2 && <1.3
     , vinyl >=0.5.3 && <0.14

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 684ff7558a2f16e5bba77f441093b403df9653bd523915ff4733380484d28c1d
+-- hash: 5ed294fd597a5fe41cec4edea20e59e45dc7d5f01b64ad8f078ef75e5e748468
 
 name:           composite-aeson
 version:        0.7.5.0
@@ -50,7 +50,7 @@ library
     , lens >=4.15.4 && <5.1
     , mmorph >=1.0.9 && <1.2
     , mtl >=2.2.1 && <2.3
-    , profunctors >=5.2.1 && <5.6
+    , profunctors >=5.2.1 && <5.7
     , scientific >=0.3.5.1 && <0.4
     , tagged >=0.8.5 && <0.9
     , template-haskell >=2.11.1.0 && <2.17
@@ -92,7 +92,7 @@ test-suite composite-aeson-test
     , lens >=4.15.4 && <5.1
     , mmorph >=1.0.9 && <1.2
     , mtl >=2.2.1 && <2.3
-    , profunctors >=5.2.1 && <5.6
+    , profunctors >=5.2.1 && <5.7
     , scientific >=0.3.5.1 && <0.4
     , tagged >=0.8.5 && <0.9
     , template-haskell >=2.11.1.0 && <2.17
