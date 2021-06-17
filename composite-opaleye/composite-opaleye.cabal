@@ -1,20 +1,20 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.34.3.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: caf479cce2115af677fa84d77c11c16f775adf5d38dcd2d48510a25544a2f79c
+-- hash: f36b567442bdd52febf8ef607bf0a41795c161ef0d2ac08d9d9f10eeee4dc39e
 
 name:           composite-opaleye
-version:        0.7.4.0
+version:        0.7.5.0
 synopsis:       Opaleye SQL for Vinyl records
 description:    Integration between Vinyl records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 category:       Records
 homepage:       https://github.com/ConferOpenSource/composite#readme
 author:         Confer Health, Inc.
 maintainer:     oss@vitalbio.com
-copyright:      2017 Confer Health, Inc., 2020 Vital Biosciences
+copyright:      2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 license:        BSD3
 build-type:     Simple
 
@@ -30,26 +30,12 @@ library
       Paths_composite_opaleye
   hs-source-dirs:
       src
-  default-extensions:
-      DataKinds
-      FlexibleContexts
-      FlexibleInstances
-      LambdaCase
-      MultiParamTypeClasses
-      OverloadedStrings
-      PatternSynonyms
-      PolyKinds
-      ScopedTypeVariables
-      StrictData
-      TemplateHaskell
-      TypeFamilies
-      TypeOperators
-      ViewPatterns
+  default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses OverloadedStrings PatternSynonyms PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
     , bytestring >=0.10.8.1 && <0.11
-    , composite-base ==0.7.*
+    , composite-base >=0.7 && <0.8
     , lens >=4.15.4 && <5.1
     , opaleye >=0.5.4.0 && <0.8
     , postgresql-simple >=0.5.3.0 && <0.7
@@ -68,27 +54,13 @@ test-suite composite-opaleye-test
       Paths_composite_opaleye
   hs-source-dirs:
       test
-  default-extensions:
-      DataKinds
-      FlexibleContexts
-      FlexibleInstances
-      LambdaCase
-      MultiParamTypeClasses
-      OverloadedStrings
-      PatternSynonyms
-      PolyKinds
-      ScopedTypeVariables
-      StrictData
-      TemplateHaskell
-      TypeFamilies
-      TypeOperators
-      ViewPatterns
+  default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses OverloadedStrings PatternSynonyms PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       QuickCheck
     , base >=4.7 && <5
     , bytestring >=0.10.8.1 && <0.11
-    , composite-base ==0.7.*
+    , composite-base >=0.7 && <0.8
     , composite-opaleye
     , hspec
     , lens >=4.15.4 && <5.1

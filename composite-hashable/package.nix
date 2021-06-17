@@ -1,12 +1,12 @@
-{ mkDerivation, base, composite-base, hashable, hpack, stdenv }:
+{ mkDerivation, base, composite-base, hashable, hpack, lib }:
 mkDerivation {
   pname = "composite-hashable";
-  version = "0.7.4.0";
+  version = "0.7.5.0";
   src = ./.;
   libraryHaskellDepends = [ base composite-base hashable ];
   libraryToolDepends = [ hpack ];
   prePatch = "hpack";
   homepage = "https://github.com/ConferOpenSource/composite#readme";
   description = "Orphan hashable instances";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }

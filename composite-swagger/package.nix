@@ -1,10 +1,10 @@
 { mkDerivation, base, composite-aeson, composite-base, hpack, hspec
-, insert-ordered-containers, lens, QuickCheck, stdenv, swagger2
+, insert-ordered-containers, lens, lib, QuickCheck, swagger2
 , template-haskell, text, vinyl
 }:
 mkDerivation {
   pname = "composite-swagger";
-  version = "0.7.4.0";
+  version = "0.7.5.0";
   src = ./.;
   libraryHaskellDepends = [
     base composite-base insert-ordered-containers lens swagger2
@@ -18,5 +18,5 @@ mkDerivation {
   prePatch = "hpack";
   homepage = "https://github.com/ConferOpenSource/composite#readme";
   description = "Swagger for Vinyl records";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }

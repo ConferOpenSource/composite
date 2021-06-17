@@ -1,12 +1,12 @@
-{ mkDerivation, base, composite-aeson, hpack, path, stdenv }:
+{ mkDerivation, base, composite-aeson, hpack, lib, path }:
 mkDerivation {
   pname = "composite-aeson-path";
-  version = "0.7.4.0";
+  version = "0.7.5.0";
   src = ./.;
   libraryHaskellDepends = [ base composite-aeson path ];
   libraryToolDepends = [ hpack ];
   prePatch = "hpack";
   homepage = "https://github.com/ConferOpenSource/composite#readme";
   description = "Formatting data for the path library";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }

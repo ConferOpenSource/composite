@@ -1,9 +1,9 @@
-{ mkDerivation, base, composite-base, ekg-core, hpack, lens, stdenv
+{ mkDerivation, base, composite-base, ekg-core, hpack, lens, lib
 , text, vinyl
 }:
 mkDerivation {
   pname = "composite-ekg";
-  version = "0.7.4.0";
+  version = "0.7.5.0";
   src = ./.;
   libraryHaskellDepends = [
     base composite-base ekg-core lens text vinyl
@@ -12,5 +12,5 @@ mkDerivation {
   prePatch = "hpack";
   homepage = "https://github.com/ConferOpenSource/composite#readme";
   description = "EKG Metrics for Vinyl records";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }

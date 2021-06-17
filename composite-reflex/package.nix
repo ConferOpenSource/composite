@@ -1,10 +1,10 @@
 { mkDerivation, base, composite-base, data-default, dependent-map
-, dependent-sum, hpack, http-api-data, lens, reflex, reflex-dom
-, stdenv, text, vinyl
+, dependent-sum, hpack, http-api-data, lens, lib, reflex
+, reflex-dom, text, vinyl
 }:
 mkDerivation {
   pname = "composite-reflex";
-  version = "0.7.4.0";
+  version = "0.7.5.0";
   src = ./.;
   libraryHaskellDepends = [
     base composite-base data-default dependent-map dependent-sum
@@ -14,5 +14,5 @@ mkDerivation {
   prePatch = "hpack";
   homepage = "https://github.com/ConferOpenSource/composite#readme";
   description = "Utilities for using composite records and corecords with Reflex";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }

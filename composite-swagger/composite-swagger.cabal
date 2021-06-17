@@ -1,20 +1,20 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.34.3.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8b7bc3850f5df9922dd200ca0f8579811c44882e01a2297bca91f513c369f6ff
+-- hash: c4df88e01bce6b24d15c6eb28e92ca3fd245f971e10e28dfe2abb8007f783419
 
 name:           composite-swagger
-version:        0.7.4.0
+version:        0.7.5.0
 synopsis:       Swagger for Vinyl records
 description:    Integration between Swagger and Vinyl records allowing easily derivable/explicit Swagger definitions for records.
 category:       Records
 homepage:       https://github.com/ConferOpenSource/composite#readme
 author:         Dan Fithian
 maintainer:     oss@vitalbio.com
-copyright:      2017 Confer Health, Inc., 2020 Vital Biosciences
+copyright:      2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 license:        BSD3
 build-type:     Simple
 
@@ -28,26 +28,11 @@ library
       Paths_composite_swagger
   hs-source-dirs:
       src
-  default-extensions:
-      DataKinds
-      FlexibleContexts
-      FlexibleInstances
-      GeneralizedNewtypeDeriving
-      MultiParamTypeClasses
-      OverloadedStrings
-      PolyKinds
-      ScopedTypeVariables
-      StandaloneDeriving
-      StrictData
-      TemplateHaskell
-      TupleSections
-      TypeFamilies
-      TypeOperators
-      ViewPatterns
+  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving MultiParamTypeClasses OverloadedStrings PolyKinds ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , composite-base ==0.7.*
+    , composite-base >=0.7 && <0.8
     , insert-ordered-containers >=0.2.1.0 && <0.3
     , lens >=4.15.4 && <5.1
     , swagger2 >=2.1.6 && <2.7
@@ -64,22 +49,7 @@ test-suite composite-swagger-test
       Paths_composite_swagger
   hs-source-dirs:
       test
-  default-extensions:
-      DataKinds
-      FlexibleContexts
-      FlexibleInstances
-      GeneralizedNewtypeDeriving
-      MultiParamTypeClasses
-      OverloadedStrings
-      PolyKinds
-      ScopedTypeVariables
-      StandaloneDeriving
-      StrictData
-      TemplateHaskell
-      TupleSections
-      TypeFamilies
-      TypeOperators
-      ViewPatterns
+  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving MultiParamTypeClasses OverloadedStrings PolyKinds ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       QuickCheck

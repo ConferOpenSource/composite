@@ -1,12 +1,12 @@
 name:                composite-opaleye
-version:             0.7.4.0
+version:             0.7.5.0
 synopsis:            Opaleye SQL for Vinyl records
 description:         Integration between Vinyl records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 homepage:            https://github.com/ConferOpenSource/composite#readme
 license:             BSD3
 author:              Confer Health, Inc.
 maintainer:          oss@vitalbio.com
-copyright:           2017 Confer Health, Inc., 2020 Vital Biosciences
+copyright:           2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 category:            Records
 
 dependencies:

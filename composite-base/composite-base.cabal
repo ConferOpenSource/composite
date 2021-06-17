@@ -1,20 +1,20 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.34.3.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f3ff49e01c069c4ec4fd5d4821611cb979b71990b0f22d791a50b3d870635d26
+-- hash: 42cd7a9297580ad2d6a569e06f0a035a2d63a52e1725a2680e8b062db07f8910
 
 name:           composite-base
-version:        0.7.4.0
+version:        0.7.5.0
 synopsis:       Shared utilities for composite-* packages.
 description:    Shared helpers for the various composite packages.
 category:       Records
 homepage:       https://github.com/ConferOpenSource/composite#readme
 author:         Confer Health, Inc.
 maintainer:     oss@vitalbio.com
-copyright:      2017 Confer Health, Inc., 2020 Vital Biosciences
+copyright:      2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 license:        BSD3
 build-type:     Simple
 
@@ -29,34 +29,11 @@ library
       Paths_composite_base
   hs-source-dirs:
       src
-  default-extensions:
-      ConstraintKinds
-      DataKinds
-      FlexibleContexts
-      FlexibleInstances
-      FunctionalDependencies
-      GADTs
-      GeneralizedNewtypeDeriving
-      MultiParamTypeClasses
-      NamedFieldPuns
-      OverloadedStrings
-      PatternSynonyms
-      PolyKinds
-      RankNTypes
-      RecordWildCards
-      ScopedTypeVariables
-      StandaloneDeriving
-      StrictData
-      TemplateHaskell
-      TupleSections
-      TypeApplications
-      TypeFamilies
-      TypeOperators
-      ViewPatterns
+  default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , deepseq ==1.4.*
+    , deepseq >=1.4 && <1.5
     , exceptions >=0.8.3 && <0.11
     , lens >=4.15.4 && <5.1
     , monad-control >=1.0.2.2 && <1.1
@@ -79,36 +56,13 @@ test-suite composite-base-test
       Paths_composite_base
   hs-source-dirs:
       test
-  default-extensions:
-      ConstraintKinds
-      DataKinds
-      FlexibleContexts
-      FlexibleInstances
-      FunctionalDependencies
-      GADTs
-      GeneralizedNewtypeDeriving
-      MultiParamTypeClasses
-      NamedFieldPuns
-      OverloadedStrings
-      PatternSynonyms
-      PolyKinds
-      RankNTypes
-      RecordWildCards
-      ScopedTypeVariables
-      StandaloneDeriving
-      StrictData
-      TemplateHaskell
-      TupleSections
-      TypeApplications
-      TypeFamilies
-      TypeOperators
-      ViewPatterns
+  default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       QuickCheck
     , base >=4.7 && <5
     , composite-base
-    , deepseq ==1.4.*
+    , deepseq >=1.4 && <1.5
     , exceptions >=0.8.3 && <0.11
     , hspec
     , lens >=4.15.4 && <5.1

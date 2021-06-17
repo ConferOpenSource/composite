@@ -1,12 +1,12 @@
 name:                composite-swagger
-version:             0.7.4.0
+version:             0.7.5.0
 synopsis:            Swagger for Vinyl records
 description:         Integration between Swagger and Vinyl records allowing easily derivable/explicit Swagger definitions for records.
 homepage:            https://github.com/ConferOpenSource/composite#readme
 license:             BSD3
 author:              Dan Fithian
 maintainer:          oss@vitalbio.com
-copyright:           2017 Confer Health, Inc., 2020 Vital Biosciences
+copyright:           2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 category:            Records
 
 dependencies:
