@@ -11,7 +11,7 @@ category:            Records
 
 dependencies:
   - base >= 4.12 && < 5
-  - path >= 0.6 && < 0.9
+  - path >= 0.6 && < 0.10
   - composite-aeson >= 0.7 && < 0.8
 
 default-extensions:

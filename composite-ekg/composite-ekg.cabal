@@ -3,8 +3,6 @@ cabal-version: 1.12
 -- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: ab9762a2abe9305fbd5f9f370b887a59e74bccfe0c4dc2f208e73c4927af80ce
 
 name:           composite-ekg
 version:        0.7.5.0

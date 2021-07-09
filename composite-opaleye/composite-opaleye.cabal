@@ -3,8 +3,6 @@ cabal-version: 1.12
 -- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: d45206876f1c6df5aaa70fc4a46244a2d0e63830053e1d71fe3a5b808672c088
 
 name:           composite-opaleye
 version:        0.7.5.0
