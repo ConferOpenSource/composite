@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 20afb3252af62b7416ffba6541162eebaaf541deef84c22cffe72b44010002dd
+-- hash: b96b2bf667e8a94cc65b5b18e04872852a1c0db28768d620338b87138a4c7b3c
 
 name:           composite-ekg
 version:        0.7.5.0
@@ -25,11 +25,26 @@ library
       Paths_composite_ekg
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving MultiParamTypeClasses OverloadedStrings PolyKinds ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      GeneralizedNewtypeDeriving
+      MultiParamTypeClasses
+      OverloadedStrings
+      PolyKinds
+      ScopedTypeVariables
+      StandaloneDeriving
+      StrictData
+      TemplateHaskell
+      TupleSections
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , composite-base >=0.7 && <0.8
+    , composite-base ==0.7.*
     , ekg-core >=0.1.1.3 && <0.5
     , lens >=4.15.4 && <5.1
     , text >=1.2.2.2 && <1.3

@@ -1,4 +1,4 @@
-resolver: nightly-2021-04-06
+resolver: nightly-2021-07-14
 packages:
   - composite-aeson
   - composite-aeson-path
@@ -12,8 +12,18 @@ packages:
   - example
 flags: {}
 extra-deps:
-- lens-5.0.1
+- ekg-0.4.0.15
+- ekg-core-0.1.1.7
+- ekg-json-0.1.0.6
+- io-streams-haproxy-1.0.1.0
 - opaleye-0.6.7006.1
+- servant-swagger-1.1.10
+- snap-server-1.1.2.0
+- these-skinny-0.7.4
+- git: https://github.com/locallycompact/refined
+  commit: 5cbb5cb6882552d2bc1dca1c48c6ee1a69d6e292
+- git: https://github.com/locallycompact/swagger2
+  commit: 64bc206294b8659892c00c5bc955810b4aa598b4
 allow-newer: true
 nix:
   packages:

@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6cf5aa5a674723a2cb68f4070e600bc24a79d087b3b16eafb3268df4f4c3a0bf
+-- hash: 1d79da1d24d68ea288af1013a75fec7f9f5348da279f1d56596f9f900d27c003
 
 name:           composite-aeson-path
 version:        0.7.5.0
@@ -25,10 +25,30 @@ library
       Paths_composite_aeson_path
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      GeneralizedNewtypeDeriving
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      QuasiQuotes
+      RankNTypes
+      ScopedTypeVariables
+      StandaloneDeriving
+      StrictData
+      TemplateHaskell
+      TupleSections
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , composite-aeson >=0.7 && <0.8
+    , composite-aeson ==0.7.*
     , path >=0.6 && <0.9
   default-language: Haskell2010

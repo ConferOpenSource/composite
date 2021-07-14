@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: afc6990732690309917603d2a17b1c010034e560db9f68dcb358fe45bf7f0cb0
+-- hash: 3760bb562aa001b62693b1a573a15835800242a6d9b176a2f2345a091fb7283a
 
 name:           composite-base
 version:        0.7.5.0
@@ -29,11 +29,34 @@ library
       Paths_composite_base
   hs-source-dirs:
       src
-  default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      ConstraintKinds
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      FunctionalDependencies
+      GADTs
+      GeneralizedNewtypeDeriving
+      MultiParamTypeClasses
+      NamedFieldPuns
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      RankNTypes
+      RecordWildCards
+      ScopedTypeVariables
+      StandaloneDeriving
+      StrictData
+      TemplateHaskell
+      TupleSections
+      TypeApplications
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , deepseq >=1.4 && <1.5
+    , deepseq ==1.4.*
     , exceptions >=0.8.3 && <0.11
     , lens >=4.15.4 && <5.1
     , monad-control >=1.0.2.2 && <1.1
@@ -56,13 +79,36 @@ test-suite composite-base-test
       Paths_composite_base
   hs-source-dirs:
       test
-  default-extensions: ConstraintKinds DataKinds FlexibleContexts FlexibleInstances FunctionalDependencies GADTs GeneralizedNewtypeDeriving MultiParamTypeClasses NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds RankNTypes RecordWildCards ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      ConstraintKinds
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      FunctionalDependencies
+      GADTs
+      GeneralizedNewtypeDeriving
+      MultiParamTypeClasses
+      NamedFieldPuns
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      RankNTypes
+      RecordWildCards
+      ScopedTypeVariables
+      StandaloneDeriving
+      StrictData
+      TemplateHaskell
+      TupleSections
+      TypeApplications
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       QuickCheck
     , base >=4.7 && <5
     , composite-base
-    , deepseq >=1.4 && <1.5
+    , deepseq ==1.4.*
     , exceptions >=0.8.3 && <0.11
     , hspec
     , lens >=4.15.4 && <5.1

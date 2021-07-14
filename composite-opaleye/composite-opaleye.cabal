@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c5abc76a7091a2517c06a939e760e276896cb09f8e4ac592c42b7048378054d4
+-- hash: 087ee6a017cf6af1d77c59143c822862ed97d230372de8bec6087271fcdcf7f7
 
 name:           composite-opaleye
 version:        0.7.5.0
@@ -30,12 +30,26 @@ library
       Paths_composite_opaleye
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses OverloadedStrings PatternSynonyms PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      LambdaCase
+      MultiParamTypeClasses
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      ScopedTypeVariables
+      StrictData
+      TemplateHaskell
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
     , bytestring >=0.10.8.1 && <0.11
-    , composite-base >=0.7 && <0.8
+    , composite-base ==0.7.*
     , lens >=4.15.4 && <5.1
     , opaleye >=0.5.4.0 && <0.8
     , postgresql-simple >=0.5.3.0 && <0.7
@@ -54,13 +68,27 @@ test-suite composite-opaleye-test
       Paths_composite_opaleye
   hs-source-dirs:
       test
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances LambdaCase MultiParamTypeClasses OverloadedStrings PatternSynonyms PolyKinds ScopedTypeVariables StrictData TemplateHaskell TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      LambdaCase
+      MultiParamTypeClasses
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      ScopedTypeVariables
+      StrictData
+      TemplateHaskell
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       QuickCheck
     , base >=4.7 && <5
     , bytestring >=0.10.8.1 && <0.11
-    , composite-base >=0.7 && <0.8
+    , composite-base ==0.7.*
     , composite-opaleye
     , hspec
     , lens >=4.15.4 && <5.1

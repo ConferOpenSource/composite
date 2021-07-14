@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: cb16fb3fdafcd7c95077eaf450ce04948e2d7145c43d5d31484f9f639b411b1c
+-- hash: e4fdcd9467c1bef1179c6d485bd8e8364484b985486e7356e8bbbb8a6b84de76
 
 name:           composite-hashable
 version:        0.7.5.0
@@ -25,10 +25,30 @@ library
       Paths_composite_hashable
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      GeneralizedNewtypeDeriving
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      QuasiQuotes
+      RankNTypes
+      ScopedTypeVariables
+      StandaloneDeriving
+      StrictData
+      TemplateHaskell
+      TupleSections
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , composite-base >=0.7 && <0.8
+    , composite-base ==0.7.*
     , hashable >=1.1.1 && <1.4
   default-language: Haskell2010

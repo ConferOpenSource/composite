@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f638fa0382ddb7ad13e47f4009f160d3c4729b52b64d2ab24e505c7ddcd8b5ec
+-- hash: 9bc5c7d2f8bfc9b2ccee3bf0bfe1324a586eaf6ac077a66b18c2dc3435e0cebc
 
 name:           composite-binary
 version:        0.7.5.0
@@ -25,10 +25,30 @@ library
       Paths_composite_binary
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      GeneralizedNewtypeDeriving
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      QuasiQuotes
+      RankNTypes
+      ScopedTypeVariables
+      StandaloneDeriving
+      StrictData
+      TemplateHaskell
+      TupleSections
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
       base >=4.7 && <5
-    , binary >=0.8 && <0.9
-    , composite-base >=0.7 && <0.8
+    , binary ==0.8.*
+    , composite-base ==0.7.*
   default-language: Haskell2010

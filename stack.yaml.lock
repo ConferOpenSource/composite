@@ -5,12 +5,33 @@
 
 packages:
 - completed:
-    hackage: lens-5.0.1@sha256:d44156c542b1630337a07cac5824f1846badeb59043adbe8c4e9ed1da89cc13d,15026
+    hackage: ekg-0.4.0.15@sha256:d6e48859a89fbbe23496f871581e44a41f97dac627c2b9db81f49b92fa066516,2031
     pantry-tree:
-      size: 8291
-      sha256: 017fcde6fd1f792bc7509375c8aacbbd09b62f16b215e1ae3a261aa642b564b0
+      size: 1495
+      sha256: e56e9c0eadc309a27400af106a2d3133d70ad0a3bbbb9be2c54e837ccdb4a77d
   original:
-    hackage: lens-5.0.1
+    hackage: ekg-0.4.0.15@sha256:d6e48859a89fbbe23496f871581e44a41f97dac627c2b9db81f49b92fa066516,2031
+- completed:
+    hackage: ekg-core-0.1.1.7@sha256:c4356aefea0e1e2f80a236d3b3f81b83b445c1e53519302e96477da0adee2e9f,2039
+    pantry-tree:
+      size: 1073
+      sha256: f403baeb7787c69c5e28f5aa1e94f78d4363beb19362d66f18de4a1aef0723fe
+  original:
+    hackage: ekg-core-0.1.1.7@sha256:c4356aefea0e1e2f80a236d3b3f81b83b445c1e53519302e96477da0adee2e9f,2039
+- completed:
+    hackage: ekg-json-0.1.0.6@sha256:e16efc1b09ae7635db3f0535335ee3e8aa666fe4bf3749783f4022020f6ca3b8,1050
+    pantry-tree:
+      size: 265
+      sha256: 09239a4e3ab0d58be0ac360d41c491df017f4a18ba558fd67909e24f14caece7
+  original:
+    hackage: ekg-json-0.1.0.6@sha256:e16efc1b09ae7635db3f0535335ee3e8aa666fe4bf3749783f4022020f6ca3b8,1050
+- completed:
+    hackage: io-streams-haproxy-1.0.1.0@sha256:fd6c585c46679752509df185c9d8f948d1ee03625005742ab5de3ebaa882690a,3084
+    pantry-tree:
+      size: 589
+      sha256: 33c420a00acd8e86924fca0a713c658e5da4acc071b170907e81c07eb8bc0dac
+  original:
+    hackage: io-streams-haproxy-1.0.1.0@sha256:fd6c585c46679752509df185c9d8f948d1ee03625005742ab5de3ebaa882690a,3084
 - completed:
     hackage: opaleye-0.6.7006.1@sha256:06c8d8808aedabb065ce26387285b5f2d3320b801f818899cced186dc645dc34,5725
     pantry-tree:
@@ -18,9 +39,52 @@ packages:
       sha256: 6a2d72804e9d87e1a9afe280a2a49838ee7771e640a4ef429c3b52e41f9c44c4
   original:
     hackage: opaleye-0.6.7006.1
+- completed:
+    hackage: servant-swagger-1.1.10@sha256:ca3237516f11cb4d28fff6ec0991b9dc765456a3985df3fb469641fb5c742c5a,4623
+    pantry-tree:
+      size: 1636
+      sha256: 83536669b525e5c6ff3368698bcdbeec55858b713642575f88d3c3b52d0bf380
+  original:
+    hackage: servant-swagger-1.1.10@sha256:ca3237516f11cb4d28fff6ec0991b9dc765456a3985df3fb469641fb5c742c5a,4623
+- completed:
+    hackage: snap-server-1.1.2.0@sha256:3167b836a0b0ee49c8d6c973535c33f583c9ef9ba62d9723f08509b38368cb8f,14641
+    pantry-tree:
+      size: 3313
+      sha256: adc437085565401e935067062ddfb6d13b423d3820a9f10f01fcb9e64ab09445
+  original:
+    hackage: snap-server-1.1.2.0@sha256:3167b836a0b0ee49c8d6c973535c33f583c9ef9ba62d9723f08509b38368cb8f,14641
+- completed:
+    hackage: these-skinny-0.7.4@sha256:e29336a1a70a497e09d8266f8438efb30a807bafaa6b00f5a136f7493efb3160,1239
+    pantry-tree:
+      size: 262
+      sha256: 77f01554e40d8e910d00f95c35dde86df4f691e2955d9afdc16508114c4d1af2
+  original:
+    hackage: these-skinny-0.7.4@sha256:e29336a1a70a497e09d8266f8438efb30a807bafaa6b00f5a136f7493efb3160,1239
+- completed:
+    name: refined
+    version: 0.6.2
+    git: https://github.com/locallycompact/refined
+    pantry-tree:
+      size: 831
+      sha256: 62945f9d3e418d6fd06dfe9b4227cdf83ad2af6b7c448f3f71886af70c635bd0
+    commit: 5cbb5cb6882552d2bc1dca1c48c6ee1a69d6e292
+  original:
+    git: https://github.com/locallycompact/refined
+    commit: 5cbb5cb6882552d2bc1dca1c48c6ee1a69d6e292
+- completed:
+    name: swagger2
+    version: 2.6.1
+    git: https://github.com/locallycompact/swagger2
+    pantry-tree:
+      size: 2451
+      sha256: 8b59662759ed8cd22e9f4a74d84be540938e3fd1af0161e78ac0fa429cb8871b
+    commit: 64bc206294b8659892c00c5bc955810b4aa598b4
+  original:
+    git: https://github.com/locallycompact/swagger2
+    commit: 64bc206294b8659892c00c5bc955810b4aa598b4
 snapshots:
 - completed:
-    size: 576531
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2021/4/6.yaml
-    sha256: 6ce168aed6ba23cfe148061587ba1c0f24a09d4cad8b1a5a29b21878e33d6ef4
-  original: nightly-2021-04-06
+    size: 555978
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2021/7/14.yaml
+    sha256: 2005455f5d812ceb95560b708f006157533714bef631af52a3dd678d7dde32aa
+  original: nightly-2021-07-14
