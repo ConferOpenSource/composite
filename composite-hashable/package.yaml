@@ -10,7 +10,7 @@ copyright:           2017 Confer Health, Inc., 2021 Vital Biosciences
 category:            Records
 
 dependencies:
-  - base >= 4.7 && < 5
+  - base >= 4.12 && < 5
   - hashable >= 1.1.1 && < 1.4
   - composite-base >= 0.7 && < 0.8
 

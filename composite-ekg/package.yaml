@@ -10,7 +10,7 @@ copyright:           2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 category:            Records
 
 dependencies:
-  - base >= 4.7 && < 5
+  - base >= 4.12 && < 5
   - composite-base >= 0.7 && < 0.8
   - ekg-core >= 0.1.1.3 && < 0.5
   - lens >= 4.15.4 && < 5.1
