@@ -10,7 +10,7 @@ copyright:           2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 category:            Records
 
 dependencies:
-  - base >= 4.7 && < 5
+  - base >= 4.12 && < 5
   - path >= 0.6 && < 0.9
   - composite-aeson >= 0.7 && < 0.8
 

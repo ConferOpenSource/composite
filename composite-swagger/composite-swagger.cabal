@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c4df88e01bce6b24d15c6eb28e92ca3fd245f971e10e28dfe2abb8007f783419
+-- hash: a38d69dbf4166ffb8697cc7b39a2a48d5cac42d3b6c0a49d422bbc1838989247
 
 name:           composite-swagger
 version:        0.7.5.0
@@ -28,11 +28,26 @@ library
       Paths_composite_swagger
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving MultiParamTypeClasses OverloadedStrings PolyKinds ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      GeneralizedNewtypeDeriving
+      MultiParamTypeClasses
+      OverloadedStrings
+      PolyKinds
+      ScopedTypeVariables
+      StandaloneDeriving
+      StrictData
+      TemplateHaskell
+      TupleSections
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
-      base >=4.7 && <5
-    , composite-base >=0.7 && <0.8
+      base >=4.12 && <5
+    , composite-base ==0.7.*
     , insert-ordered-containers >=0.2.1.0 && <0.3
     , lens >=4.15.4 && <5.1
     , swagger2 >=2.1.6 && <2.7
@@ -49,11 +64,26 @@ test-suite composite-swagger-test
       Paths_composite_swagger
   hs-source-dirs:
       test
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances GeneralizedNewtypeDeriving MultiParamTypeClasses OverloadedStrings PolyKinds ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      GeneralizedNewtypeDeriving
+      MultiParamTypeClasses
+      OverloadedStrings
+      PolyKinds
+      ScopedTypeVariables
+      StandaloneDeriving
+      StrictData
+      TemplateHaskell
+      TupleSections
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       QuickCheck
-    , base >=4.7 && <5
+    , base >=4.12 && <5
     , composite-aeson
     , composite-base
     , composite-swagger

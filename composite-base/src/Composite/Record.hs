@@ -2,9 +2,9 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 module Composite.Record
   ( Rec((:&), RNil), Record
-  , pattern (:*:), pattern (:^:)
+  , pattern (:*:), pattern (:^:), pattern (:!:)
   , (:->)(Val, getVal), _Val, val, valName, valWithName
-  , RElem, rlens, rlens'
+  , RElem, rlens, rlens', rlensCo, rlensContra
   , AllHave, HasInstances, ValuesAllHave
   , zipRecsWith, reifyDicts, reifyVal, recordToNonEmpty
   , ReifyNames(reifyNames)
@@ -16,6 +16,7 @@ import Control.DeepSeq(NFData(rnf))
 import Control.Lens (Iso, iso)
 import Control.Lens.TH (makeWrapped)
 import Data.Functor.Identity (Identity(Identity))
+import Data.Functor.Contravariant (Contravariant(contramap))
 import Data.Kind (Constraint)
 import Data.List.NonEmpty (NonEmpty((:|)))
 import Data.Proxy (Proxy(Proxy))
@@ -169,6 +170,11 @@ pattern (:^:) fa rs <- (fmap getVal -> fa) :& rs where
   (:^:) fa rs = fmap Val fa :& rs
 infixr 5 :^:
 
+pattern (:!:) :: Contravariant f => () => f a -> Rec f rs -> Rec f (s :-> a ': rs)
+pattern (:!:) fa rs <- (contramap Val -> fa) :& rs where
+  (:!:) fa rs = contramap getVal fa :& rs
+infixr 5 :!:
+
 -- |Reify the type of a val.
 reifyVal :: proxy (s :-> a) -> (s :-> a) -> (s :-> a)
 reifyVal _ = id
@@ -217,15 +223,47 @@ rlens proxy f =
 -- Then:
 --
 -- @
---   view (rlens' fBar_)                      rec == Just "hello!"
---   set  (rlens' fBar_) Nothing              rec == Just 123 :^: Nothing       :^: Nil
---   over (rlens' fBar_) (fmap (map toUpper)) rec == Just 123 :^: Just "HELLO!" :^: Nil
+--   view (rlensCo fBar_)                      rec == Just "hello!"
+--   set  (rlensCo fBar_) Nothing              rec == Just 123 :^: Nothing       :^: Nil
+--   over (rlensCo fBar_) (fmap (map toUpper)) rec == Just 123 :^: Just "HELLO!" :^: Nil
 -- @
-rlens' :: (Functor f, Functor g, RElem (s :-> a) rs, Functor g) => proxy (s :-> a) -> (f a -> g (f a)) -> Rec f rs -> g (Rec f rs)
-rlens' proxy f =
+rlensCo :: (Functor f, Functor g, RElem (s :-> a) rs) => proxy (s :-> a) -> (f a -> g (f a)) -> Rec f rs -> g (Rec f rs)
+rlensCo proxy f =
   Vinyl.rlens $ \ (fmap (getVal . reifyVal proxy) -> fa) ->
     fmap Val <$> f fa
+{-# INLINE rlensCo #-}
+
+-- |Synonym for `rlensCo`
+rlens' :: (Functor f, Functor g, RElem (s :-> a) rs) => proxy (s :-> a) -> (f a -> g (f a)) -> Rec f rs -> g (Rec f rs)
+rlens' = rlensCo
 {-# INLINE rlens' #-}
+
+-- |Lens to a particular field of a record using a contravariant functor.
+--
+-- For example, given:
+--
+-- @
+--   type FFoo = "foo" :-> Int
+--   type FBar = "bar" :-> String
+--   fBar_ :: Proxy FBar
+--   fBar_ = Proxy
+--
+--   rec :: 'Rec' 'Predicate' '[FFoo, FBar]
+--   rec = Predicate even :!: Predicate (even . length) :!: Nil
+-- @
+--
+-- Then:
+--
+-- @
+--   view (rlensContra fBar_)                           rec == Predicate even
+--   set  (rlensContra fBar_) Predicate (odd . length)  rec == Predicate even :!: Predicate (odd . length) :!: Nil
+--   over (rlensContra fBar_) (contramap show)          rec == Predicate even :!: Predicate (odd . length . show) :!: Nil
+-- @
+rlensContra :: (Contravariant f, Functor g, RElem (s :-> a) rs) => proxy (s :-> a) -> (f a -> g (f a)) -> Rec f rs -> g (Rec f rs)
+rlensContra proxy f =
+  Vinyl.rlens $ \(contramap (reifyVal proxy . Val) -> fa) ->
+    contramap getVal <$> f fa
+{-# INLINE rlensContra #-}
 
 -- | 'zipWith' for Rec's.
 zipRecsWith :: (forall a. f a -> g a -> h a) -> Rec f as -> Rec g as -> Rec h as

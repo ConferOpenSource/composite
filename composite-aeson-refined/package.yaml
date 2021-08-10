@@ -10,7 +10,7 @@ copyright:           2017 Confer Health, Inc., 2020-2021 Vital Biosciences
 category:            Records
 
 dependencies:
-  - base >= 4.7 && < 5
+  - base >= 4.12 && < 5
   - aeson-better-errors >= 0.9.1.0 && < 0.10
   - composite-aeson >= 0.7 && < 0.8
   - mtl >= 2.2.1 && < 2.3
