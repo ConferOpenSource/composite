@@ -31,9 +31,29 @@ aliceJson :: Aeson.Value
 aliceJson = toJsonWithFormat userFormat alice
 ```
 
+### `composite-aeson-path`
+
+`composite-aeson` support for the [path](https://hackage.haskell.org/package/path) library.
+
+### `composite-aeson-refined`
+
+`composite-aeson` support for the [refined](https://hackage.haskell.org/package/refined) library.
+
 ### `composite-base`
 
-Definitions shared by the other composite libraries or generally useful when using Vinyl records.
+Definitions shared by the other composite libraries or generally useful when using Vinyl records. Includes some Template Haskell splices to generate various optics for records, as well as a specialization of `MonadReader` which works on a context record, providing general environment for a computation.
+
+### `composite-binary`
+
+Instance of `Binary` from the [binary](https://hackage.haskell.org/package/binary) library for composite records.
+
+### `composite-ekg`
+
+Autoconfiguration of [EKG](https://hackage.haskell.org/package/ekg) from a record of EKG metrics.
+
+### `composite-hashable`
+
+Instance of `Hashable` from the [hashable](https://hackage.haskell.org/package/hashable) library for composite records.
 
 ### `composite-opaleye`
 
@@ -77,6 +97,17 @@ userQuery =
     restrict -< recId ./= constant (1 :: Int64)
     returnA -< user
 ```
+
+### `composite-swagger`
+
+Automatic derivation of Swagger 2 (ala [swagger2](https://hackage.haskell.org/package/swagger2)) definitions for composite records.
+
+### Related work
+
+- [`compdoc`](https://hackage.haskell.org/package/compdoc) provides functionality for reading a Pandoc into a record.
+- [`composite-dhall`](https://hackage.haskell.org/package/composite-dhall) provides `ToDhall` and `FromDhall` instances for composite records.
+- [`composite-tuple`](https://hackage.haskell.org/package/composite-tuple) provides utility functions for treating composite records as tuples, ala `Relude.Extra.Tuple` from [relude](https://hackage.haskell.org/package/relude).
+- [`polysemy-methodology-composite`](https://hackage.haskell.org/package/polysemy-methodology-composite) provides functions for using polysemy-methodology with composite.
 
 ### `example`
 
