@@ -1,4 +1,4 @@
-resolver: nightly-2021-04-06
+resolver: nightly-2021-08-08
 packages:
   - composite-aeson
   - composite-aeson-path
@@ -12,11 +12,20 @@ packages:
   - example
 flags: {}
 extra-deps:
-- lens-5.0.1
+- ekg-0.4.0.15
+- ekg-core-0.1.1.7
+- ekg-json-0.1.0.6
+- io-streams-haproxy-1.0.1.0
 - opaleye-0.6.7006.1
+- servant-swagger-1.1.10
+- snap-server-1.1.2.0
+- swagger2-2.6
+- these-skinny-0.7.4
+- refined-0.6.2
 allow-newer: true
 nix:
   packages:
     - lzma
     - postgresql
     - zlib
+  pure: false

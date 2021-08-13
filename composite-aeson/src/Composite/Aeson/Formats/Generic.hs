@@ -153,8 +153,8 @@ instance Lift SumStyle where
     SumStyleFieldName     -> [| SumStyleFieldName |]
     SumStyleTypeValue a b -> [| SumStyleTypeValue $(liftString $ unpack a) $(liftString $ unpack b) |]
     SumStyleMergeType a   -> [| SumStyleMergeType $(liftString $ unpack a) |]
-#if MIN_VERSION_template_haskell(2,16,0)
-  liftTyped = fmap TExp . lift
+#if MIN_VERSION_template_haskell(2,17,0)
+#elif MIN_VERSION_template_haskell(2,16,0)
 #endif
 
 

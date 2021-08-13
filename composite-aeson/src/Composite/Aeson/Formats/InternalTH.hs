@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 module Composite.Aeson.Formats.InternalTH
   ( makeTupleDefaults, makeTupleFormats, makeNamedTupleFormats
   ) where
@@ -20,6 +21,9 @@ import Language.Haskell.TH
   , bindS, noBindS
   , Type(AppT, ArrowT, ConT, ForallT, TupleT, VarT), appT, conT, varT
   , TyVarBndr(PlainTV)
+#if MIN_VERSION_template_haskell(2,17,0)
+  , Specificity(SpecifiedSpec)
+#endif
   )
 import Language.Haskell.TH.Syntax (lift)
 
@@ -64,7 +68,11 @@ makeTupleFormats = concat <$> traverse makeTupleFormat [2..59]
           tupleType = foldl' AppT (TupleT arity) (map VarT tyNames)
           funType =
             ForallT
+#if MIN_VERSION_template_haskell(2,17,0)
+              (PlainTV tyErrName SpecifiedSpec : map (flip PlainTV SpecifiedSpec) tyNames)
+#else
               (PlainTV tyErrName : map PlainTV tyNames)
+#endif
               []
               (foldr (\ tyName rest -> ArrowT `AppT` (ConT ''JsonFormat `AppT` VarT tyErrName `AppT` tyName) `AppT` rest)
                      (ConT ''JsonFormat `AppT` VarT tyErrName `AppT` tupleType)
@@ -116,7 +124,11 @@ makeNamedTupleFormats = concat <$> traverse makeNamedTupleFormat [2..59]
           tupleType = foldl' AppT (TupleT arity) (map VarT tyNames)
           funType =
             ForallT
+#if MIN_VERSION_template_haskell(2,17,0)
+              (PlainTV tyErrName SpecifiedSpec : map (flip PlainTV SpecifiedSpec) tyNames)
+#else
               (PlainTV tyErrName : map PlainTV tyNames)
+#endif
               []
               (foldr (\ tyName rest -> ArrowT `AppT` ConT ''Text `AppT` (ArrowT `AppT` (ConT ''JsonFormat `AppT` VarT tyErrName `AppT` tyName) `AppT` rest))
                      (ConT ''JsonFormat `AppT` VarT tyErrName `AppT` tupleType)

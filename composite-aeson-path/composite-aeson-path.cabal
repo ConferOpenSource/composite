@@ -3,8 +3,6 @@ cabal-version: 1.12
 -- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
---
--- hash: a4066140c496fecb26e6cfeeff88c4087efdba2a3c2bdb079826114af9895eb9
 
 name:           composite-aeson-path
 version:        0.7.5.0
@@ -50,5 +48,5 @@ library
   build-depends:
       base >=4.12 && <5
     , composite-aeson ==0.7.*
-    , path >=0.6 && <0.9
+    , path >=0.6 && <0.10
   default-language: Haskell2010
