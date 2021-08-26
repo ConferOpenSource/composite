@@ -107,6 +107,7 @@ Automatic derivation of Swagger 2 (ala [swagger2](https://hackage.haskell.org/pa
 - [`compdoc`](https://hackage.haskell.org/package/compdoc) provides functionality for reading a Pandoc into a record.
 - [`composite-dhall`](https://hackage.haskell.org/package/composite-dhall) provides `ToDhall` and `FromDhall` instances for composite records.
 - [`composite-tuple`](https://hackage.haskell.org/package/composite-tuple) provides utility functions for treating composite records as tuples, ala `Relude.Extra.Tuple` from [relude](https://hackage.haskell.org/package/relude).
+- [`fcf-composite`](https://hackage.haskell.org/package/fcf-composite) provides integration with first-class-families for type-level computation of records.
 - [`polysemy-methodology-composite`](https://hackage.haskell.org/package/polysemy-methodology-composite) provides functions for using polysemy-methodology with composite.
 
 ### `example`
