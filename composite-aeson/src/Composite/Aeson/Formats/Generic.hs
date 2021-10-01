@@ -21,6 +21,9 @@ import Language.Haskell.TH.Syntax
 #if MIN_VERSION_template_haskell(2,16,0)
   , liftTyped, TExp(TExp)
 #endif
+#if MIN_VERSION_template_haskell(2,17,0)
+  , liftCode
+#endif
   )
 
 -- |Produce an explicit 'JsonFormat' by using the implicit Aeson 'ToJSON' instance and an explicit @aeson-better-errors@ 'ABE.Parse'.
@@ -153,7 +156,9 @@ instance Lift SumStyle where
     SumStyleFieldName     -> [| SumStyleFieldName |]
     SumStyleTypeValue a b -> [| SumStyleTypeValue $(liftString $ unpack a) $(liftString $ unpack b) |]
     SumStyleMergeType a   -> [| SumStyleMergeType $(liftString $ unpack a) |]
-#if MIN_VERSION_template_haskell(2,16,0)
+#if MIN_VERSION_template_haskell(2,17,0)
+  liftTyped = liftCode . fmap TExp . lift
+#elif MIN_VERSION_template_haskell(2,16,0)
   liftTyped = fmap TExp . lift
 #endif
 

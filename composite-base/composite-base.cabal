@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f5caba9cc5d5f935e3e3a058eb2c2889a5ade77af7652ec0d630e79c3523ec77
+-- hash: f8dc97d1778aa1ff9315266a64dd253b83dbae9d2e349bcb4bc0a4dd8a85fb9c
 
 name:           composite-base
 version:        0.7.5.0
@@ -62,7 +62,7 @@ library
     , monad-control >=1.0.2.2 && <1.1
     , mtl >=2.2.1 && <2.3
     , profunctors >=5.2.1 && <5.7
-    , template-haskell >=2.11.1.0 && <2.17
+    , template-haskell >=2.11.1.0 && <2.18
     , text >=1.2.2.2 && <1.3
     , transformers >=0.5.2.0 && <0.6
     , transformers-base >=0.4.4 && <0.5
@@ -115,7 +115,7 @@ test-suite composite-base-test
     , monad-control >=1.0.2.2 && <1.1
     , mtl >=2.2.1 && <2.3
     , profunctors >=5.2.1 && <5.7
-    , template-haskell >=2.11.1.0 && <2.17
+    , template-haskell >=2.11.1.0 && <2.18
     , text >=1.2.2.2 && <1.3
     , transformers >=0.5.2.0 && <0.6
     , transformers-base >=0.4.4 && <0.5
