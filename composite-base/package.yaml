@@ -27,6 +27,7 @@ dependencies:
 default-extensions:
   - ConstraintKinds
   - DataKinds
+  - DeriveDataTypeable
   - FlexibleContexts
   - FlexibleInstances
   - FunctionalDependencies
