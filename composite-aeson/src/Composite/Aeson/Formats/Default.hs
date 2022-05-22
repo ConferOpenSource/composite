@@ -53,7 +53,6 @@ instance DefaultJsonFormat a => DefaultJsonFormat (Semigroup.Max a)           wh
 instance DefaultJsonFormat a => DefaultJsonFormat (Semigroup.First a)         where defaultJsonFormat = wrappedJsonFormat defaultJsonFormat
 instance DefaultJsonFormat a => DefaultJsonFormat (Semigroup.Last a)          where defaultJsonFormat = wrappedJsonFormat defaultJsonFormat
 instance DefaultJsonFormat a => DefaultJsonFormat (Semigroup.WrappedMonoid a) where defaultJsonFormat = wrappedJsonFormat defaultJsonFormat
-instance DefaultJsonFormat a => DefaultJsonFormat (Semigroup.Option a)        where defaultJsonFormat = wrappedJsonFormat defaultJsonFormat
 instance DefaultJsonFormat a => DefaultJsonFormat (Monoid.Dual a)             where defaultJsonFormat = wrappedJsonFormat defaultJsonFormat
 instance DefaultJsonFormat a => DefaultJsonFormat (Monoid.Sum a)              where defaultJsonFormat = wrappedJsonFormat defaultJsonFormat
 instance DefaultJsonFormat a => DefaultJsonFormat (Monoid.Product a)          where defaultJsonFormat = wrappedJsonFormat defaultJsonFormat

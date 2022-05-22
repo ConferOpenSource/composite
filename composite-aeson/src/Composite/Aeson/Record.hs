@@ -20,9 +20,10 @@ import Control.Lens (Wrapped(type Unwrapped, _Wrapped'), from, review, view)
 import Control.Monad (join)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
+import qualified Data.Aeson.Key as Aeson.Key
+import qualified Data.Aeson.KeyMap as Aeson.KeyMap
 import Data.Functor.Contravariant (Contravariant, contramap)
 import Data.Functor.Identity (Identity(Identity))
-import qualified Data.HashMap.Strict as HM
 import Data.Proxy (Proxy(Proxy))
 import Data.Text (Text, pack)
 import Data.Vinyl (RApply, RMap, Rec((:&), RNil), rmap, rzipWith)
@@ -185,7 +186,7 @@ instance RecordToJsonObject '[] where
 
 instance forall s a rs. (KnownSymbol s, RecordToJsonObject rs) => RecordToJsonObject (s :-> a ': rs) where
   recordToJsonObject (ToJsonField aToField :& fs) (Identity a :& as) =
-    maybe id (HM.insert (pack . symbolVal $ (Proxy :: Proxy s))) (aToField a) $
+    maybe id (Aeson.KeyMap.insert (Aeson.Key.fromString . symbolVal $ (Proxy :: Proxy s))) (aToField a) $
       recordToJsonObject fs as
 
 -- |Given a record of 'ToField' functions for each field in @rs@, convert an 'Identity' record to JSON. Equivalent to @Aeson.Object . 'recordToJsonObject' fmt@
