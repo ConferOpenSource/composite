@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.5.0
+
+* Update stack resolver and lens upper bound.
+* Added travis CI support.
+
+Thanks to @locallycompact @peterbecich!
+
 ## 0.7.4.0
 
 * Update Stackage nightly support to 2020-08-13, widended dependency version bounds.
