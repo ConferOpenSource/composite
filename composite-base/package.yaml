@@ -1,5 +1,5 @@
 name:                composite-base
-version:             0.7.6.0
+version:             0.8.0.0
 synopsis:            Shared utilities for composite-* packages.
 description:         Shared helpers for the various composite packages.
 homepage:            https://github.com/ConferOpenSource/composite#readme

@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f867717869d0e8a3eaa003069508d72cd4d8472f8527c74a4124b3d1763c0fd2
+-- hash: 76e043ae779c42765b3c8fbb7634b20c87fef460ac2a016160e12bb18d395009
 
 name:           composite-binary
-version:        0.7.6.0
+version:        0.8.0.0
 synopsis:       Orphan binary instances.
 description:    Binary instance for (:->) and Record.
 category:       Records

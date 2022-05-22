@@ -1,5 +1,5 @@
 name:                composite-opaleye
-version:             0.7.6.0
+version:             0.8.0.0
 synopsis:            Opaleye SQL for Vinyl records
 description:         Integration between Vinyl records and Opaleye SQL, allowing records to be stored, retrieved, and queried from PostgreSQL.
 homepage:            https://github.com/ConferOpenSource/composite#readme

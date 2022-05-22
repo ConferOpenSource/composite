@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d5533b9edc00c02730d93381d950a8f2157a870aeaf5f515c94ac9d31594dff9
+-- hash: 2a59353c77c26a79e4afd1351a999a82b0f7b1e4bdb128312ab74923b454aa3d
 
 name:           composite-aeson
-version:        0.7.6.0
+version:        0.8.0.0
 synopsis:       JSON for Vinyl records
 description:    Integration between Aeson and Vinyl records allowing records to be easily converted to JSON using automatic derivation, explicit formats, or a mix of both.
 category:       Records
