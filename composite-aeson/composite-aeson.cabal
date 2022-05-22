@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b31beb7cd0e074d05899d09a332f13eac2d0a3f59c7ae793a09b9790a879af5e
+-- hash: d5533b9edc00c02730d93381d950a8f2157a870aeaf5f515c94ac9d31594dff9
 
 name:           composite-aeson
 version:        0.7.6.0
@@ -76,7 +76,7 @@ library
     , tagged >=0.8.5 && <0.9
     , template-haskell >=2.11.1.0 && <2.19
     , text >=1.2.2.2 && <1.3
-    , time >=1.6.0.1 && <1.10
+    , time >=1.6.0.1 && <1.12
     , unordered-containers >=0.2.8.0 && <0.3
     , vector >=0.12.0.1 && <0.13
     , vinyl >=0.5.3 && <0.15
@@ -139,7 +139,7 @@ test-suite composite-aeson-test
     , tagged >=0.8.5 && <0.9
     , template-haskell >=2.11.1.0 && <2.19
     , text >=1.2.2.2 && <1.3
-    , time >=1.6.0.1 && <1.10
+    , time >=1.6.0.1 && <1.12
     , unordered-containers >=0.2.8.0 && <0.3
     , vector >=0.12.0.1 && <0.13
     , vinyl >=0.5.3 && <0.15

@@ -5,4 +5,5 @@ packages:
   composite-base/
   composite-binary/
   composite-hashable/
+  composite-opaleye/
   composite-swagger/
