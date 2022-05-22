@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.34.5.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a38d69dbf4166ffb8697cc7b39a2a48d5cac42d3b6c0a49d422bbc1838989247
+-- hash: d3351d96eeb2e8f83872dd0d23081e9f65539c6e75b87602b9d31774eebd9854
 
 name:           composite-swagger
-version:        0.7.5.0
+version:        0.7.6.0
 synopsis:       Swagger for Vinyl records
 description:    Integration between Swagger and Vinyl records allowing easily derivable/explicit Swagger definitions for records.
 category:       Records

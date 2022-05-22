@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.34.5.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f8dc97d1778aa1ff9315266a64dd253b83dbae9d2e349bcb4bc0a4dd8a85fb9c
+-- hash: edc6deec63b9c71aa2098082d26902076aa8aa8bae44092ea300c41adad23b9a
 
 name:           composite-base
-version:        0.7.5.0
+version:        0.7.6.0
 synopsis:       Shared utilities for composite-* packages.
 description:    Shared helpers for the various composite packages.
 category:       Records

@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.34.5.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2f9c1e699eb5d966cd52cdc62ace3e10220c8b213b504a3e971245515e8d45cb
+-- hash: 4c9a1c4947c9ebc96e2c6fe31e792e9d1f061a19de441cc6ca91df69632d48c2
 
 name:           composite-reflex
-version:        0.7.5.0
+version:        0.7.6.0
 synopsis:       Utilities for using composite records and corecords with Reflex
 description:    Utilities for using composite records and corecords with Reflex
 category:       Records
@@ -28,14 +28,39 @@ library
       Paths_composite_reflex
   hs-source-dirs:
       src
-  default-extensions: DataKinds FlexibleContexts FlexibleInstances GADTs GeneralizedNewtypeDeriving LambdaCase MultiParamTypeClasses MultiWayIf NamedFieldPuns OverloadedStrings PatternSynonyms PolyKinds QuasiQuotes RankNTypes RecordWildCards RecursiveDo ScopedTypeVariables StandaloneDeriving StrictData TemplateHaskell TupleSections TypeApplications TypeFamilies TypeOperators ViewPatterns
+  default-extensions:
+      DataKinds
+      FlexibleContexts
+      FlexibleInstances
+      GADTs
+      GeneralizedNewtypeDeriving
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      NamedFieldPuns
+      OverloadedStrings
+      PatternSynonyms
+      PolyKinds
+      QuasiQuotes
+      RankNTypes
+      RecordWildCards
+      RecursiveDo
+      ScopedTypeVariables
+      StandaloneDeriving
+      StrictData
+      TemplateHaskell
+      TupleSections
+      TypeApplications
+      TypeFamilies
+      TypeOperators
+      ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
-      base >=4.7 && <5
-    , composite-base >=0.7 && <0.8
+      base >=4.12 && <5
+    , composite-base ==0.7.*
     , data-default >=0.7.1.1 && <0.8
     , dependent-map >=0.2.4.0 && <0.3
-    , dependent-sum >=0.4 && <0.5
+    , dependent-sum ==0.4.*
     , http-api-data >=0.3.7.1 && <0.5
     , lens >=4.15.4 && <4.18
     , reflex

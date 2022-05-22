@@ -1,13 +1,13 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.34.5.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a4066140c496fecb26e6cfeeff88c4087efdba2a3c2bdb079826114af9895eb9
+-- hash: 2ee95f8078b549cb2a5225e6459a690ca87819333147788f75e6c580e9eb335c
 
 name:           composite-aeson-path
-version:        0.7.5.0
+version:        0.7.6.0
 synopsis:       Formatting data for the path library.
 description:    JsonFormat for Path.
 category:       Records

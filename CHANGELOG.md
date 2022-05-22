@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.6.0
+
+* Code now compiles with Stackage LTS 19.7
+* Add support for contravariant functors and lenses
+
+Thanks to @locallycompact!
+
 ## 0.7.5.0
 
 * Update stack resolver and lens upper bound.
