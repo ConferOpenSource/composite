@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: bd040f892d16d6e98c8e72a56f079c3b7c8277cca20f311b0f86038a9a9f4c30
+-- hash: 1a4b44c6f42691d27aaa4c03e516aaf01c057a1b86f68186d1a1733e68d8679e
 
 name:           composite-ekg
 version:        0.8.0.0
@@ -44,7 +44,7 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.12 && <5
-    , composite-base ==0.7.*
+    , composite-base ==0.8.*
     , ekg-core >=0.1.1.3 && <0.5
     , lens >=4.15.4 && <5.1
     , text >=1.2.2.2 && <1.3

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8d88852e1d83ee59b73d1ea52d20b3671b10858da520d415d67fd11d5ae03656
+-- hash: ceba640b155026970b1166714ba98325345257eb13386d58a90cc229aae6477f
 
 name:           composite-aeson-path
 version:        0.8.0.0
@@ -49,6 +49,6 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.12 && <5
-    , composite-aeson ==0.7.*
+    , composite-aeson ==0.8.*
     , path >=0.6 && <0.9
   default-language: Haskell2010

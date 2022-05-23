@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ce1854ae101a7c0f18f13867225cd28d2c17918162bd7605aca65fc8dbdb1752
+-- hash: 350dba1d289752afceac3b7155578ef1471dbb95ef3a60998216a06fe5cba6d2
 
 name:           composite-hashable
 version:        0.8.0.0
@@ -49,6 +49,6 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.12 && <5
-    , composite-base ==0.7.*
+    , composite-base ==0.8.*
     , hashable >=1.1.1 && <1.4
   default-language: Haskell2010

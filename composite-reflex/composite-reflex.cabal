@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: aa8a3245f92d2f47ab19a6112a7705a37f66b8e655bb826cbd87e09fff35c97e
+-- hash: 1632173cda742772774fe836d9d512d00a5b0be77665d2a4cb6ea2ff2ddc0e26
 
 name:           composite-reflex
 version:        0.8.0.0
@@ -57,7 +57,7 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.12 && <5
-    , composite-base ==0.7.*
+    , composite-base ==0.8.*
     , data-default >=0.7.1.1 && <0.8
     , dependent-map >=0.2.4.0 && <0.3
     , dependent-sum ==0.4.*

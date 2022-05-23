@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2a59353c77c26a79e4afd1351a999a82b0f7b1e4bdb128312ab74923b454aa3d
+-- hash: 15940f55e4ff012339686c8d68ef398a5eb7acbcd09b10646b4b1f92cf09604f
 
 name:           composite-aeson
 version:        0.8.0.0
@@ -63,7 +63,7 @@ library
       aeson >=1.1.2.0 && <2.1
     , aeson-better-errors >=0.9.1.0 && <0.10
     , base >=4.12 && <5
-    , composite-base ==0.7.*
+    , composite-base ==0.8.*
     , containers >=0.5.7.0 && <0.7
     , contravariant >=1.4 && <1.6
     , generic-deriving >=1.11.2 && <1.15
@@ -125,7 +125,7 @@ test-suite composite-aeson-test
     , aeson-qq
     , base >=4.12 && <5
     , composite-aeson
-    , composite-base ==0.7.*
+    , composite-base ==0.8.*
     , containers >=0.5.7.0 && <0.7
     , contravariant >=1.4 && <1.6
     , generic-deriving >=1.11.2 && <1.15

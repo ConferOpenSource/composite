@@ -12,7 +12,7 @@ category:            Records
 dependencies:
   - base >= 4.12 && < 5
   - binary >= 0.8 && < 0.9
-  - composite-base >= 0.7 && < 0.8
+  - composite-base >= 0.8 && < 0.9
 
 default-extensions:
   - DataKinds

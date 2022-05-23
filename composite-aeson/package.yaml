@@ -13,7 +13,7 @@ dependencies:
   - base >= 4.12 && < 5
   - aeson >= 1.1.2.0 && < 2.1
   - aeson-better-errors >= 0.9.1.0 && < 0.10
-  - composite-base >= 0.7 && < 0.8
+  - composite-base >= 0.8 && < 0.9
   - containers >= 0.5.7.0 && < 0.7
   - contravariant >= 1.4 && < 1.6
   - generic-deriving >= 1.11.2 && < 1.15
