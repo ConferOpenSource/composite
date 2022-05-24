@@ -1,3 +1,5 @@
+> :warning: **This project has moved to https://github.com/composite-hs.**
+
 ## composite
 
 [![Build Status](https://travis-ci.com/ConferOpenSource/composite.svg?branch=master)](https://travis-ci.com/ConferOpenSource/composite)
