@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d3351d96eeb2e8f83872dd0d23081e9f65539c6e75b87602b9d31774eebd9854
+-- hash: 08065488688ff2ae8ec25cc97eda4b11bab8fb52ab2e5baca105f010a05be45e
 
 name:           composite-swagger
-version:        0.7.6.0
+version:        0.8.0.0
 synopsis:       Swagger for Vinyl records
 description:    Integration between Swagger and Vinyl records allowing easily derivable/explicit Swagger definitions for records.
 category:       Records
@@ -47,13 +47,13 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.12 && <5
-    , composite-base ==0.7.*
+    , composite-base ==0.8.*
     , insert-ordered-containers >=0.2.1.0 && <0.3
-    , lens >=4.15.4 && <5.1
-    , swagger2 >=2.1.6 && <2.7
-    , template-haskell >=2.11.1.0 && <2.17
+    , lens >=4.15.4 && <5.2
+    , swagger2 >=2.1.6 && <2.9
+    , template-haskell >=2.11.1.0 && <2.19
     , text >=1.2.2.2 && <1.3
-    , vinyl >=0.5.3 && <0.14
+    , vinyl >=0.5.3 && <0.15
   default-language: Haskell2010
 
 test-suite composite-swagger-test
@@ -89,9 +89,9 @@ test-suite composite-swagger-test
     , composite-swagger
     , hspec
     , insert-ordered-containers >=0.2.1.0 && <0.3
-    , lens >=4.15.4 && <5.1
-    , swagger2 >=2.1.6 && <2.7
-    , template-haskell >=2.11.1.0 && <2.17
+    , lens >=4.15.4 && <5.2
+    , swagger2 >=2.1.6 && <2.9
+    , template-haskell >=2.11.1.0 && <2.19
     , text >=1.2.2.2 && <1.3
-    , vinyl >=0.5.3 && <0.14
+    , vinyl >=0.5.3 && <0.15
   default-language: Haskell2010

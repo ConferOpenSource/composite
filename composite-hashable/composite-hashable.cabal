@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 935e212af86bc0748e261a1fd5a2094e64c4362b70d8eb4b5fda42b6cb747a08
+-- hash: 350dba1d289752afceac3b7155578ef1471dbb95ef3a60998216a06fe5cba6d2
 
 name:           composite-hashable
-version:        0.7.6.0
+version:        0.8.0.0
 synopsis:       Orphan hashable instances.
 description:    Hashable instance for (:->) and Record.
 category:       Records
@@ -49,6 +49,6 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.12 && <5
-    , composite-base ==0.7.*
+    , composite-base ==0.8.*
     , hashable >=1.1.1 && <1.4
   default-language: Haskell2010

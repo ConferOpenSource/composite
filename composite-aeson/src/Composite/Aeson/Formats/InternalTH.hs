@@ -6,8 +6,9 @@ module Composite.Aeson.Formats.InternalTH
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor))
 import Control.Monad.Except (throwError)
 import qualified Data.Aeson as Aeson
+import qualified Data.Aeson.Key as Aeson.Key
+import qualified Data.Aeson.KeyMap as Aeson.KeyMap
 import qualified Data.Aeson.BetterErrors as ABE
-import qualified Data.HashMap.Lazy as HM
 import Data.List (foldl')
 import Data.Text (Text)
 import qualified Data.Vector as V
@@ -136,8 +137,8 @@ makeNamedTupleFormats = concat <$> traverse makeNamedTupleFormat [2..59]
           oTupImpl =
             lamE
               [conP (tupleDataName arity) (map varP valNames)]
-              [| (Aeson.Object . HM.fromList)
-                 $(listE $ map (\ (fName, varName, oName) -> [| ($(varE fName), $(varE oName) $(varE varName)) |])
+              [| (Aeson.Object . Aeson.KeyMap.fromList)
+                 $(listE $ map (\ (fName, varName, oName) -> [| (Aeson.Key.fromText $(varE fName), $(varE oName) $(varE varName)) |])
                                (zip3 fNames valNames oNames)) |]
           iTupImpl =
             doE

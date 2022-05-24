@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 1bd1f66bd3d38d9ed108f5b7c2e4d437903998f82224fddeefae706b03de417d
+-- hash: da6b479a20217b518ebbd91837b9c0a301f0bdef21bbc050013198b028cb8868
 
 name:           composite-base
-version:        0.7.6.0
+version:        0.8.0.0
 synopsis:       Shared utilities for composite-* packages.
 description:    Shared helpers for the various composite packages.
 category:       Records

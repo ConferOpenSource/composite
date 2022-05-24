@@ -2,10 +2,10 @@
 , composite-aeson, composite-base, composite-ekg, composite-opaleye
 , composite-swagger, configurator, ekg, ekg-core, exceptions
 , fast-logger, hpack, http-api-data, insert-ordered-containers
-, lens, monad-control, monad-logger, mtl, opaleye
+, lens, lib, monad-control, monad-logger, mtl, opaleye
 , postgresql-simple, product-profunctors, profunctors
 , resource-pool, servant, servant-server, servant-swagger
-, servant-swagger-ui, stdenv, swagger2, text, vinyl, warp
+, servant-swagger-ui, swagger2, text, vinyl, warp
 }:
 mkDerivation {
   pname = "myawesomeserver";
@@ -35,5 +35,5 @@ mkDerivation {
   prePatch = "hpack";
   homepage = "https://github.com/ConferHealth/composite#readme";
   description = "It's a server!";
-  license = stdenv.lib.licenses.bsd3;
+  license = lib.licenses.bsd3;
 }

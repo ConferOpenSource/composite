@@ -1,5 +1,5 @@
 name:                composite-aeson-path
-version:             0.7.6.0
+version:             0.8.0.0
 synopsis:            Formatting data for the path library.
 description:         JsonFormat for Path.
 homepage:            https://github.com/ConferOpenSource/composite#readme
@@ -12,7 +12,7 @@ category:            Records
 dependencies:
   - base >= 4.12 && < 5
   - path >= 0.6 && < 0.9
-  - composite-aeson >= 0.7 && < 0.8
+  - composite-aeson >= 0.8 && < 0.9
 
 default-extensions:
   - DataKinds

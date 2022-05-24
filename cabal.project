@@ -1,2 +1,11 @@
 packages:
+  composite-aeson/
+  composite-aeson-path/
+  composite-aeson-refined/
   composite-base/
+  composite-binary/
+  composite-hashable/
+  composite-opaleye/
+  -- TODO fix when reflex-dom is on 9.2.2
+  -- composite-reflex/
+  composite-swagger/

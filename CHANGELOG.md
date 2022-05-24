@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.0.0
+
+* Support GHC 9.2.2, and with that make breaking aeson changes
+
 ## 0.7.6.0
 
 * Code now compiles with Stackage LTS 19.7

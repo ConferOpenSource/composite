@@ -22,7 +22,7 @@ import Language.Haskell.TH
   )
 import Language.Haskell.TH.Syntax (lift)
 import Opaleye
-  ( Column, Constant(..), QueryRunnerColumnDefault, ToFields, fieldQueryRunnerColumn, queryRunnerColumnDefault
+  ( Column, DefaultFromField, ToFields, fromPGSFromField, defaultFromField
   )
 import Opaleye.Internal.PGTypes (IsSqlType, showSqlType, literalColumn)
 import Opaleye.Internal.HaskellDB.PrimQuery (Literal(StringLit))
@@ -73,11 +73,11 @@ import Opaleye.Internal.HaskellDB.PrimQuery (Literal(StringLit))
 --           Just other -> 'returnError' 'ConversionFailed' f ("Unexpected myschema.myenum value: " <> 'BSC8.unpack' other)
 --           Nothing    -> 'returnError' 'UnexpectedNull' f ""
 --
---     instance 'QueryRunnerColumnDefault' PGMyEnum MyEnum where
---       queryRunnerColumnDefault = 'fieldQueryRunnerColumn'
+--     instance 'DefaultFromField' PGMyEnum MyEnum where
+--       defaultFromField = 'fromPGSFromField'
 --
 --     instance 'Default' 'ToFields' MyEnum ('Column' PGMyEnum) where
---       def = 'Constant' $ \ a ->
+--       def = 'ToFields' $ \ a ->
 --         'literalColumn' . 'stringLit' $ case a of
 --           MyFoo -> "foo"
 --           MyBar -> "bar"
@@ -165,11 +165,11 @@ deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
           []
       ]
 
-  queryRunnerColumnDefaultInst <- instanceD (cxt []) [t| QueryRunnerColumnDefault $sqlType $hsType |] . (:[]) $
-    funD 'queryRunnerColumnDefault
+  defaultFromFieldInst <- instanceD (cxt []) [t| DefaultFromField $sqlType $hsType |] . (:[]) $
+    funD 'defaultFromField
       [ clause
           []
-          (normalB [| fieldQueryRunnerColumn |])
+          (normalB [| fromPGSFromField |])
           []
       ]
 
@@ -186,9 +186,8 @@ deriveOpaleyeEnum hsName sqlName hsConToSqlValue = do
     funD 'def
       [ clause
           []
-          (normalB [| Constant (literalColumn . StringLit . $body) |])
+          (normalB [| ToFields (literalColumn . StringLit . $body) |])
           []
       ]
 
-  pure [sqlTypeDecl, isSqlTypeInst, fromFieldInst, queryRunnerColumnDefaultInst, defaultInst]
-
+  pure [sqlTypeDecl, isSqlTypeInst, fromFieldInst, defaultFromFieldInst, defaultInst]

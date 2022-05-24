@@ -7,42 +7,42 @@ import Data.Profunctor.Product ((***!))
 import qualified Data.Profunctor.Product as PP
 import Data.Proxy (Proxy(Proxy))
 import GHC.TypeLits (KnownSymbol, symbolVal)
-import Opaleye (Column, required, optional)
-import Opaleye.Internal.Table (TableProperties)
+import Opaleye (Field, requiredTableField, optionalTableField)
+import Opaleye.Internal.Table (TableFields)
 
--- |Helper typeclass which picks which of 'required' or 'optional' to use for a pair of write column type and read column type.
+-- |Helper typeclass which picks which of 'requiredTableField' or 'optionalTableField' to use for a pair of write column type and read column type.
 --
--- @DefaultRecTableField (Maybe (Column a)) (Column a)@ uses 'optional'.
--- @DefaultRecTableField        (Column a)  (Column a)@ uses 'required'.
+-- @DefaultRecTableField (Maybe (Field a)) (Field a)@ uses 'optionalTableField'.
+-- @DefaultRecTableField        (Field a)  (Field a)@ uses 'requiredTableField'.
 class DefaultRecTableField write read where
-  defaultRecTableField :: String -> TableProperties write read
+  defaultRecTableField :: String -> TableFields write read
 
-instance DefaultRecTableField (Maybe (Column a)) (Column a) where
-  defaultRecTableField = optional
+instance DefaultRecTableField (Maybe (Field a)) (Field a) where
+  defaultRecTableField = optionalTableField
 
-instance DefaultRecTableField (Column a) (Column a) where
-  defaultRecTableField = required
+instance DefaultRecTableField (Field a) (Field a) where
+  defaultRecTableField = requiredTableField
 
--- |Type class for producing a default 'TableProperties' schema for some expected record types. 'required' and 'optional' are chosen automatically and the
+-- |Type class for producing a default 'TableFields' schema for some expected record types. 'requiredTableField' and 'optionalTableField' are chosen automatically and the
 -- column is named after the record fields, using 'NamedField' to reflect the field names.
 --
 -- For example, given:
 --
--- >  type WriteRec = Record '["id" :-> Maybe (Column PGInt8), "name" :-> Column PGText]
--- >  type ReadRec  = Record '["id" :->        Column PGInt8 , "name" :-> Column PGText]
+-- >  type WriteRec = Record '["id" :-> Maybe (Field PGInt8), "name" :-> Field PGText]
+-- >  type ReadRec  = Record '["id" :->        Field PGInt8 , "name" :-> Field PGText]
 --
 -- This:
 --
--- >  defaultRecTable :: TableProperties WriteRec ReadRec
+-- >  defaultRecTable :: TableFields WriteRec ReadRec
 --
 -- Is equivalent to:
 --
--- > pRec (optional "id" &: required "name" &: Nil)
+-- > pRec (optionalTableField "id" &: requiredTableField "name" &: Nil)
 --
 --
--- Alternately, use 'Composite.Opaleye.ProductProfunctors.pRec' and the usual Opaleye 'required' and 'optional'.
+-- Alternately, use 'Composite.Opaleye.ProductProfunctors.pRec' and the usual Opaleye 'requiredTableField' and 'optionalTableField'.
 class DefaultRecTable write read where
-  defaultRecTable :: TableProperties (Rec Identity write) (Rec Identity read)
+  defaultRecTable :: TableFields (Rec Identity write) (Rec Identity read)
 
 instance DefaultRecTable '[] '[] where
   defaultRecTable = dimap (const ()) (const RNil) PP.empty
@@ -58,8 +58,7 @@ instance
           (\ (r, readRs) -> (Identity (Val r) :& readRs))
           (step  ***! recur)
     where
-      step :: TableProperties w r
+      step :: TableFields w r
       step = defaultRecTableField $ symbolVal (Proxy :: Proxy s)
-      recur :: TableProperties (Rec Identity writes) (Rec Identity reads)
+      recur :: TableFields (Rec Identity writes) (Rec Identity reads)
       recur = defaultRecTable
-

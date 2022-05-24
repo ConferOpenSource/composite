@@ -5,13 +5,14 @@ module Composite.Aeson.Formats.Generic
   ) where
 
 import Composite.Aeson.Base (JsonFormat(JsonFormat), JsonProfunctor(JsonProfunctor), FromJson(FromJson))
-import Control.Arrow (second)
+import Control.Arrow (first, second)
 import Control.Lens (_Wrapped, over, unsnoc)
 import Control.Monad.Error.Class (throwError)
 import Data.Aeson (FromJSON, ToJSON, (.=), toJSON)
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.BetterErrors as ABE
-import qualified Data.HashMap.Strict as StrictHashMap
+import qualified Data.Aeson.Key as Aeson.Key
+import qualified Data.Aeson.KeyMap as Aeson.KeyMap
 import Data.List.NonEmpty (NonEmpty((:|)))
 import qualified Data.List.NonEmpty as NEL
 import Data.Text (Text, intercalate, unpack)
@@ -48,7 +49,7 @@ jsonArrayFormat oToList iFromList =
 jsonObjectFormat :: (t -> [(Text, a)]) -> ([(Text, a)] -> ABE.Parse e t) -> JsonFormat e a -> JsonFormat e t
 jsonObjectFormat oToList iFromList =
   over _Wrapped $ \ (JsonProfunctor o i) ->
-    JsonProfunctor (Aeson.Object . StrictHashMap.fromList . map (second o) . oToList)
+    JsonProfunctor (Aeson.Object . Aeson.KeyMap.fromList . map (first Aeson.Key.fromText . second o) . oToList)
                    (ABE.eachInObject i >>= iFromList)
 
 
@@ -191,12 +192,13 @@ jsonSumFormat style oA iAs = JsonFormat (JsonProfunctor (sumToJson style oA) (su
 -- |Map a sum type from JSON in the 'SumStyleFieldName' style.
 fieldNameSumFromJson :: NonEmpty (Text, FromJson e a) -> ABE.Parse e a
 fieldNameSumFromJson iAs = do
-  fields <- ABE.withObject $ pure . StrictHashMap.keys
+  fields <- ABE.withObject $ pure . Aeson.KeyMap.keys
   case fields of
     [f] ->
-      case lookup f (NEL.toList iAs) of
-        Just (FromJson iA) -> ABE.key f iA
-        Nothing -> throwError $ ABE.InvalidJSON $ "unknown field " <> unpack f <> ", expected one of " <> expected
+      let ft = Aeson.Key.toText f
+      in case lookup ft (NEL.toList iAs) of
+        Just (FromJson iA) -> ABE.key ft iA
+        Nothing -> throwError $ ABE.InvalidJSON $ "unknown field " <> unpack ft <> ", expected one of " <> expected
     [] ->
       throwError $ ABE.InvalidJSON $ "expected an object with one field (" <> expected <> ") not an empty object"
     _ ->
@@ -206,7 +208,7 @@ fieldNameSumFromJson iAs = do
 
 -- |Map a sum type to JSON in the 'SumStyleFieldName' style.
 fieldNameSumToJson :: (a -> (Text, Aeson.Value)) -> a -> Aeson.Value
-fieldNameSumToJson oA = \ (oA -> (t, v)) -> Aeson.object [t .= v]
+fieldNameSumToJson oA = \ (oA -> (t, v)) -> Aeson.object [Aeson.Key.fromText t .= v]
 
 -- |Map a sum type from JSON in the 'SumStyleTypeValue' style.
 typeValueSumFromJson :: Text -> Text -> NonEmpty (Text, FromJson e a) -> ABE.Parse e a
@@ -221,7 +223,7 @@ typeValueSumFromJson typeField valueField iAs = do
 
 -- |Map a sum type to JSON in the 'SumStyleTypeValue' style.
 typeValueSumToJson :: Text -> Text -> (a -> (Text, Aeson.Value)) -> a -> Aeson.Value
-typeValueSumToJson typeField valueField oA = \ (oA -> (t, v)) -> Aeson.object [typeField .= t, valueField .= v]
+typeValueSumToJson typeField valueField oA = \ (oA -> (t, v)) -> Aeson.object [Aeson.Key.fromText typeField .= t, Aeson.Key.fromText valueField .= v]
 
 -- |Map a sum type from JSON in the 'SumStyleMergeType' style.
 mergeTypeSumFromJson :: Text -> NonEmpty (Text, FromJson e a) -> ABE.Parse e a
@@ -237,11 +239,11 @@ mergeTypeSumFromJson typeField iAs = do
 -- |Map a sum type to JSON in the 'SumStyleMergeType' style.
 mergeTypeSumToJson :: Text -> (a -> (Text, Aeson.Value)) -> a -> Aeson.Value
 mergeTypeSumToJson typeField oA = \ a -> case oA a of
-  (t, Aeson.Object fields) | StrictHashMap.member typeField fields ->
+  (t, Aeson.Object fields) | Aeson.KeyMap.member (Aeson.Key.fromText typeField) fields ->
     error $ "PRECONDITION VIOLATED: encoding a value with merge type sum style yielded "
          <> "(" <> unpack t <> ", " <> show (Aeson.Object fields) <> ") which already contains the field " <> unpack typeField
   (t, Aeson.Object fields) ->
-    Aeson.Object (StrictHashMap.insert typeField (Aeson.String t) fields)
+    Aeson.Object (Aeson.KeyMap.insert (Aeson.Key.fromText typeField) (Aeson.String t) fields)
   (t, other) ->
     error $ "PRECONDITION VIOLATED: encoding a value with merge type sum style yielded "
          <> "(" <> unpack t <> ", " <> show other <> ") which isn't an object"

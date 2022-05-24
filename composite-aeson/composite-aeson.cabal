@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d5c3264e6e130a17e338ae23a727b0532788c1b4963314e4b48892e3d411511f
+-- hash: 15940f55e4ff012339686c8d68ef398a5eb7acbcd09b10646b4b1f92cf09604f
 
 name:           composite-aeson
-version:        0.7.6.0
+version:        0.8.0.0
 synopsis:       JSON for Vinyl records
 description:    Integration between Aeson and Vinyl records allowing records to be easily converted to JSON using automatic derivation, explicit formats, or a mix of both.
 category:       Records
@@ -60,26 +60,26 @@ library
       ViewPatterns
   ghc-options: -Wall -O2
   build-depends:
-      aeson >=1.1.2.0 && <1.6
+      aeson >=1.1.2.0 && <2.1
     , aeson-better-errors >=0.9.1.0 && <0.10
     , base >=4.12 && <5
-    , composite-base ==0.7.*
+    , composite-base ==0.8.*
     , containers >=0.5.7.0 && <0.7
     , contravariant >=1.4 && <1.6
     , generic-deriving >=1.11.2 && <1.15
     , hashable >=1.2.6.1 && <1.4
-    , lens >=4.15.4 && <5.1
+    , lens >=4.15.4 && <5.2
     , mmorph >=1.0.9 && <1.2
     , mtl >=2.2.1 && <2.3
     , profunctors >=5.2.1 && <5.7
     , scientific >=0.3.5.1 && <0.4
     , tagged >=0.8.5 && <0.9
-    , template-haskell >=2.11.1.0 && <2.18
+    , template-haskell >=2.11.1.0 && <2.19
     , text >=1.2.2.2 && <1.3
-    , time >=1.6.0.1 && <1.10
+    , time >=1.6.0.1 && <1.12
     , unordered-containers >=0.2.8.0 && <0.3
     , vector >=0.12.0.1 && <0.13
-    , vinyl >=0.5.3 && <0.14
+    , vinyl >=0.5.3 && <0.15
   default-language: Haskell2010
 
 test-suite composite-aeson-test
@@ -120,27 +120,27 @@ test-suite composite-aeson-test
   ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N -fno-warn-orphans
   build-depends:
       QuickCheck
-    , aeson >=1.1.2.0 && <1.6
+    , aeson >=1.1.2.0 && <2.1
     , aeson-better-errors >=0.9.1.0 && <0.10
     , aeson-qq
     , base >=4.12 && <5
     , composite-aeson
-    , composite-base ==0.7.*
+    , composite-base ==0.8.*
     , containers >=0.5.7.0 && <0.7
     , contravariant >=1.4 && <1.6
     , generic-deriving >=1.11.2 && <1.15
     , hashable >=1.2.6.1 && <1.4
     , hspec
-    , lens >=4.15.4 && <5.1
+    , lens >=4.15.4 && <5.2
     , mmorph >=1.0.9 && <1.2
     , mtl >=2.2.1 && <2.3
     , profunctors >=5.2.1 && <5.7
     , scientific >=0.3.5.1 && <0.4
     , tagged >=0.8.5 && <0.9
-    , template-haskell >=2.11.1.0 && <2.18
+    , template-haskell >=2.11.1.0 && <2.19
     , text >=1.2.2.2 && <1.3
-    , time >=1.6.0.1 && <1.10
+    , time >=1.6.0.1 && <1.12
     , unordered-containers >=0.2.8.0 && <0.3
     , vector >=0.12.0.1 && <0.13
-    , vinyl >=0.5.3 && <0.14
+    , vinyl >=0.5.3 && <0.15
   default-language: Haskell2010

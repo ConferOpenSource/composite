@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2ee95f8078b549cb2a5225e6459a690ca87819333147788f75e6c580e9eb335c
+-- hash: ceba640b155026970b1166714ba98325345257eb13386d58a90cc229aae6477f
 
 name:           composite-aeson-path
-version:        0.7.6.0
+version:        0.8.0.0
 synopsis:       Formatting data for the path library.
 description:    JsonFormat for Path.
 category:       Records
@@ -49,6 +49,6 @@ library
   ghc-options: -Wall -O2
   build-depends:
       base >=4.12 && <5
-    , composite-aeson ==0.7.*
+    , composite-aeson ==0.8.*
     , path >=0.6 && <0.9
   default-language: Haskell2010

@@ -4,10 +4,10 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 075fd33584021c621eaffbd89fe51fab6b9aec395f9bbb6f0e004e2b07a9d14d
+-- hash: e9a07aa1f023040725900891f055198ed341827aa2bce1a988462c49d84a6e3c
 
 name:           composite-aeson-refined
-version:        0.7.6.0
+version:        0.8.0.0
 synopsis:       composite-aeson support for Refined from the refined package
 description:    JsonFormat and DefaultJsonFormat for Refined
 category:       Records
@@ -50,7 +50,7 @@ library
   build-depends:
       aeson-better-errors >=0.9.1.0 && <0.10
     , base >=4.12 && <5
-    , composite-aeson ==0.7.*
+    , composite-aeson ==0.8.*
     , mtl >=2.2.1 && <2.3
     , refined >=0.1.2.1 && <0.7
   default-language: Haskell2010
