@@ -30,6 +30,7 @@ import qualified Data.Vinyl.TypeLevel as Vinyl
 import Data.Vinyl.XRec(IsoHKD(HKD, toHKD, unHKD))
 import Foreign.Storable (Storable)
 import GHC.TypeLits (KnownSymbol, Symbol, symbolVal)
+import Data.Data (Data (gfoldl, toConstr, dataTypeOf, gunfold), Typeable, DataType, Constr, Fixity (Prefix, Infix), mkDataType, constrIndex, mkConstr)
 
 -- FIXME this file is a big bin of random stuff, and should be at least organized if not split up.
 
@@ -101,6 +102,33 @@ instance KnownSymbol s => IsoHKD Identity (s :-> a) where
   type HKD Identity (s :-> a) = a
   unHKD = Identity . Val
   toHKD (Identity (Val x)) = x
+
+deriving instance (Typeable k, Data k, KnownSymbol s) => Data (s :-> k)
+
+rnilConstr :: Constr
+rnilConstr = mkConstr recDataType "RNil" [] Prefix
+
+rconsConstr :: Constr
+rconsConstr = mkConstr recDataType "(:&)" [] Infix
+
+recDataType :: DataType
+recDataType = mkDataType "Data.Vinyl.Core.Rec" [rnilConstr, rconsConstr]
+
+instance Data (Record '[]) where
+  gfoldl _ z RNil = z RNil
+  toConstr RNil = rnilConstr
+  dataTypeOf _ = recDataType
+  gunfold _ z c = case constrIndex c of
+                   1 -> z RNil
+                   _ -> errorWithoutStackTrace "Data.Data.gunfold(Rec)"
+
+instance (Data x, Typeable xs, Data (Record xs)) => Data (Record (x ': xs)) where
+  gfoldl f z (x :& xs) = z (:&) `f` x `f` xs
+  toConstr (_ :& _) = rconsConstr
+  dataTypeOf _ = recDataType
+  gunfold k z c = case constrIndex c of
+                   2 -> k (k (z (:&)))
+                   _ -> errorWithoutStackTrace "Data.Data.gunfold(Rec)"
 
 -- |Convenience function to make an @'Identity' (s ':->' a)@ with a particular symbol, used for named field construction.
 --
